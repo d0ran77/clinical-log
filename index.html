@@ -445,7 +445,7 @@
                 cat_contact: "Contacto:", cat_super: "Supervisión:", cat_therapy: "Terapia:", cat_cpd: "CPD:",
                 privacy_stmt: "App local. Los datos permanecen en su navegador.",
                 awaiting: "ESPERANDO DATOS...", verified: "Balance verificado. Requisitos cumplidos.",
-                deficit: "Déficit: Necesita {h} hrs de supervisión para ratio {r}.", mandate: "Mandato: 2 sesiones mínimas este mes (Actual: {s})."
+                deficit: "Déficit: Necesita {h} hrs de supervisión para ratio {r}.", mandate: "Mandate: 2 sesiones mínimas este mes (Actual: {s})."
             },
             fr: {
                 brand: "Par Liam", tagline: "Journal clinique sécurisé et suivi de l'équilibre.",
@@ -623,7 +623,7 @@
         async function handleShare() { const t = `Clinical Log Check: ${document.getElementById('val-ratio').innerText}% operational balance.`; if (navigator.share) await navigator.share({ title: 'Clinical Log', text: t }); }
         
         // --- GOOGLE CALENDAR LOGIC ---
-        const GCAL_CLIENT_ID = ''; // Insert your Google Cloud Client ID here
+        const GCAL_CLIENT_ID = '1096186568274-ba5t2npnha0gt0latstffcejbcfgfgiv.apps.googleusercontent.com'; // Insert your Google Cloud Client ID here
         const GCAL_API_KEY = '';   // Insert your Google Cloud API Key here
         const DISCOVERY_DOC = 'https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest';
         const SCOPES = 'https://www.googleapis.com/auth/calendar.readonly';
@@ -670,7 +670,7 @@
             msg.innerText = "Connecting..."; 
             msg.classList.remove('hidden');
 
-            if (!GCAL_CLIENT_ID) {
+            if (!GCAL_CLIENT_ID || !GCAL_API_KEY) {
                 // DEMO MODE IF NO API KEYS
                 setTimeout(() => {
                     state.lastSync = new Date().toISOString();
