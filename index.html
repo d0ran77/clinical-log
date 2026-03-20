@@ -54,35 +54,20 @@
             transition: background-color 0.4s ease, border-color 0.4s ease, color 0.4s ease;
         }
     </style>
-
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "SoftwareApplication",
-      "name": "Clinical Log",
-      "operatingSystem": "Web",
-      "applicationCategory": "BusinessApplication",
-      "author": { "@type": "Person", "name": "Liam" },
-      "description": "Secure therapist hour and supervision tracking application."
-    }
-    </script>
 </head>
 <body class="bg-ash dark:bg-void text-void dark:text-ash font-inter relative overflow-x-hidden selection:bg-monolith selection:text-white min-h-screen">
 
-    <!-- THEME TOGGLE -->
     <div class="absolute top-6 right-6 md:top-12 md:right-12 z-50 no-print">
-        <button onclick="toggleTheme()" class="p-3 opacity-40 hover:opacity-100 hover:text-monolith transition-all rounded-full dark:hover:bg-white/5 hover:bg-black/5" title="Toggle Theme">
+        <button onclick="toggleTheme()" class="p-3 opacity-40 hover:opacity-100 hover:text-monolith transition-all rounded-full dark:hover:bg-white/5 hover:bg-black/5">
             <i data-lucide="sun" id="icon-theme" class="w-6 h-6"></i>
         </button>
     </div>
 
     <div class="max-w-6xl mx-auto px-6 py-12 md:py-24 relative z-10">
-        
-        <!-- HEADER -->
         <header class="flex flex-col md:flex-row justify-between items-start md:items-end gap-12 mb-20 no-print">
             <div class="space-y-6">
                 <h2 class="text-xs font-black uppercase tracking-[0.6em] opacity-40" data-i18n="brand">BUILT BY LIAM</h2>
-                <h1 class="text-6xl md:text-8xl font-black tracking-tighter uppercase italic leading-tight drop-shadow-sm dark:drop-shadow-none">
+                <h1 class="text-6xl md:text-8xl font-black tracking-tighter uppercase italic leading-tight">
                     <span data-i18n="title_part1">Clinical</span> <br /> <span data-i18n="title_part2">Log.</span>
                 </h1>
                 <p class="text-xs font-bold opacity-40 uppercase tracking-widest max-w-md leading-relaxed pt-2" data-i18n="tagline">
@@ -92,52 +77,33 @@
             
             <div class="flex flex-col items-start md:items-end gap-10 w-full md:w-auto">
                 <nav class="flex gap-8 w-full border-b border-black/10 dark:border-white/10 pb-2">
-                    <button onclick="setView('month')" id="tab-month" class="text-xs font-black uppercase tracking-[0.3em] pb-3 relative opacity-100 text-monolith">
+                    <button onclick="setView('month')" id="tab-month" class="text-xs font-black uppercase tracking-[0.3em] pb-3 relative text-monolith">
                         <span data-i18n="tab_month">Current Month</span>
-                        <div id="ind-month" class="absolute bottom-0 left-0 w-full h-0.5 bg-monolith drop-shadow-[0_0_8px_rgba(242,141,53,0.5)]"></div>
+                        <div id="ind-month" class="absolute bottom-0 left-0 w-full h-0.5 bg-monolith"></div>
                     </button>
                     <button onclick="setView('cycle')" id="tab-cycle" class="text-xs font-black uppercase tracking-[0.3em] pb-3 relative opacity-30 hover:opacity-60 transition-opacity">
                         <span data-i18n="tab_cycle">Active Cycle</span>
-                        <div id="ind-cycle" class="absolute bottom-0 left-0 w-full h-0.5 bg-monolith drop-shadow-[0_0_8px_rgba(242,141,53,0.5)] hidden"></div>
+                        <div id="ind-cycle" class="absolute bottom-0 left-0 w-full h-0.5 bg-monolith hidden"></div>
                     </button>
                     <button onclick="setView('all')" id="tab-all" class="text-xs font-black uppercase tracking-[0.3em] pb-3 relative opacity-30 hover:opacity-60 transition-opacity">
                         <span data-i18n="tab_all">All Time</span>
-                        <div id="ind-all" class="absolute bottom-0 left-0 w-full h-0.5 bg-monolith drop-shadow-[0_0_8px_rgba(242,141,53,0.5)] hidden"></div>
+                        <div id="ind-all" class="absolute bottom-0 left-0 w-full h-0.5 bg-monolith hidden"></div>
                     </button>
                 </nav>
             </div>
         </header>
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 md:gap-24">
-            
-            <!-- LEFT COLUMN -->
             <aside class="lg:col-span-4 space-y-12 no-print">
-                
-                <!-- CALENDAR SYNC -->
-                <section class="bg-white dark:bg-darkPanel border border-black/10 dark:border-white/5 p-8 rounded-sm shadow-sm dark:shadow-2xl transition-all">
+                <section class="bg-white dark:bg-darkPanel border border-black/10 dark:border-white/5 p-8 rounded-sm shadow-sm transition-all">
                     <div class="flex justify-between items-center cursor-pointer group" onclick="toggleCal()">
-                        <h3 class="text-xs font-black uppercase tracking-[0.4em] opacity-30 dark:opacity-40 group-hover:opacity-100 group-hover:text-monolith transition-all flex items-center gap-2">
+                        <h3 class="text-xs font-black uppercase tracking-[0.4em] opacity-30 group-hover:opacity-100 transition-all flex items-center gap-2">
                             <i data-lucide="calendar" class="w-4 h-4 text-monolith"></i> <span data-i18n="header_sync">Sync Engine</span>
                         </h3>
-                        <div class="flex items-center gap-3">
-                            <button type="button" onclick="toggleCalInfo(event)" class="opacity-30 hover:opacity-100 hover:text-monolith transition-all">
-                                <i data-lucide="info" class="w-5 h-5"></i>
-                            </button>
-                            <i data-lucide="chevron-up" id="icon-cal-toggle" class="w-5 h-5 opacity-30 group-hover:opacity-100 group-hover:text-monolith transition-transform duration-300"></i>
-                        </div>
+                        <i data-lucide="chevron-up" id="icon-cal-toggle" class="w-5 h-5 opacity-30 transition-transform duration-300"></i>
                     </div>
-                    
-                    <div id="cal-info" class="hidden bg-ash/30 dark:bg-black/30 p-5 border border-black/5 dark:border-white/5 rounded-sm mt-6">
-                        <p class="text-[11px] font-bold opacity-60 leading-relaxed uppercase tracking-widest" data-i18n="sync_info_1">
-                            Scans event titles for keywords. Customise these in Parameters below.
-                        </p>
-                        <p class="text-[11px] font-bold opacity-60 leading-relaxed uppercase tracking-widest pt-3 border-t border-black/5 dark:border-white/5 mt-3">
-                            <span class="text-monolith" data-i18n="strict_rule">STRICT RULE:</span> <span data-i18n="sync_info_2">Future events are ignored. Only completed events (past the current time) are synced.</span>
-                        </p>
-                    </div>
-                    
                     <div id="cal-content" class="mt-8 block space-y-4">
-                        <button onclick="handleCalendarSync()" id="btn-sync" class="w-full py-5 border-2 border-black/10 dark:border-white/10 hover:border-monolith dark:hover:border-monolith hover:text-monolith dark:hover:text-monolith font-black uppercase tracking-[0.3em] text-[11px] flex justify-center items-center gap-3 disabled:opacity-50 transition-all">
+                        <button onclick="handleCalendarSync()" id="btn-sync" class="w-full py-5 border-2 border-black/10 dark:border-white/10 hover:border-monolith hover:text-monolith font-black uppercase tracking-[0.3em] text-[11px] flex justify-center items-center gap-3 disabled:opacity-50 transition-all">
                             <i data-lucide="refresh-cw" id="icon-sync" class="w-4 h-4"></i>
                             <span id="txt-sync" data-i18n="btn_sync">Sync Calendar</span>
                         </button>
@@ -146,206 +112,116 @@
                     </div>
                 </section>
 
-                <!-- NEW ENTRY -->
-                <section class="bg-white dark:bg-darkPanel border border-black/10 dark:border-white/5 p-8 rounded-sm shadow-sm dark:shadow-2xl transition-all">
+                <section class="bg-white dark:bg-darkPanel border border-black/10 dark:border-white/5 p-8 rounded-sm shadow-sm">
                     <div class="flex justify-between items-center cursor-pointer group" onclick="toggleEntry()">
-                        <h3 class="text-xs font-black uppercase tracking-[0.4em] opacity-30 dark:opacity-40 group-hover:opacity-100 group-hover:text-monolith transition-all flex items-center gap-2">
+                        <h3 class="text-xs font-black uppercase tracking-[0.4em] opacity-30 group-hover:opacity-100 transition-all flex items-center gap-2">
                             <i data-lucide="activity" class="w-4 h-4 text-monolith"></i> <span data-i18n="header_entry">New Entry</span>
                         </h3>
-                        <div class="flex items-center gap-3">
-                            <button type="button" onclick="toggleEntryInfo(event)" class="opacity-30 hover:opacity-100 hover:text-monolith transition-all">
-                                <i data-lucide="info" class="w-5 h-5"></i>
-                            </button>
-                            <i data-lucide="chevron-up" id="icon-entry-toggle" class="w-5 h-5 opacity-30 group-hover:opacity-100 group-hover:text-monolith transition-transform duration-300"></i>
-                        </div>
+                        <i data-lucide="chevron-up" id="icon-entry-toggle" class="w-5 h-5 opacity-30 transition-transform duration-300"></i>
                     </div>
-                    
-                    <div id="entry-info" class="hidden bg-ash/30 dark:bg-black/30 p-5 border border-black/5 dark:border-white/5 rounded-sm mt-6">
-                        <p class="text-[11px] font-bold opacity-60 leading-relaxed uppercase tracking-widest" data-i18n="entry_info">
-                            Log hours manually using decimals (e.g. 1.5).
-                        </p>
-                    </div>
-                    
                     <div id="entry-content" class="mt-8 block">
                         <form onsubmit="addEntry(event)" class="space-y-6">
                             <div class="space-y-2">
                                 <label class="text-[10px] font-black opacity-50 uppercase tracking-widest" data-i18n="label_type">Type</label>
-                                <div class="relative">
-                                    <select id="e-type" class="w-full bg-transparent border-b border-black/10 dark:border-white/10 py-3 font-bold text-base outline-none focus:border-monolith appearance-none cursor-pointer pr-8 dark:text-ash">
-                                        <option value="client" class="dark:bg-darkPanel" data-i18n="opt_contact">Clinical Contact</option>
-                                        <option value="super" class="dark:bg-darkPanel" data-i18n="opt_super">Clinical Supervision</option>
-                                        <option value="therapy" class="dark:bg-darkPanel" data-i18n="opt_therapy">Personal Therapy</option>
-                                        <option value="cpd" class="dark:bg-darkPanel" data-i18n="opt_cpd">CPD / Training</option>
-                                    </select>
-                                    <i data-lucide="chevron-down" class="w-5 h-5 absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none opacity-40"></i>
-                                </div>
+                                <select id="e-type" class="w-full bg-transparent border-b border-black/10 dark:border-white/10 py-3 font-bold text-base outline-none focus:border-monolith appearance-none dark:text-ash">
+                                    <option value="client" data-i18n="opt_contact">Clinical Contact</option>
+                                    <option value="super" data-i18n="opt_super">Clinical Supervision</option>
+                                    <option value="therapy" data-i18n="opt_therapy">Personal Therapy</option>
+                                    <option value="cpd" data-i18n="opt_cpd">CPD / Training</option>
+                                </select>
                             </div>
-
                             <div class="grid grid-cols-2 gap-6">
                                 <div class="space-y-2">
                                     <label class="text-[10px] font-black opacity-50 uppercase tracking-widest" data-i18n="label_date">Date</label>
-                                    <input id="e-date" type="date" class="w-full bg-transparent border-b border-black/10 dark:border-white/10 py-3 font-bold text-sm outline-none focus:border-monolith dark:focus:border-monolith">
+                                    <input id="e-date" type="date" class="w-full bg-transparent border-b border-black/10 dark:border-white/10 py-3 font-bold text-sm outline-none">
                                 </div>
                                 <div class="space-y-2">
                                     <label class="text-[10px] font-black opacity-50 uppercase tracking-widest" data-i18n="label_hours">Hours</label>
-                                    <input id="e-hours" type="number" step="0.5" placeholder="0.0" class="w-full bg-transparent border-b border-black/10 dark:border-white/10 py-3 font-bold text-base outline-none focus:border-monolith dark:focus:border-monolith">
+                                    <input id="e-hours" type="number" step="0.5" placeholder="0.0" class="w-full bg-transparent border-b border-black/10 dark:border-white/10 py-3 font-bold text-base outline-none">
                                 </div>
                             </div>
-
-                            <button type="submit" class="w-full py-5 border-2 border-black/10 dark:border-white/10 hover:border-monolith dark:hover:border-monolith hover:text-monolith dark:hover:text-monolith font-black uppercase tracking-[0.3em] text-[11px] flex justify-center items-center gap-3 mt-4 transition-all">
-                                <i data-lucide="plus" class="w-4 h-4"></i>
-                                <span data-i18n="btn_add">Add Entry</span>
+                            <button type="submit" class="w-full py-5 border-2 border-black/10 dark:border-white/10 hover:border-monolith hover:text-monolith font-black uppercase tracking-[0.3em] text-[11px] flex justify-center items-center gap-3 transition-all">
+                                <i data-lucide="plus" class="w-4 h-4"></i> <span data-i18n="btn_add">Add Entry</span>
                             </button>
                         </form>
                     </div>
                 </section>
 
-                <!-- PARAMETERS -->
-                <section class="bg-white dark:bg-darkPanel border border-black/10 dark:border-white/5 p-8 rounded-sm shadow-sm dark:shadow-2xl transition-all">
+                <section class="bg-white dark:bg-darkPanel border border-black/10 dark:border-white/5 p-8 rounded-sm shadow-sm">
                     <div class="flex justify-between items-center cursor-pointer group" onclick="toggleParams()">
-                        <h3 class="text-xs font-black uppercase tracking-[0.4em] opacity-30 dark:opacity-40 group-hover:opacity-100 group-hover:text-monolith transition-all flex items-center gap-2">
+                        <h3 class="text-xs font-black uppercase tracking-[0.4em] opacity-30 group-hover:opacity-100 transition-all flex items-center gap-2">
                             <i data-lucide="sliders" class="w-4 h-4 text-monolith"></i> <span data-i18n="header_params">Parameters</span>
                         </h3>
-                        <div class="flex items-center gap-3">
-                            <button type="button" onclick="toggleParamsInfo(event)" class="opacity-30 hover:opacity-100 hover:text-monolith transition-all">
-                                <i data-lucide="info" class="w-5 h-5"></i>
-                            </button>
-                            <i data-lucide="chevron-up" id="icon-params-toggle" class="w-5 h-5 opacity-30 group-hover:opacity-100 group-hover:text-monolith transition-transform duration-300"></i>
-                        </div>
+                        <i data-lucide="chevron-up" id="icon-params-toggle" class="w-5 h-5 opacity-30 transition-transform duration-300"></i>
                     </div>
-
-                    <div id="params-info" class="hidden bg-ash/30 dark:bg-black/30 p-5 border border-black/5 dark:border-white/5 rounded-sm mt-6">
-                        <p class="text-[11px] font-bold opacity-60 leading-relaxed uppercase tracking-widest" data-i18n="params_info">
-                            Tailor the balance engine. Set your ratio, accreditation cycle or academic year, and system language.
-                        </p>
-                    </div>
-
                     <div id="params-content" class="mt-8 block space-y-10">
-                        <!-- Support Ratio -->
                         <div class="space-y-4">
                             <label class="text-[10px] font-black opacity-80 uppercase tracking-widest" data-i18n="label_balance">Reporting Balance</label>
-                            <div class="bg-ash/20 dark:bg-white/5 p-4 rounded-sm border border-black/5 dark:border-white/5">
-                                <div class="flex items-baseline flex-wrap gap-2 text-[11px] font-bold opacity-60 uppercase tracking-widest leading-relaxed">
-                                    <span data-i18n="ratio_1">For every</span>
-                                    <input id="p-ratio-super" type="number" step="0.5" onchange="updateSettings()" class="w-12 bg-transparent border-b border-monolith text-monolith text-center outline-none font-black" placeholder="1">
-                                    <span data-i18n="ratio_2">hr(s) of supervision,</span>
-                                    <br class="sm:hidden">
-                                    <span data-i18n="ratio_3">I complete</span>
-                                    <input id="p-ratio-client" type="number" step="0.5" onchange="updateSettings()" class="w-12 bg-transparent border-b border-monolith text-monolith text-center outline-none font-black" placeholder="6">
-                                    <span data-i18n="ratio_4">hrs of contact.</span>
-                                </div>
+                            <div class="bg-ash/20 dark:bg-white/5 p-4 rounded-sm border border-black/5 dark:border-white/5 text-[11px] font-bold opacity-60 uppercase tracking-widest leading-relaxed">
+                                <span data-i18n="ratio_1">For every</span>
+                                <input id="p-ratio-super" type="number" step="0.5" onchange="updateSettings()" class="w-12 bg-transparent border-b border-monolith text-monolith text-center outline-none font-black">
+                                <span data-i18n="ratio_2">hr(s) of supervision,</span>
+                                <br class="sm:hidden">
+                                <span data-i18n="ratio_3">I complete</span>
+                                <input id="p-ratio-client" type="number" step="0.5" onchange="updateSettings()" class="w-12 bg-transparent border-b border-monolith text-monolith text-center outline-none font-black">
+                                <span data-i18n="ratio_4">hrs of contact.</span>
                             </div>
                         </div>
-
-                        <!-- Keywords -->
                         <div class="space-y-4">
-                            <label class="text-[10px] font-black opacity-80 uppercase tracking-widest" data-i18n="label_keywords">Sync Keyword Mapping</label>
-                            <div class="grid grid-cols-1 gap-4">
-                                <div class="flex items-center gap-4 bg-ash/20 dark:bg-white/5 p-3 border border-black/5 dark:border-white/5">
-                                    <span class="text-[8px] font-black opacity-40 uppercase w-20" data-i18n="cat_contact">Contact:</span>
-                                    <input id="k-client" type="text" onchange="updateSettings()" class="flex-1 bg-transparent border-none text-[11px] font-bold outline-none text-monolith">
-                                </div>
-                                <div class="flex items-center gap-4 bg-ash/20 dark:bg-white/5 p-3 border border-black/5 dark:border-white/5">
-                                    <span class="text-[8px] font-black opacity-40 uppercase w-20" data-i18n="cat_super">Supervision:</span>
-                                    <input id="k-super" type="text" onchange="updateSettings()" class="flex-1 bg-transparent border-none text-[11px] font-bold outline-none text-monolith">
-                                </div>
-                                <div class="flex items-center gap-4 bg-ash/20 dark:bg-white/5 p-3 border border-black/5 dark:border-white/5">
-                                    <span class="text-[8px] font-black opacity-40 uppercase w-20" data-i18n="cat_therapy">Therapy:</span>
-                                    <input id="k-therapy" type="text" onchange="updateSettings()" class="flex-1 bg-transparent border-none text-[11px] font-bold outline-none text-monolith">
-                                </div>
-                                <div class="flex items-center gap-4 bg-ash/20 dark:bg-white/5 p-3 border border-black/5 dark:border-white/5">
-                                    <span class="text-[8px] font-black opacity-40 uppercase w-20" data-i18n="cat_cpd">CPD:</span>
-                                    <input id="k-cpd" type="text" onchange="updateSettings()" class="flex-1 bg-transparent border-none text-[11px] font-bold outline-none text-monolith">
-                                </div>
+                            <label class="text-[10px] font-black opacity-80 uppercase tracking-widest" data-i18n="label_keywords">Keyword Mapping</label>
+                            <div class="space-y-2">
+                                <div class="flex items-center gap-3"><span class="text-[8px] font-black opacity-40 uppercase w-16">Contact:</span><input id="k-client" type="text" onchange="updateSettings()" class="flex-1 bg-transparent border-b border-black/5 text-[11px] font-bold outline-none text-monolith"></div>
+                                <div class="flex items-center gap-3"><span class="text-[8px] font-black opacity-40 uppercase w-16">Super:</span><input id="k-super" type="text" onchange="updateSettings()" class="flex-1 bg-transparent border-b border-black/5 text-[11px] font-bold outline-none text-monolith"></div>
+                                <div class="flex items-center gap-3"><span class="text-[8px] font-black opacity-40 uppercase w-16">Therapy:</span><input id="k-therapy" type="text" onchange="updateSettings()" class="flex-1 bg-transparent border-b border-black/5 text-[11px] font-bold outline-none text-monolith"></div>
+                                <div class="flex items-center gap-3"><span class="text-[8px] font-black opacity-40 uppercase w-16">CPD:</span><input id="k-cpd" type="text" onchange="updateSettings()" class="flex-1 bg-transparent border-b border-black/5 text-[11px] font-bold outline-none text-monolith"></div>
                             </div>
                         </div>
-
-                        <!-- General -->
                         <div class="space-y-6 pt-4 border-t border-black/10 dark:border-white/10">
                             <div class="flex items-center justify-between">
                                 <label class="text-[10px] font-black opacity-80 uppercase tracking-widest" data-i18n="label_trainee">Trainee Mandate</label>
-                                <input id="p-trainee" type="checkbox" onchange="updateSettings()" class="w-5 h-5 accent-monolith cursor-pointer">
+                                <input id="p-trainee" type="checkbox" onchange="updateSettings()" class="w-5 h-5 accent-monolith">
                             </div>
                             <div class="space-y-2">
                                 <label class="text-[10px] font-black opacity-80 uppercase tracking-widest" data-i18n="label_anchor">Cycle Anchor Date</label>
-                                <input id="p-anchor" type="date" onchange="updateSettings()" class="w-full bg-transparent border-b border-black/10 dark:border-white/10 py-3 font-bold text-sm outline-none focus:border-monolith">
+                                <input id="p-anchor" type="date" onchange="updateSettings()" onblur="updateSettings()" class="w-full bg-transparent border-b border-black/10 dark:border-white/10 py-3 font-bold text-sm outline-none">
                             </div>
-                        </div>
-
-                        <!-- Language Picker -->
-                        <div class="space-y-4 pt-4 border-t border-black/10 dark:border-white/10">
-                            <label class="text-[10px] font-black opacity-80 uppercase tracking-widest" data-i18n="label_lang">System Language</label>
-                            <select id="p-lang" onchange="updateSettings()" class="w-full bg-ash/20 dark:bg-white/5 border-b border-black/10 dark:border-white/10 py-3 font-bold text-sm outline-none focus:border-monolith dark:text-ash">
-                                <option value="en">English</option>
-                                <option value="es">Español</option>
-                                <option value="fr">Français</option>
-                                <option value="pl">Polski</option>
-                            </select>
+                            <div class="space-y-2">
+                                <label class="text-[10px] font-black opacity-80 uppercase tracking-widest" data-i18n="label_lang">System Language</label>
+                                <select id="p-lang" onchange="updateSettings()" class="w-full bg-transparent border-b border-black/10 dark:border-white/10 py-3 font-bold text-sm outline-none dark:text-ash">
+                                    <option value="en">English</option>
+                                    <option value="es">Español</option>
+                                    <option value="fr">Français</option>
+                                    <option value="pl">Polski</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                 </section>
             </aside>
 
-            <!-- RIGHT COLUMN -->
             <main class="lg:col-span-8 flex flex-col gap-10">
-                <!-- KPI GRID -->
-                <div class="grid grid-cols-2 lg:grid-cols-4 bg-white dark:bg-darkPanel border-t border-l border-black/10 dark:border-white/5 shadow-sm dark:shadow-2xl">
-                    <div class="p-6 md:p-10 space-y-4 border-r border-b border-black/10 dark:border-white/5">
-                        <span class="text-[10px] md:text-xs font-black uppercase tracking-[0.3em] opacity-30 flex items-center gap-2">
-                            <i data-lucide="user" class="w-3.5 h-3.5"></i> <span data-i18n="stat_contact">Contact</span>
-                        </span>
-                        <div id="val-client" class="text-5xl md:text-7xl font-black tracking-tighter tabular-nums">0.0</div>
-                    </div>
-                    <div class="p-6 md:p-10 space-y-4 border-r border-b border-black/10 dark:border-white/5">
-                        <span class="text-[10px] md:text-xs font-black uppercase tracking-[0.3em] opacity-30 flex items-center gap-2">
-                            <i data-lucide="shield-check" class="w-3.5 h-3.5"></i> <span data-i18n="stat_super">Supervision</span>
-                        </span>
-                        <div id="val-super" class="text-5xl md:text-7xl font-black tracking-tighter tabular-nums">0.0</div>
-                    </div>
-                    <div class="p-6 md:p-10 space-y-4 border-r border-b border-black/10 dark:border-white/5">
-                        <span class="text-[10px] md:text-xs font-black uppercase tracking-[0.3em] opacity-30 flex items-center gap-2">
-                            <i data-lucide="zap" class="w-3.5 h-3.5"></i> <span data-i18n="stat_therapy">Therapy</span>
-                        </span>
-                        <div id="val-therapy" class="text-5xl md:text-7xl font-black tracking-tighter tabular-nums">0.0</div>
-                    </div>
-                    <div class="p-6 md:p-10 space-y-4 border-r border-b border-black/10 dark:border-white/5">
-                        <span class="text-[10px] md:text-xs font-black uppercase tracking-[0.3em] opacity-30 flex items-center gap-2">
-                            <i data-lucide="book-open" class="w-3.5 h-3.5"></i> <span data-i18n="stat_cpd">CPD</span>
-                        </span>
-                        <div id="val-cpd" class="text-5xl md:text-7xl font-black tracking-tighter tabular-nums">0.0</div>
-                    </div>
+                <div class="grid grid-cols-2 lg:grid-cols-4 bg-white dark:bg-darkPanel border-t border-l border-black/10 dark:border-white/5 shadow-sm">
+                    <div class="p-6 md:p-10 border-r border-b border-black/10 dark:border-white/5"><span class="text-[10px] font-black uppercase tracking-[0.3em] opacity-30 block mb-4" data-i18n="stat_contact">Contact</span><div id="val-client" class="text-5xl md:text-7xl font-black tracking-tighter tabular-nums">0.0</div></div>
+                    <div class="p-6 md:p-10 border-r border-b border-black/10 dark:border-white/5"><span class="text-[10px] font-black uppercase tracking-[0.3em] opacity-30 block mb-4" data-i18n="stat_super">Supervision</span><div id="val-super" class="text-5xl md:text-7xl font-black tracking-tighter tabular-nums">0.0</div></div>
+                    <div class="p-6 md:p-10 border-r border-b border-black/10 dark:border-white/5"><span class="text-[10px] font-black uppercase tracking-[0.3em] opacity-30 block mb-4" data-i18n="stat_therapy">Therapy</span><div id="val-therapy" class="text-5xl md:text-7xl font-black tracking-tighter tabular-nums">0.0</div></div>
+                    <div class="p-6 md:p-10 border-r border-b border-black/10 dark:border-white/5"><span class="text-[10px] font-black uppercase tracking-[0.3em] opacity-30 block mb-4" data-i18n="stat_cpd">CPD</span><div id="val-cpd" class="text-5xl md:text-7xl font-black tracking-tighter tabular-nums">0.0</div></div>
                 </div>
 
-                <!-- BALANCE -->
                 <div class="space-y-6">
                     <div class="flex justify-between items-end">
-                        <div class="space-y-2">
-                            <h2 class="text-4xl font-black tracking-tighter uppercase italic" data-i18n="balance_title">Balance</h2>
-                            <p class="text-[11px] font-bold opacity-30 uppercase tracking-[0.3em]" data-i18n="health_label">Operational Health</p>
-                        </div>
-                        <div class="text-7xl font-black text-void dark:text-ash tabular-nums leading-none">
-                            <span id="val-ratio">0</span><span class="text-3xl opacity-40">%</span>
-                        </div>
+                        <div class="space-y-2"><h2 class="text-4xl font-black tracking-tighter uppercase italic" data-i18n="balance_title">Balance</h2><p class="text-[11px] font-bold opacity-30 uppercase tracking-[0.3em]" data-i18n="health_label">Operational Health</p></div>
+                        <div class="text-7xl font-black tabular-nums leading-none"><span id="val-ratio">0</span><span class="text-3xl opacity-40">%</span></div>
                     </div>
-                    <div class="h-2.5 bg-black/10 dark:bg-white/10 w-full relative overflow-hidden shadow-inner">
-                        <div id="bar-ratio" class="h-full bg-monolith drop-shadow-[0_0_10px_rgba(242,141,53,0.8)] transition-all duration-1000 ease-in-out w-0"></div>
-                    </div>
-                    <div class="p-6 bg-white dark:bg-darkPanel border border-black/10 dark:border-white/5 shadow-sm dark:shadow-2xl">
-                        <p id="txt-warning" class="text-[11px] md:text-xs font-bold uppercase tracking-[0.2em] leading-relaxed opacity-60"></p>
-                    </div>
+                    <div class="h-2.5 bg-black/10 dark:bg-white/10 w-full overflow-hidden shadow-inner"><div id="bar-ratio" class="h-full bg-monolith transition-all duration-1000 ease-in-out w-0"></div></div>
+                    <div class="p-6 bg-white dark:bg-darkPanel border border-black/10 dark:border-white/5"><p id="txt-warning" class="text-[11px] md:text-xs font-bold uppercase tracking-[0.2em] leading-relaxed opacity-60"></p></div>
                 </div>
 
-                <!-- RECORDS -->
                 <div class="space-y-6 pb-20">
                     <div class="flex justify-between items-center border-b border-black/10 dark:border-white/10 pb-4 no-print">
                         <h3 class="text-xs font-black uppercase tracking-[0.4em] opacity-30" data-i18n="active_records">Active Records</h3>
                         <div class="flex gap-6 items-center">
-                            <button onclick="exportCSV()" class="text-[10px] font-black opacity-40 hover:opacity-100 hover:text-monolith transition-all flex items-center gap-2">
-                                <i data-lucide="download" class="w-3.5 h-3.5"></i> <span data-i18n="btn_export">Export</span>
-                            </button>
-                            <button onclick="window.print()" class="text-[10px] font-black text-monolith uppercase tracking-widest flex items-center gap-2 transition-all">
-                                <i data-lucide="printer" class="w-3.5 h-3.5"></i> <span data-i18n="btn_print">Print PDF</span>
-                            </button>
+                            <button onclick="exportCSV()" class="text-[10px] font-black opacity-40 hover:text-monolith transition-all flex items-center gap-2"><i data-lucide="download" class="w-3.5 h-3.5"></i> <span data-i18n="btn_export">Export</span></button>
+                            <button onclick="window.print()" class="text-[10px] font-black text-monolith flex items-center gap-2"><i data-lucide="printer" class="w-3.5 h-3.5"></i> <span data-i18n="btn_print">Print PDF</span></button>
                         </div>
                     </div>
                     <div id="log-container" class="space-y-3 max-h-[600px] overflow-y-auto pr-2 custom-scroll"></div>
@@ -353,134 +229,94 @@
             </main>
         </div>
 
-        <!-- FOOTER -->
-        <footer class="mt-20 pt-10 border-t border-black/10 dark:border-white/10 flex flex-col md:flex-row justify-between items-center md:items-end gap-8 no-print">
-            <div class="flex flex-col items-center md:items-start gap-4">
-                <a href="https://builtbyliam.netlify.app/" target="_blank" class="text-base md:text-lg font-black uppercase tracking-[0.4em] text-monolith hover:drop-shadow-[0_0_12px_rgba(242,141,53,0.8)] transition-all whitespace-nowrap" data-i18n="brand">Built By Liam</a>
-                <a href="https://www.buymeacoffee.com/BUILT_BY_LIAM" target="_blank" class="text-[10px] font-black uppercase tracking-[0.3em] px-5 py-3 border border-black/10 dark:border-white/10 hover:border-monolith transition-all whitespace-nowrap flex items-center gap-2">
-                    <i data-lucide="coffee" class="w-3.5 h-3.5"></i> <span data-i18n="btn_coffee">Buy Me a Coffee</span>
-                </a>
-            </div>
-            
-            <div class="flex flex-wrap justify-center md:justify-end gap-6 items-center opacity-50">
-                <button onclick="handleShare()" class="text-[11px] font-black uppercase tracking-[0.4em] hover:opacity-100 flex items-center gap-2 transition-opacity">
-                    <i data-lucide="share-2" class="w-3.5 h-3.5"></i> <span data-i18n="btn_share">Share App</span>
-                </button>
-                <span class="w-1.5 h-1.5 bg-void dark:bg-ash rounded-full"></span>
-                <button onclick="openPrivacyModal()" class="text-[11px] font-black uppercase tracking-[0.4em] hover:opacity-100" data-i18n="btn_privacy">Data & Privacy</button>
-                <span class="w-1.5 h-1.5 bg-void dark:bg-ash rounded-full"></span>
-                <p class="text-[11px] font-black uppercase tracking-[0.4em]">Origin: Hull, UK</p>
+        <footer class="mt-20 pt-10 border-t border-black/10 dark:border-white/10 flex flex-col md:flex-row justify-between items-center gap-8 no-print opacity-50">
+            <a href="https://builtbyliam.netlify.app/" target="_blank" class="text-lg font-black uppercase tracking-[0.4em] text-monolith" data-i18n="brand">Built By Liam</a>
+            <div class="flex gap-6 items-center">
+                <a href="https://buymeacoffee.com/BUILT_BY_LIAM" target="_blank" class="text-[10px] font-black uppercase tracking-[0.3em] flex items-center gap-2"><i data-lucide="coffee" class="w-3.5 h-3.5"></i> <span data-i18n="btn_coffee">Coffee</span></a>
+                <span class="w-1.5 h-1.5 bg-current rounded-full"></span>
+                <button onclick="openPrivacyModal()" class="text-[11px] font-black uppercase tracking-[0.4em]" data-i18n="btn_privacy">Privacy</button>
             </div>
         </footer>
     </div>
 
-    <!-- PRIVACY MODAL -->
-    <div id="privacy-modal" class="fixed inset-0 bg-void/90 dark:bg-black/95 z-50 hidden flex items-center justify-center p-6 opacity-0 transition-opacity duration-300" onclick="closePrivacyModal(event)">
-        <div class="bg-white dark:bg-darkPanel border border-black/10 dark:border-white/10 p-8 md:p-12 rounded-sm shadow-2xl max-w-lg w-full relative transform scale-95 transition-transform duration-300" id="privacy-modal-content" onclick="event.stopPropagation()">
-            <button onclick="closePrivacyModal()" class="absolute top-6 right-6 opacity-40 hover:opacity-100 transition-all"><i data-lucide="x" class="w-6 h-6"></i></button>
-            <h3 class="text-sm font-black uppercase tracking-[0.4em] opacity-40 mb-6 flex items-center gap-3"><i data-lucide="shield" class="w-5 h-5 text-monolith"></i> <span data-i18n="btn_privacy">Data & Privacy</span></h3>
-            <p class="text-[11px] font-bold opacity-70 leading-relaxed tracking-widest uppercase mb-8" data-i18n="privacy_stmt">This app is local-first. All data stays in your browser.</p>
+    <div id="privacy-modal" class="fixed inset-0 bg-void/90 z-50 hidden flex items-center justify-center p-6 opacity-0 transition-opacity duration-300" onclick="closePrivacyModal()">
+        <div class="bg-white dark:bg-darkPanel p-8 md:p-12 rounded-sm shadow-2xl max-w-lg w-full relative" onclick="event.stopPropagation()">
+            <h3 class="text-sm font-black uppercase tracking-[0.4em] opacity-40 mb-6 flex items-center gap-3"><i data-lucide="shield" class="w-5 h-5 text-monolith"></i> Data & Privacy</h3>
+            <p class="text-[11px] font-bold opacity-70 leading-relaxed tracking-widest uppercase mb-8" data-i18n="privacy_stmt">Local-first app. All data stays in your browser.</p>
             <div class="flex gap-4">
-                <button onclick="downloadBackup()" class="w-full py-4 border-2 border-black/10 hover:border-monolith text-xs font-black uppercase tracking-widest transition-all">JSON Export</button>
-                <label class="w-full py-4 border-2 border-black/10 hover:border-monolith text-xs font-black uppercase tracking-widest transition-all flex justify-center items-center cursor-pointer">Restore<input type="file" accept=".json" class="hidden" onchange="restoreBackup(event)"></label>
+                <button onclick="downloadBackup()" class="w-full py-4 border-2 border-black/10 hover:border-monolith text-xs font-black uppercase tracking-widest transition-all">Export JSON</button>
+                <label class="w-full py-4 border-2 border-black/10 hover:border-monolith text-xs font-black uppercase tracking-widest transition-all flex justify-center items-center cursor-pointer">Restore JSON<input type="file" accept=".json" class="hidden" onchange="restoreBackup(event)"></label>
             </div>
         </div>
     </div>
 
     <script>
-        // --- TRANSLATION DICTIONARY ---
         const i18n = {
             en: {
                 brand: "Built By Liam", tagline: "Secure clinical recording and balance tracking.", 
                 title_part1: "Clinical", title_part2: "Log.",
                 tab_month: "Current Month", tab_cycle: "Active Cycle", tab_all: "All Time",
                 header_sync: "Sync Engine", header_entry: "New Entry", header_params: "Parameters",
-                btn_sync: "Sync Calendar", btn_add: "Add Entry", btn_export: "Export", btn_print: "Print PDF", btn_coffee: "Buy Me a Coffee", btn_share: "Share App", btn_privacy: "Data & Privacy",
-                label_type: "Type", label_date: "Date", label_hours: "Hours", label_lang: "System Language", label_balance: "Reporting Balance", label_keywords: "Sync Keyword Mapping", label_trainee: "Trainee Mandate", label_anchor: "Cycle Anchor Date",
+                btn_sync: "Sync Calendar", btn_add: "Add Entry", btn_export: "Export", btn_print: "Print PDF", btn_coffee: "Buy Me a Coffee", btn_privacy: "Data & Privacy",
+                label_type: "Type", label_date: "Date", label_hours: "Hours", label_lang: "Language", label_balance: "Balance Ratio", label_keywords: "Sync Keywords", label_trainee: "Trainee Mandate", label_anchor: "Anchor Date",
                 opt_contact: "Clinical Contact", opt_super: "Clinical Supervision", opt_therapy: "Personal Therapy", opt_cpd: "CPD / Training",
-                stat_contact: "Contact", stat_super: "Supervision", stat_therapy: "Therapy", stat_cpd: "CPD",
-                balance_title: "Balance", health_label: "Operational Health", active_records: "Active Records",
-                sync_info_1: "Scans event titles for keywords (e.g. \"client\", \"session\"). Customise these in Parameters below.", strict_rule: "STRICT RULE:", sync_info_2: "Future events are ignored. Only completed events (past the current time) are synced.",
-                entry_info: "Log hours manually using decimals (e.g. 1.5).",
-                params_info: "Tailor the balance engine. Set your ratio, accreditation cycle or academic year, and system language.",
-                ratio_1: "For every", ratio_2: "hr(s) of supervision,", ratio_3: "I complete", ratio_4: "hrs of contact.",
-                cat_contact: "Contact:", cat_super: "Supervision:", cat_therapy: "Therapy:", cat_cpd: "CPD:",
-                privacy_stmt: "This app is local-first. All data stays in your browser. No external storage.",
-                awaiting: "AWAITING LOG DATA...", verified: "Balance verified. Professional requirements maintained.",
-                deficit: "Deficit: Secure {h} hrs of supervision for {r} ratio.", mandate: "Mandate: 2 supervision sessions required this month (Current: {s})."
+                stat_contact: "Contact", stat_super: "Super", stat_therapy: "Therapy", stat_cpd: "CPD",
+                balance_title: "Balance", health_label: "Health Status", active_records: "Active Records",
+                sync_info_1: "Scanning keywords.", strict_rule: "STRICT RULE:", sync_info_2: "Future ignored.",
+                privacy_stmt: "Local-first storage.", awaiting: "AWAITING DATA...", verified: "Balance verified.",
+                deficit: "Deficit: {h} hrs supervision for {r} ratio.", mandate: "Required: 2 supervision sessions/mo (Current: {s})."
             },
             pl: {
-                brand: "Zbudowane Przez Liama", tagline: "Bezpieczne rejestrowanie i śledzenie bilansu klinicznego.", 
+                brand: "Zbudowane Przez Liama", tagline: "Dziennik kliniczny i bilans godzin.",
                 title_part1: "Dziennik", title_part2: "Kliniczny.",
-                tab_month: "Bieżący Miesiąc", tab_cycle: "Aktywny Cykl", tab_all: "Wszystko",
+                tab_month: "Bieżący Miesiąc", tab_cycle: "Cykl Akredytacji", tab_all: "Wszystkie Dane",
                 header_sync: "Synchronizacja", header_entry: "Nowy Wpis", header_params: "Parametry",
-                btn_sync: "Synchronizuj Kalendarz", btn_add: "Dodaj Wpis", btn_export: "Eksportuj", btn_print: "Drukuj PDF", btn_coffee: "Kup mi kawę", btn_share: "Udostępnij", btn_privacy: "Prywatność",
-                label_type: "Type", label_date: "Data", label_hours: "Godziny", label_lang: "Język Systemu", label_balance: "Bilans Raportowania", label_keywords: "Mapowanie Słów Kluczowych", label_trainee: "Obowiązek Stażysty", label_anchor: "Data Początkowa",
+                btn_sync: "Synchronizuj Kalendarz", btn_add: "Dodaj Wpis", btn_export: "Eksportuj", btn_print: "Drukuj PDF", btn_coffee: "Kup mi kawę", btn_privacy: "Prywatność",
+                label_type: "Typ", label_date: "Data", label_hours: "Godziny", label_lang: "Język", label_balance: "Proporcje", label_keywords: "Słowa Kluczowe", label_trainee: "Obowiązek Stażysty", label_anchor: "Data Startowa",
                 opt_contact: "Kontakt z Klientem", opt_super: "Superwizja", opt_therapy: "Terapia Własna", opt_cpd: "Rozwój (CPD)",
-                stat_contact: "Kontakt", stat_super: "Superwizja", stat_therapy: "Terapia", stat_cpd: "CPD",
-                balance_title: "Bilans", health_label: "Status Operacyjny", active_records: "Aktywne Rekordy",
-                sync_info_1: "Skanuje tytuły wydarzeń pod kątem słów kluczowych. Skonfiguruj je w parametrach.", strict_rule: "ZASADA:", sync_info_2: "Wydarzenia przyszłe są ignorowane. Synchronizowane są tylko zakończone sesje (przed chwilą obecną).",
-                entry_info: "Loguj godziny ręcznie używając ułamków dziesiętnych (np. 1.5).",
-                params_info: "Skonfiguruj silnik bilansowy. Ustaw proporcje, cykl akredytacji lub rok akademicki i język.",
-                ratio_1: "Na każdą", ratio_2: "godz. superwizji,", ratio_3: "wykonuję", ratio_4: "godz. kontaktu.",
-                cat_contact: "Contact:", cat_super: "Superwizja:", cat_therapy: "Terapia:", cat_cpd: "CPD:",
-                privacy_stmt: "Aplikacja lokalna. Dane pozostają w Twojej przeglądarce.",
-                awaiting: "OCZEKIWANIE NA DANE...", verified: "Bilans zweryfikowany. Wymogi zawodowe zachowane.",
-                deficit: "Deficyt: Zapewnij {h} godz. superwizji dla proporcji {r}.", mandate: "Mandat: Wymagane 2 sesje superwizji w tym miesiącu (Obecnie: {s})."
+                stat_contact: "Kontakt", stat_super: "Super", stat_therapy: "Terapia", stat_cpd: "CPD",
+                balance_title: "Bilans", health_label: "Status Operacyjny", active_records: "Aktywne Wpisy",
+                privacy_stmt: "Dane lokalne w przeglądarce.", awaiting: "OCZEKIWANIE...", verified: "Bilans poprawny.",
+                deficit: "Brak: {h} godz. superwizji dla ratio {r}.", mandate: "Wymagane: 2 sesje superwizji miesięcznie (Obecnie: {s})."
             },
             es: {
-                brand: "Creado Por Liam", tagline: "Registro clínico seguro y seguimiento de balance.",
+                brand: "Creado Por Liam", tagline: "Registro clínico y balance de horas.",
                 title_part1: "Registro", title_part2: "Clínico.",
                 tab_month: "Mes Actual", tab_cycle: "Ciclo Activo", tab_all: "Todo",
-                header_sync: "Sincronización", header_entry: "Nueva Entrada", header_params: "Parámetros",
-                btn_sync: "Sincronizar", btn_add: "Añadir", btn_export: "Exportar", btn_print: "PDF", btn_coffee: "Invítame a un café", btn_share: "Compartir", btn_privacy: "Privacidad",
-                label_type: "Tipo", label_date: "Fecha", label_hours: "Horas", label_lang: "Idioma", label_balance: "Balance de Reporte", label_keywords: "Palabras Clave", label_trainee: "Mandato de Pasante", label_anchor: "Fecha de Inicio",
-                opt_contact: "Contacto Clínico", opt_super: "Supervisión", opt_therapy: "Terapia Personal", opt_cpd: "Formación / CPD",
-                stat_contact: "Contacto", stat_super: "Supervisión", stat_therapy: "Terapia", stat_cpd: "CPD",
-                balance_title: "Balance", health_label: "Salud Operativa", active_records: "Registros Activos",
-                sync_info_1: "Busca palabras clave en eventos. Personaliza en parámetros.", strict_rule: "REGLA ESTRICTA:", sync_info_2: "Se ignoran eventos futuros. Solo eventos finalizados (antes del momento actual) se sincronizan.",
-                entry_info: "Registra horas usando decimales (ej. 1.5).",
-                params_info: "Configura el motor de balance. Ratio, ciclo de acreditación o año académico e idioma.",
-                ratio_1: "Por cada", ratio_2: "hr(s) de supervisión,", ratio_3: "completo", ratio_4: "hrs de contacto.",
-                cat_contact: "Contacto:", cat_super: "Supervisión:", cat_therapy: "Terapia:", cat_cpd: "CPD:",
-                privacy_stmt: "App local. Los datos permanecen en su navegador.",
-                awaiting: "ESPERANDO DATOS...", verified: "Balance verificado. Requisitos cumplidos.",
-                deficit: "Déficit: Necesita {h} hrs de supervisión para ratio {r}.", mandate: "Mandate: 2 sesiones mínimas este mes (Actual: {s})."
+                header_sync: "Sincronizar", header_entry: "Nueva Entrada", header_params: "Parámetros",
+                btn_sync: "Sincronizar", btn_add: "Añadir", btn_export: "Exportar", btn_print: "PDF", btn_coffee: "Invítame a un café", btn_privacy: "Privacidad",
+                label_type: "Tipo", label_date: "Fecha", label_hours: "Horas", label_lang: "Idioma", label_balance: "Balance Ratio", label_keywords: "Palabras Clave", label_trainee: "Mandato Pasante", label_anchor: "Fecha Ancla",
+                opt_contact: "Contacto Clínico", opt_super: "Supervisión", opt_therapy: "Terapia Personal", opt_cpd: "CPD / Formación",
+                stat_contact: "Contacto", stat_super: "Súper", stat_therapy: "Terapia", stat_cpd: "CPD",
+                balance_title: "Balance", health_label: "Estado Operativo", active_records: "Registros",
+                privacy_stmt: "Datos locales.", awaiting: "ESPERANDO...", verified: "Balance verificado.",
+                deficit: "Déficit: {h} hrs para ratio {r}.", mandate: "Mínimo: 2 sesiones de supervisión al mes (Actual: {s})."
             },
             fr: {
-                brand: "Par Liam", tagline: "Journal clinique sécurisé et suivi de l'équilibre.",
+                brand: "Par Liam", tagline: "Journal clinique et suivi d'équilibre.",
                 title_part1: "Journal", title_part2: "Clinique.",
-                tab_month: "Mois en cours", tab_cycle: "Cycle actif", tab_all: "Tout",
-                header_sync: "Synchronisation", header_entry: "Nouvelle entrée", header_params: "Paramètres",
-                btn_sync: "Synchroniser", btn_add: "Ajouter", btn_export: "Exporter", btn_print: "Imprimer PDF", btn_coffee: "Offrir un café", btn_share: "Partager", btn_privacy: "Données",
-                label_type: "Type", label_date: "Date", label_hours: "Heures", label_lang: "Langue", label_balance: "Équilibre", label_keywords: "Mots-clés", label_trainee: "Mandat Stagiaire", label_anchor: "Date de début",
+                tab_month: "Mois en cours", tab_cycle: "Cycle Actif", tab_all: "Tout",
+                header_sync: "Synchro", header_entry: "Nouvelle entrée", header_params: "Paramètres",
+                btn_sync: "Synchroniser", btn_add: "Ajouter", btn_export: "Exporter", btn_print: "PDF", btn_coffee: "Offrir un café", btn_privacy: "Données",
+                label_type: "Type", label_date: "Date", label_hours: "Heures", label_lang: "Langue", label_balance: "Équilibre", label_keywords: "Mots-clés", label_trainee: "Mandat Stagiaire", label_anchor: "Date Ancre",
                 opt_contact: "Contact Clinique", opt_super: "Supervision", opt_therapy: "Thérapie Personnelle", opt_cpd: "Formation / CPD",
-                stat_contact: "Contact", stat_super: "Supervision", stat_therapy: "Thérapie", stat_cpd: "CPD",
-                balance_title: "Équilibre", health_label: "Santé Opérationnelle", active_records: "Archives",
-                sync_info_1: "Scanne les titres d'événements. Personnalisez en paramètres.", strict_rule: "RÈGLE STRICTE:", sync_info_2: "Événements futurs ignorés. Seuls les événements terminés (avant le moment actuel) sont synchronisés.",
-                entry_info: "Notez les heures en décimales (ex: 1.5).",
-                params_info: "Configurez le moteur. Ratio, cycle d'accréditation ou année académique et langue.",
-                ratio_1: "Pour chaque", ratio_2: "hr(s) of supervision,", ratio_3: "je complète", ratio_4: "hrs de contact.",
-                cat_contact: "Contact:", cat_super: "Supervision:", cat_therapy: "Thérapie:", cat_cpd: "CPD:",
-                privacy_stmt: "Local. Vos données restent dans votre navigateur.",
-                awaiting: "EN ATTENTE DE DONNÉES...", verified: "Équilibre vérifié. Exigences maintenues.",
-                deficit: "Déficit: {h} hrs de supervision requises pour ratio {r}.", mandate: "Mandat: 2 sessions par mois (Actuel: {s})."
+                stat_contact: "Contact", stat_super: "Súper", stat_therapy: "Thérapie", stat_cpd: "CPD",
+                balance_title: "Équilibre", health_label: "Statut", active_records: "Archives",
+                privacy_stmt: "Données locales.", awaiting: "EN ATTENTE...", verified: "Équilibre vérifié.",
+                deficit: "Déficit: {h} hrs de supervision pour ratio {r}.", mandate: "Requis: 2 sessions par mois (Actuel: {s})."
             }
         };
 
-        // --- STATE & LOGIC ---
         const todayStr = new Date().toISOString().split('T')[0];
-        let savedSettings = JSON.parse(localStorage.getItem('liam_set'));
-        
         let state = {
             view: 'month',
             entries: JSON.parse(localStorage.getItem('liam_data')) || [],
-            settings: savedSettings || { 
+            settings: JSON.parse(localStorage.getItem('liam_set')) || { 
                 lang: 'en', anchor: todayStr, goal: 40, isTrainee: false, ratioSuper: 1, ratioClient: 6, 
                 keywords: { client: 'client, session', super: 'supervision', therapy: 'therapy', cpd: 'cpd, training' }
             },
             lastSync: localStorage.getItem('liam_sync_time') || null,
-            displayLimit: 15
+            displayLimit: 25
         };
 
         function translateUI() {
@@ -529,7 +365,7 @@
 
             const warnEl = document.getElementById('txt-warning');
             warnEl.innerHTML = warn.length ? warn.join('<br><br>') : (totals.client === 0 && totals.super === 0 ? d.awaiting : d.verified);
-            warnEl.className = `text-[11px] md:text-xs font-bold uppercase tracking-widest ${warn.length ? 'text-monolith' : 'opacity-60'}`;
+            warnEl.className = `text-[11px] font-bold uppercase tracking-widest ${warn.length ? 'text-monolith' : 'opacity-60'}`;
 
             const syncEl = document.getElementById('txt-last-sync');
             if (state.lastSync) {
@@ -550,19 +386,18 @@
                     </div>
                     <div class="flex items-center gap-8">
                         <p class="text-3xl font-black tabular-nums">${e.hours.toFixed(1)}<span class="text-xs ml-1.5 opacity-30">H</span></p>
-                        <button onclick="deleteEntry(${e.id})" class="opacity-0 group-hover:opacity-100 hover:text-rose-500 text-black/30 dark:text-white/30"><i data-lucide="trash-2" class="w-5 h-5"></i></button>
+                        <button onclick="deleteEntry(${e.id})" class="opacity-0 group-hover:opacity-100 text-black/30 hover:text-rose-500 transition-all"><i data-lucide="trash-2" class="w-5 h-5"></i></button>
                     </div>
                 </div>
-            `).join('') : `<div class="py-24 text-center opacity-20 text-xs font-black tracking-widest">NONE</div>`;
+            `).join('') : `<div class="py-24 text-center opacity-20 text-xs font-black tracking-widest">NO RECORDS</div>`;
             
             lucide.createIcons();
         }
 
-        // --- ACTIONS ---
         function updateSettings() {
             state.settings = {
                 lang: document.getElementById('p-lang').value,
-                anchor: document.getElementById('p-anchor').value,
+                anchor: document.getElementById('p-anchor').value || todayStr,
                 isTrainee: document.getElementById('p-trainee').checked,
                 ratioSuper: parseFloat(document.getElementById('p-ratio-super').value) || 1,
                 ratioClient: parseFloat(document.getElementById('p-ratio-client').value) || 6,
@@ -588,19 +423,15 @@
             render();
         }
 
-        function deleteEntry(id) { if(confirm("Delete?")) { state.entries = state.entries.filter(e => e.id !== id); localStorage.setItem('liam_data', JSON.stringify(state.entries)); render(); } }
+        function deleteEntry(id) { if(confirm("Remove?")) { state.entries = state.entries.filter(e => e.id !== id); localStorage.setItem('liam_data', JSON.stringify(state.entries)); render(); } }
         function toggleTheme() { const isDark = document.documentElement.classList.contains('dark'); localStorage.setItem('liam_theme', isDark ? 'light' : 'dark'); applyTheme(); }
         function applyTheme() { const theme = localStorage.getItem('liam_theme') || 'dark'; const icon = document.getElementById('icon-theme'); if (theme === 'light') { document.documentElement.classList.remove('dark'); icon.setAttribute('data-lucide', 'moon'); } else { document.documentElement.classList.add('dark'); icon.setAttribute('data-lucide', 'sun'); } lucide.createIcons(); }
         function setView(v) { state.view = v; document.querySelectorAll('[id^="ind-"]').forEach(el => el.classList.add('hidden')); document.getElementById('ind-'+v).classList.remove('hidden'); render(); }
-        
         function toggleCal() { document.getElementById('cal-content').classList.toggle('hidden'); document.getElementById('icon-cal-toggle').classList.toggle('rotate-180'); }
         function toggleEntry() { document.getElementById('entry-content').classList.toggle('hidden'); document.getElementById('icon-entry-toggle').classList.toggle('rotate-180'); }
         function toggleParams() { document.getElementById('params-content').classList.toggle('hidden'); document.getElementById('icon-params-toggle').classList.toggle('rotate-180'); }
-        function toggleCalInfo(e) { e.stopPropagation(); document.getElementById('cal-info').classList.toggle('hidden'); }
-        function toggleEntryInfo(e) { e.stopPropagation(); document.getElementById('entry-info').classList.toggle('hidden'); }
-        function toggleParamsInfo(e) { e.stopPropagation(); document.getElementById('params-info').classList.toggle('hidden'); }
-        function openPrivacyModal() { document.getElementById('privacy-modal').classList.remove('hidden'); void document.getElementById('privacy-modal').offsetWidth; document.getElementById('privacy-modal').classList.remove('opacity-0'); }
-        function closePrivacyModal() { document.getElementById('privacy-modal').classList.add('opacity-0'); setTimeout(() => document.getElementById('privacy-modal').classList.add('hidden'), 300); }
+        function openPrivacyModal() { const m = document.getElementById('privacy-modal'); m.classList.remove('hidden'); void m.offsetWidth; m.classList.remove('opacity-0'); }
+        function closePrivacyModal() { const m = document.getElementById('privacy-modal'); m.classList.add('opacity-0'); setTimeout(() => m.classList.add('hidden'), 300); }
 
         window.onload = () => {
             applyTheme();
@@ -613,18 +444,18 @@
             document.getElementById('k-client').value = state.settings.keywords.client;
             document.getElementById('k-super').value = state.settings.keywords.super;
             document.getElementById('k-therapy').value = state.settings.keywords.therapy;
-            document.getElementById('k-cpd').value = state.settings.keywords.cpd || 'cpd, training';
+            document.getElementById('k-cpd').value = state.settings.keywords.cpd;
             render();
         };
 
         function downloadBackup() { const blob = new Blob([JSON.stringify({entries: state.entries, settings: state.settings})], { type: 'application/json' }); const url = window.URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'clinical_log_backup.json'; a.click(); }
         function restoreBackup(e) { const reader = new FileReader(); reader.onload = function(ev) { const data = JSON.parse(ev.target.result); state.entries = data.entries || state.entries; state.settings = data.settings || state.settings; localStorage.setItem('liam_data', JSON.stringify(state.entries)); localStorage.setItem('liam_set', JSON.stringify(state.settings)); location.reload(); }; reader.readAsText(e.target.files[0]); }
         function exportCSV() { const csv = "Date,Type,Hours\n" + state.entries.map(e => `${e.date},${e.type},${e.hours}`).join("\n"); const blob = new Blob([csv], { type: 'text/csv' }); const url = window.URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'clinical_log.csv'; a.click(); }
-        async function handleShare() { const t = `Clinical Log Check: ${document.getElementById('val-ratio').innerText}% operational balance.`; if (navigator.share) await navigator.share({ title: 'Clinical Log', text: t }); }
+        async function handleShare() { const t = `Clinical Log: ${document.getElementById('val-ratio').innerText}% Balance.`; if (navigator.share) await navigator.share({ title: 'Clinical Log', text: t }); }
         
         // --- GOOGLE CALENDAR LOGIC ---
-        const GCAL_CLIENT_ID = '1096186568274-ba5t2npnha0gt0latstffcejbcfgfgiv.apps.googleusercontent.com'; // Insert your Google Cloud Client ID here
-        const GCAL_API_KEY = 'AIzaSyDqE4LzS7OkBfzvoVEfCOGSS2Pk10MmY4s';   // PASTE YOUR API KEY HERE
+        const GCAL_CLIENT_ID = '1096186568274-ba5t2npnha0gt0latstffcejbcfgfgiv.apps.googleusercontent.com';
+        const GCAL_API_KEY = 'AIzaSyDqE4LzS7OkBfzvoVEfCOGSS2Pk10MmY4s';
         const DISCOVERY_DOC = 'https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest';
         const SCOPES = 'https://www.googleapis.com/auth/calendar.readonly';
         let tokenClient = null;
@@ -634,11 +465,7 @@
             gapiScript.src = 'https://apis.google.com/js/api.js';
             gapiScript.onload = () => {
                 window.gapi.load('client', async () => {
-                    try {
-                        await window.gapi.client.init({ apiKey: GCAL_API_KEY, discoveryDocs: [DISCOVERY_DOC] });
-                    } catch (err) {
-                        console.error("Google API Init Error. This is usually due to API key website restrictions.", err);
-                    }
+                    try { await window.gapi.client.init({ apiKey: GCAL_API_KEY, discoveryDocs: [DISCOVERY_DOC] }); } catch (err) {}
                 });
             };
             document.body.appendChild(gapiScript);
@@ -647,18 +474,8 @@
             gisScript.src = 'https://accounts.google.com/gsi/client';
             gisScript.onload = () => {
                 tokenClient = window.google.accounts.oauth2.initTokenClient({
-                    client_id: GCAL_CLIENT_ID,
-                    scope: SCOPES,
-                    callback: (tokenResponse) => {
-                        if (tokenResponse.error !== undefined) {
-                            const msg = document.getElementById('msg-sync');
-                            msg.innerText = 'Authentication failed.';
-                            document.getElementById('btn-sync').disabled = false;
-                            document.getElementById('icon-sync').classList.remove('animate-spin');
-                            return;
-                        }
-                        fetchCalendarEvents();
-                    },
+                    client_id: GCAL_CLIENT_ID, scope: SCOPES,
+                    callback: (resp) => { if (!resp.error) fetchCalendarEvents(); else { document.getElementById('btn-sync').disabled = false; document.getElementById('icon-sync').classList.remove('animate-spin'); } }
                 });
             };
             document.body.appendChild(gisScript);
@@ -668,47 +485,21 @@
             const btn = document.getElementById('btn-sync');
             const icon = document.getElementById('icon-sync');
             const msg = document.getElementById('msg-sync');
-            
-            btn.disabled = true; 
-            icon.classList.add('animate-spin');
-            msg.innerText = "Connecting..."; 
-            msg.classList.remove('hidden');
-
-            if (!GCAL_CLIENT_ID || !GCAL_API_KEY) {
-                // DEMO MODE IF NO API KEYS
-                setTimeout(() => {
-                    state.lastSync = new Date().toISOString();
-                    localStorage.setItem('liam_sync_time', state.lastSync);
-                    btn.disabled = false; 
-                    icon.classList.remove('animate-spin');
-                    msg.innerText = "Sync Complete (Demo)";
-                    setTimeout(() => msg.classList.add('hidden'), 3000);
-                    render();
-                }, 1500);
-                return;
-            }
-
-            if (tokenClient) {
-                tokenClient.requestAccessToken({ prompt: '' }); 
-            } else {
-                msg.innerText = 'Google API not initialized yet.';
-                btn.disabled = false;
-                icon.classList.remove('animate-spin');
-            }
+            btn.disabled = true; icon.classList.add('animate-spin'); msg.innerText = "Connecting..."; msg.classList.remove('hidden');
+            if (tokenClient) tokenClient.requestAccessToken({ prompt: '' });
         }
 
         async function fetchCalendarEvents() {
             const msg = document.getElementById('msg-sync');
-            msg.innerText = 'Scanning for clinical events...';
+            msg.innerText = 'Scanning from Anchor Date...';
             try {
                 const now = new Date();
-                const firstDayOfMonth = new Date(now.getFullYear(), now.getMonth(), 1).toISOString();
+                // REPAIRED: Scan now starts from Anchor Date instead of just this month
+                const timeMin = new Date(state.settings.anchor).toISOString();
                 
-                // STRICT RULE: Only pull events that have already completed by this exact moment.
-                // We use current 'now' as timeMax to ignore scheduled future events.
                 const response = await window.gapi.client.calendar.events.list({
                     'calendarId': 'primary',
-                    'timeMin': firstDayOfMonth,
+                    'timeMin': timeMin,
                     'timeMax': now.toISOString(),
                     'showDeleted': false,
                     'singleEvents': true,
@@ -721,76 +512,52 @@
                 const newEntries = [];
 
                 const getKeywords = (str) => str.split(',').map(k => k.trim().toLowerCase()).filter(k => k.length > 0);
-                const kClient = getKeywords(state.settings.keywords.client);
-                const kSuper = getKeywords(state.settings.keywords.super);
-                const kTherapy = getKeywords(state.settings.keywords.therapy);
-                const kCpd = getKeywords(state.settings.keywords.cpd);
+                const kMap = {
+                    client: getKeywords(state.settings.keywords.client),
+                    super: getKeywords(state.settings.keywords.super),
+                    therapy: getKeywords(state.settings.keywords.therapy),
+                    cpd: getKeywords(state.settings.keywords.cpd)
+                };
 
-                events.forEach(event => {
-                    const title = (event.summary || '').toLowerCase();
+                events.forEach(ev => {
+                    const title = (ev.summary || '').toLowerCase();
                     let type = null;
-                    
-                    if (kClient.some(k => title.includes(k))) type = 'client';
-                    else if (kSuper.some(k => title.includes(k))) type = 'super';
-                    else if (kTherapy.some(k => title.includes(k))) type = 'therapy';
-                    else if (kCpd.some(k => title.includes(k))) type = 'cpd';
+                    if (kMap.client.some(k => title.includes(k))) type = 'client';
+                    else if (kMap.super.some(k => title.includes(k))) type = 'super';
+                    else if (kMap.therapy.some(k => title.includes(k))) type = 'therapy';
+                    else if (kMap.cpd.some(k => title.includes(k))) type = 'cpd';
 
                     if (type) {
                         let hours = 0;
                         let dateStr = '';
-
-                        if (event.start.dateTime && event.end.dateTime) {
-                            const start = new Date(event.start.dateTime);
-                            const end = new Date(event.end.dateTime);
-                            hours = (end - start) / (1000 * 60 * 60);
-                            dateStr = start.toISOString().split('T')[0];
-                        } else if (event.start.date && event.end.date) {
-                            const start = new Date(event.start.date);
-                            const end = new Date(event.end.date);
-                            const days = Math.round((end - start) / (1000 * 60 * 60 * 24));
-                            hours = days * 7.5;
-                            dateStr = event.start.date;
+                        if (ev.start.dateTime) {
+                            hours = (new Date(ev.end.dateTime) - new Date(ev.start.dateTime)) / 3600000;
+                            dateStr = ev.start.dateTime.split('T')[0];
+                        } else {
+                            hours = 7.5;
+                            dateStr = ev.start.date;
                         }
 
                         if (hours > 0) {
-                            newEntries.push({
-                                id: `gcal-${event.id}`,
-                                type,
-                                date: dateStr,
-                                hours: parseFloat(hours.toFixed(1)),
-                                source: 'gcal',
-                                summary: event.summary
-                            });
+                            newEntries.push({ id: `gcal-${ev.id}`, type, date: dateStr, hours: parseFloat(hours.toFixed(1)) });
                             importedCount++;
                         }
                     }
                 });
 
-                if (newEntries.length > 0) {
-                    const existingIds = new Set(state.entries.map(e => e.id));
-                    const uniqueNew = newEntries.filter(e => !existingIds.has(e.id));
-                    state.entries = [...uniqueNew, ...state.entries];
-                    localStorage.setItem('liam_data', JSON.stringify(state.entries));
-                }
-
+                const existingIds = new Set(state.entries.map(e => e.id));
+                const uniqueNew = newEntries.filter(e => !existingIds.has(e.id));
+                state.entries = [...uniqueNew, ...state.entries];
+                localStorage.setItem('liam_data', JSON.stringify(state.entries));
                 state.lastSync = new Date().toISOString();
                 localStorage.setItem('liam_sync_time', state.lastSync);
                 render();
-
-                msg.innerText = `Sync successful. ${importedCount} events processed.`;
-            } catch (error) {
-                console.error('Calendar Sync Error:', error);
-                
-                // Gracefully handle the 403 API restriction error
-                if (error.result && error.result.error && error.result.error.code === 403) {
-                    msg.innerText = 'API Key blocked this URL. Test on your live Netlify site!';
-                } else {
-                    msg.innerText = 'Failed to fetch calendar data.';
-                }
-            } finally {
+                msg.innerText = `Imported ${uniqueNew.length} new records.`;
+            } catch (err) { msg.innerText = 'Sync failed. Check credentials.'; }
+            finally {
                 document.getElementById('btn-sync').disabled = false;
                 document.getElementById('icon-sync').classList.remove('animate-spin');
-                setTimeout(() => msg.classList.add('hidden'), 6000);
+                setTimeout(() => msg.classList.add('hidden'), 5000);
             }
         }
     </script>
