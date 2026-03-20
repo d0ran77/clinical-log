@@ -25,7 +25,7 @@
                     colors: {
                         ash: '#e8e7e7',
                         void: '#121212',
-                        monolith: '#FF7A00', // UPDATED: Brighter, more vibrant orange
+                        monolith: '#FF7A00', // Brighter, more vibrant orange
                         darkPanel: '#1c1c1c',
                     },
                     fontFamily: {
@@ -212,10 +212,11 @@
 
             <main class="lg:col-span-8 flex flex-col gap-10">
                 <div class="grid grid-cols-2 lg:grid-cols-4 bg-white dark:bg-darkPanel border-t border-l border-black/10 dark:border-white/5 shadow-sm">
-                    <div class="p-6 md:p-8 border-r border-b border-black/10 dark:border-white/5"><span class="text-[10px] font-black uppercase tracking-[0.3em] opacity-30 block mb-4" data-i18n="stat_contact">Client</span><div id="val-client" class="text-4xl md:text-6xl font-black tracking-tighter tabular-nums truncate">0.0</div></div>
-                    <div class="p-6 md:p-8 border-r border-b border-black/10 dark:border-white/5"><span class="text-[10px] font-black uppercase tracking-[0.3em] opacity-30 block mb-4" data-i18n="stat_super">Supervision</span><div id="val-super" class="text-4xl md:text-6xl font-black tracking-tighter tabular-nums truncate">0.0</div></div>
-                    <div class="p-6 md:p-8 border-r border-b border-black/10 dark:border-white/5"><span class="text-[10px] font-black uppercase tracking-[0.3em] opacity-30 block mb-4" data-i18n="stat_therapy">Therapy</span><div id="val-therapy" class="text-4xl md:text-6xl font-black tracking-tighter tabular-nums truncate">0.0</div></div>
-                    <div class="p-6 md:p-8 border-r border-b border-black/10 dark:border-white/5"><span class="text-[10px] font-black uppercase tracking-[0.3em] opacity-30 block mb-4" data-i18n="stat_cpd">CPD</span><div id="val-cpd" class="text-4xl md:text-6xl font-black tracking-tighter tabular-nums truncate">0.0</div></div>
+                    <!-- Updated font sizes to text-3xl/text-5xl and removed truncate to ensure visibility -->
+                    <div class="p-6 md:p-8 border-r border-b border-black/10 dark:border-white/5"><span class="text-[10px] font-black uppercase tracking-[0.3em] opacity-30 block mb-4" data-i18n="stat_contact">Client</span><div id="val-client" class="text-3xl md:text-5xl font-black tracking-tighter tabular-nums">0.0</div></div>
+                    <div class="p-6 md:p-8 border-r border-b border-black/10 dark:border-white/5"><span class="text-[10px] font-black uppercase tracking-[0.3em] opacity-30 block mb-4" data-i18n="stat_super">Supervision</span><div id="val-super" class="text-3xl md:text-5xl font-black tracking-tighter tabular-nums">0.0</div></div>
+                    <div class="p-6 md:p-8 border-r border-b border-black/10 dark:border-white/5"><span class="text-[10px] font-black uppercase tracking-[0.3em] opacity-30 block mb-4" data-i18n="stat_therapy">Therapy</span><div id="val-therapy" class="text-3xl md:text-5xl font-black tracking-tighter tabular-nums">0.0</div></div>
+                    <div class="p-6 md:p-8 border-r border-b border-black/10 dark:border-white/5"><span class="text-[10px] font-black uppercase tracking-[0.3em] opacity-30 block mb-4" data-i18n="stat_cpd">CPD</span><div id="val-cpd" class="text-3xl md:text-5xl font-black tracking-tighter tabular-nums">0.0</div></div>
                 </div>
 
                 <div class="space-y-6">
@@ -303,8 +304,8 @@
                 header_sync: "Synchronizacja", header_entry: "Nowy Wpis", header_params: "Parametry",
                 btn_sync: "Synchronizuj Kalendarz", btn_add: "Dodaj Wpis", btn_export: "Eksportuj", btn_print: "Drukuj PDF", btn_coffee: "Kup mi kawę", btn_privacy: "Prywatność", btn_share: "Udostępnij",
                 label_type: "Typ", label_date: "Data", label_hours: "Godziny", label_lang: "Język", label_balance: "Proporcje", label_keywords: "Słowa Kluczowe", label_trainee: "Obowiązek Stażysty", label_anchor: "Data Startowa",
-                opt_contact: "Klient", opt_super: "Superwizja", opt_therapy: "Terapia Własna", opt_cpd: "Rozwój (CPD)",
-                stat_contact: "Klient", stat_super: "Superwizja", stat_therapy: "Terapia", stat_cpd: "CPD",
+                opt_contact: "Client", opt_super: "Superwizja", opt_therapy: "Terapia Własna", opt_cpd: "Rozwój (CPD)",
+                stat_contact: "Client", stat_super: "Superwizja", stat_therapy: "Terapia", stat_cpd: "CPD",
                 balance_title: "Bilans", health_label: "Status Operacyjny", active_records: "Aktywne Wpisy",
                 privacy_stmt: "Dane lokalne w przeglądarce.", awaiting: "OCZEKIWANIE...", verified: "Bilans poprawny.",
                 deficit: "Brak: {h} godz. superwizji dla ratio {r}.", mandate: "Wymagane: 2 sesje superwizji miesięcznie (Obecnie: {s})."
@@ -316,8 +317,8 @@
                 header_sync: "Sincronizar", header_entry: "Nueva Entrada", header_params: "Parámetros",
                 btn_sync: "Sincronizar", btn_add: "Añadir", btn_export: "Exportar", btn_print: "PDF", btn_coffee: "Invítame a un café", btn_privacy: "Privacidad", btn_share: "Compartir",
                 label_type: "Tipo", label_date: "Fecha", label_hours: "Horas", label_lang: "Idioma", label_balance: "Balance Ratio", label_keywords: "Palabras Clave", label_trainee: "Mandato Pasante", label_anchor: "Fecha Ancla",
-                opt_contact: "Cliente", opt_super: "Supervisión", opt_therapy: "Terapia Personal", opt_cpd: "CPD / Formación",
-                stat_contact: "Cliente", stat_super: "Supervisión", stat_therapy: "Terapia", stat_cpd: "CPD",
+                opt_contact: "Client", opt_super: "Supervisión", opt_therapy: "Terapia Personal", opt_cpd: "CPD / Formación",
+                stat_contact: "Client", stat_super: "Supervisión", stat_therapy: "Terapia", stat_cpd: "CPD",
                 balance_title: "Balance", health_label: "Estado Operativo", active_records: "Registros",
                 privacy_stmt: "Datos locales.", awaiting: "ESPERANDO...", verified: "Balance verificado.",
                 deficit: "Déficit: {h} hrs para ratio {r}.", mandate: "Mínimo: 2 sesiones de supervisión al mes (Actual: {s})."
@@ -605,6 +606,7 @@
                 events.forEach(ev => {
                     const title = (ev.summary || '').toLowerCase();
                     let type = null;
+
                     if (kMap.client.some(k => title.includes(k))) type = 'client';
                     else if (kMap.super.some(k => title.includes(k))) type = 'super';
                     else if (kMap.therapy.some(k => title.includes(k))) type = 'therapy';
