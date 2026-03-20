@@ -25,7 +25,7 @@
                     colors: {
                         ash: '#e8e7e7',
                         void: '#121212',
-                        monolith: '#FF7A00', // Brighter, more vibrant orange
+                        monolith: '#FF7A00', // Vibrant orange
                         darkPanel: '#1c1c1c',
                     },
                     fontFamily: {
@@ -197,8 +197,13 @@
                                 <input id="p-anchor" type="date" onchange="updateSettings()" onblur="updateSettings()" class="w-full bg-transparent border-b border-black/10 dark:border-white/10 py-3 font-bold text-sm outline-none focus:border-monolith">
                             </div>
                             <div class="space-y-2">
+                                <label class="text-[10px] font-black opacity-80 uppercase tracking-widest" data-i18n="label_history">Full Sync Start Year</label>
+                                <input id="p-history-year" type="number" min="1990" max="2100" placeholder="2024" onchange="updateSettings()" onblur="updateSettings()" class="w-full bg-transparent border-b border-black/10 dark:border-white/10 py-3 font-bold text-sm outline-none focus:border-monolith text-monolith">
+                            </div>
+                            <div class="space-y-2">
                                 <label class="text-[10px] font-black opacity-80 uppercase tracking-widest" data-i18n="label_lang">System Language</label>
-                                <select id="p-lang" onchange="updateSettings()" class="w-full bg-transparent border-b border-black/10 dark:border-white/10 py-3 font-bold text-sm outline-none dark:text-ash">
+                                <!-- FIXED: Added 'appearance-none' and 'cursor-pointer' to hide native double chevron -->
+                                <select id="p-lang" onchange="updateSettings()" class="w-full bg-transparent border-b border-black/10 dark:border-white/10 py-3 font-bold text-sm outline-none appearance-none cursor-pointer dark:text-ash">
                                     <option value="en" class="dark:bg-darkPanel">English</option>
                                     <option value="es" class="dark:bg-darkPanel">Español</option>
                                     <option value="fr" class="dark:bg-darkPanel">Français</option>
@@ -212,7 +217,6 @@
 
             <main class="lg:col-span-8 flex flex-col gap-10">
                 <div class="grid grid-cols-2 lg:grid-cols-4 bg-white dark:bg-darkPanel border-t border-l border-black/10 dark:border-white/5 shadow-sm">
-                    <!-- Updated font sizes to text-3xl/text-5xl and removed truncate to ensure visibility -->
                     <div class="p-6 md:p-8 border-r border-b border-black/10 dark:border-white/5"><span class="text-[10px] font-black uppercase tracking-[0.3em] opacity-30 block mb-4" data-i18n="stat_contact">Client</span><div id="val-client" class="text-3xl md:text-5xl font-black tracking-tighter tabular-nums">0.0</div></div>
                     <div class="p-6 md:p-8 border-r border-b border-black/10 dark:border-white/5"><span class="text-[10px] font-black uppercase tracking-[0.3em] opacity-30 block mb-4" data-i18n="stat_super">Supervision</span><div id="val-super" class="text-3xl md:text-5xl font-black tracking-tighter tabular-nums">0.0</div></div>
                     <div class="p-6 md:p-8 border-r border-b border-black/10 dark:border-white/5"><span class="text-[10px] font-black uppercase tracking-[0.3em] opacity-30 block mb-4" data-i18n="stat_therapy">Therapy</span><div id="val-therapy" class="text-3xl md:text-5xl font-black tracking-tighter tabular-nums">0.0</div></div>
@@ -290,7 +294,7 @@
                 tab_month: "Current Month", tab_cycle: "Active Cycle", tab_all: "All Time",
                 header_sync: "Sync Engine", header_entry: "New Entry", header_params: "Parameters",
                 btn_sync: "Sync Calendar", btn_add: "Add Entry", btn_export: "Export", btn_print: "Print PDF", btn_coffee: "Buy Me a Coffee", btn_privacy: "Privacy", btn_share: "Share",
-                label_type: "Type", label_date: "Date", label_hours: "Hours", label_lang: "Language", label_balance: "Balance Ratio", label_keywords: "Sync Keywords", label_trainee: "Trainee Mandate", label_anchor: "Anchor Date",
+                label_type: "Type", label_date: "Date", label_hours: "Hours", label_lang: "Language", label_balance: "Balance Ratio", label_keywords: "Sync Keywords", label_trainee: "Trainee Mandate", label_anchor: "Anchor Date", label_history: "Full Sync Start Year",
                 opt_contact: "Client", opt_super: "Supervision", opt_therapy: "Personal Therapy", opt_cpd: "CPD / Training",
                 stat_contact: "Client", stat_super: "Supervision", stat_therapy: "Therapy", stat_cpd: "CPD",
                 balance_title: "Balance", health_label: "Health Status", active_records: "Active Records",
@@ -303,7 +307,7 @@
                 tab_month: "Bieżący Miesiąc", tab_cycle: "Cykl Akredytacji", tab_all: "Wszystkie Dane",
                 header_sync: "Synchronizacja", header_entry: "Nowy Wpis", header_params: "Parametry",
                 btn_sync: "Synchronizuj Kalendarz", btn_add: "Dodaj Wpis", btn_export: "Eksportuj", btn_print: "Drukuj PDF", btn_coffee: "Kup mi kawę", btn_privacy: "Prywatność", btn_share: "Udostępnij",
-                label_type: "Typ", label_date: "Data", label_hours: "Godziny", label_lang: "Język", label_balance: "Proporcje", label_keywords: "Słowa Kluczowe", label_trainee: "Obowiązek Stażysty", label_anchor: "Data Startowa",
+                label_type: "Typ", label_date: "Data", label_hours: "Godziny", label_lang: "Język", label_balance: "Proporcje", label_keywords: "Słowa Kluczowe", label_trainee: "Obowiązek Stażysty", label_anchor: "Data Startowa", label_history: "Pełny Rok Startowy Sync",
                 opt_contact: "Client", opt_super: "Superwizja", opt_therapy: "Terapia Własna", opt_cpd: "Rozwój (CPD)",
                 stat_contact: "Client", stat_super: "Superwizja", stat_therapy: "Terapia", stat_cpd: "CPD",
                 balance_title: "Bilans", health_label: "Status Operacyjny", active_records: "Aktywne Wpisy",
@@ -316,7 +320,7 @@
                 tab_month: "Mes Actual", tab_cycle: "Ciclo Activo", tab_all: "Todo",
                 header_sync: "Sincronizar", header_entry: "Nueva Entrada", header_params: "Parámetros",
                 btn_sync: "Sincronizar", btn_add: "Añadir", btn_export: "Exportar", btn_print: "PDF", btn_coffee: "Invítame a un café", btn_privacy: "Privacidad", btn_share: "Compartir",
-                label_type: "Tipo", label_date: "Fecha", label_hours: "Horas", label_lang: "Idioma", label_balance: "Balance Ratio", label_keywords: "Palabras Clave", label_trainee: "Mandato Pasante", label_anchor: "Fecha Ancla",
+                label_type: "Tipo", label_date: "Fecha", label_hours: "Horas", label_lang: "Idioma", label_balance: "Balance Ratio", label_keywords: "Palabras Clave", label_trainee: "Mandato Pasante", label_anchor: "Fecha Ancla", label_history: "Año de Sincronización",
                 opt_contact: "Client", opt_super: "Supervisión", opt_therapy: "Terapia Personal", opt_cpd: "CPD / Formación",
                 stat_contact: "Client", stat_super: "Supervisión", stat_therapy: "Terapia", stat_cpd: "CPD",
                 balance_title: "Balance", health_label: "Estado Operativo", active_records: "Registros",
@@ -329,7 +333,7 @@
                 tab_month: "Mois en cours", tab_cycle: "Cycle Actif", tab_all: "Tout",
                 header_sync: "Synchro", header_entry: "Nouvelle entrée", header_params: "Paramètres",
                 btn_sync: "Synchroniser", btn_add: "Ajouter", btn_export: "Exporter", btn_print: "PDF", btn_coffee: "Offrir un café", btn_privacy: "Confidentialité", btn_share: "Partager",
-                label_type: "Type", label_date: "Date", label_hours: "Heures", label_lang: "Langue", label_balance: "Équilibre", label_keywords: "Mots-clés", label_trainee: "Mandat Stagiaire", label_anchor: "Date Ancre",
+                label_type: "Type", label_date: "Date", label_hours: "Heures", label_lang: "Langue", label_balance: "Équilibre", label_keywords: "Mots-clés", label_trainee: "Mandat Stagiaire", label_anchor: "Date Ancre", label_history: "Année de Synchro",
                 opt_contact: "Client", opt_super: "Supervision", opt_therapy: "Thérapie Personnelle", opt_cpd: "Formation / CPD",
                 stat_contact: "Client", stat_super: "Supervision", stat_therapy: "Thérapie", stat_cpd: "CPD",
                 balance_title: "Équilibre", health_label: "Statut", active_records: "Archives",
@@ -343,7 +347,7 @@
             view: 'month',
             entries: JSON.parse(localStorage.getItem('liam_data')) || [],
             settings: JSON.parse(localStorage.getItem('liam_set')) || { 
-                lang: 'en', anchor: todayStr, goal: 40, isTrainee: false, ratioSuper: 1, ratioClient: 6, 
+                lang: 'en', anchor: todayStr, historyYear: 2024, goal: 40, isTrainee: false, ratioSuper: 1, ratioClient: 6, 
                 keywords: { client: 'client, session', super: 'supervision', therapy: 'therapy', cpd: 'cpd' }
             },
             lastSync: localStorage.getItem('liam_sync_time') || null,
@@ -431,6 +435,7 @@
             state.settings = {
                 lang: document.getElementById('p-lang').value,
                 anchor: document.getElementById('p-anchor').value || todayStr,
+                historyYear: parseInt(document.getElementById('p-history-year').value) || 2024,
                 isTrainee: document.getElementById('p-trainee').checked,
                 ratioSuper: parseFloat(document.getElementById('p-ratio-super').value) || 1,
                 ratioClient: parseFloat(document.getElementById('p-ratio-client').value) || 6,
@@ -497,6 +502,7 @@
             document.getElementById('e-date').valueAsDate = new Date();
             document.getElementById('p-lang').value = state.settings.lang;
             document.getElementById('p-anchor').value = state.settings.anchor;
+            document.getElementById('p-history-year').value = state.settings.historyYear || 2024;
             document.getElementById('p-trainee').checked = state.settings.isTrainee;
             document.getElementById('p-ratio-super').value = state.settings.ratioSuper;
             document.getElementById('p-ratio-client').value = state.settings.ratioClient;
@@ -577,18 +583,29 @@
 
         async function fetchCalendarEvents() {
             const msg = document.getElementById('msg-sync');
-            msg.innerText = 'Scanning from Anchor Date...';
+            const now = new Date();
+            let timeMin;
+
+            if (state.view === 'month') {
+                timeMin = new Date(now.getFullYear(), now.getMonth(), 1).toISOString();
+                msg.innerText = 'Scanning current month...';
+            } else if (state.view === 'cycle') {
+                timeMin = new Date(state.settings.anchor).toISOString();
+                msg.innerText = 'Scanning from Anchor Date...';
+            } else {
+                const startYear = state.settings.historyYear || 2024;
+                timeMin = new Date(startYear, 0, 1).toISOString();
+                msg.innerText = `Scanning all records since ${startYear}...`;
+            }
+
             try {
-                const now = new Date();
-                const timeMin = new Date(state.settings.anchor).toISOString();
-                
                 const response = await window.gapi.client.calendar.events.list({
                     'calendarId': 'primary',
                     'timeMin': timeMin,
                     'timeMax': now.toISOString(),
                     'showDeleted': false,
                     'singleEvents': true,
-                    'maxResults': 250,
+                    'maxResults': 500,
                     'orderBy': 'startTime'
                 });
 
