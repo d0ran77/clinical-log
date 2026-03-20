@@ -132,7 +132,7 @@
                             Scans event titles for keywords. Customise these in Parameters below.
                         </p>
                         <p class="text-[11px] font-bold opacity-60 leading-relaxed uppercase tracking-widest pt-3 border-t border-black/5 dark:border-white/5 mt-3">
-                            <span class="text-monolith" data-i18n="strict_rule">STRICT RULE:</span> <span data-i18n="sync_info_2">Future events are ignored. Only completed past events are synced.</span>
+                            <span class="text-monolith" data-i18n="strict_rule">STRICT RULE:</span> <span data-i18n="sync_info_2">Future events are ignored. Only completed events (past the current time) are synced.</span>
                         </p>
                     </div>
                     
@@ -400,7 +400,7 @@
                 opt_contact: "Clinical Contact", opt_super: "Clinical Supervision", opt_therapy: "Personal Therapy", opt_cpd: "CPD / Training",
                 stat_contact: "Contact", stat_super: "Supervision", stat_therapy: "Therapy", stat_cpd: "CPD",
                 balance_title: "Balance", health_label: "Operational Health", active_records: "Active Records",
-                sync_info_1: "Scans event titles for keywords (e.g. \"client\", \"session\"). Customise these in Parameters below.", strict_rule: "STRICT RULE:", sync_info_2: "Future events are ignored. Only completed past events are synced.",
+                sync_info_1: "Scans event titles for keywords (e.g. \"client\", \"session\"). Customise these in Parameters below.", strict_rule: "STRICT RULE:", sync_info_2: "Future events are ignored. Only completed events (past the current time) are synced.",
                 entry_info: "Log hours manually using decimals (e.g. 1.5).",
                 params_info: "Tailor the balance engine. Set your ratio, accreditation cycle or academic year, and system language.",
                 ratio_1: "For every", ratio_2: "hr(s) of supervision,", ratio_3: "I complete", ratio_4: "hrs of contact.",
@@ -415,15 +415,15 @@
                 tab_month: "Bieżący Miesiąc", tab_cycle: "Aktywny Cykl", tab_all: "Wszystko",
                 header_sync: "Synchronizacja", header_entry: "Nowy Wpis", header_params: "Parametry",
                 btn_sync: "Synchronizuj Kalendarz", btn_add: "Dodaj Wpis", btn_export: "Eksportuj", btn_print: "Drukuj PDF", btn_coffee: "Kup mi kawę", btn_share: "Udostępnij", btn_privacy: "Prywatność",
-                label_type: "Typ", label_date: "Data", label_hours: "Godziny", label_lang: "Język Systemu", label_balance: "Bilans Raportowania", label_keywords: "Mapowanie Słów Kluczowych", label_trainee: "Obowiązek Stażysty", label_anchor: "Data Początkowa",
+                label_type: "Type", label_date: "Data", label_hours: "Godziny", label_lang: "Język Systemu", label_balance: "Bilans Raportowania", label_keywords: "Mapowanie Słów Kluczowych", label_trainee: "Obowiązek Stażysty", label_anchor: "Data Początkowa",
                 opt_contact: "Kontakt z Klientem", opt_super: "Superwizja", opt_therapy: "Terapia Własna", opt_cpd: "Rozwój (CPD)",
                 stat_contact: "Kontakt", stat_super: "Superwizja", stat_therapy: "Terapia", stat_cpd: "CPD",
                 balance_title: "Bilans", health_label: "Status Operacyjny", active_records: "Aktywne Rekordy",
-                sync_info_1: "Skanuje tytuły wydarzeń pod kątem słów kluczowych. Skonfiguruj je w parametrach.", strict_rule: "ZASADA:", sync_info_2: "Wydarzenia przyszłe są ignorowane. Synchronizowane są tylko zakończone sesje.",
+                sync_info_1: "Skanuje tytuły wydarzeń pod kątem słów kluczowych. Skonfiguruj je w parametrach.", strict_rule: "ZASADA:", sync_info_2: "Wydarzenia przyszłe są ignorowane. Synchronizowane są tylko zakończone sesje (przed chwilą obecną).",
                 entry_info: "Loguj godziny ręcznie używając ułamków dziesiętnych (np. 1.5).",
                 params_info: "Skonfiguruj silnik bilansowy. Ustaw proporcje, cykl akredytacji lub rok akademicki i język.",
                 ratio_1: "Na każdą", ratio_2: "godz. superwizji,", ratio_3: "wykonuję", ratio_4: "godz. kontaktu.",
-                cat_contact: "Kontakt:", cat_super: "Superwizja:", cat_therapy: "Terapia:", cat_cpd: "CPD:",
+                cat_contact: "Contact:", cat_super: "Superwizja:", cat_therapy: "Terapia:", cat_cpd: "CPD:",
                 privacy_stmt: "Aplikacja lokalna. Dane pozostają w Twojej przeglądarce.",
                 awaiting: "OCZEKIWANIE NA DANE...", verified: "Bilans zweryfikowany. Wymogi zawodowe zachowane.",
                 deficit: "Deficyt: Zapewnij {h} godz. superwizji dla proporcji {r}.", mandate: "Mandat: Wymagane 2 sesje superwizji w tym miesiącu (Obecnie: {s})."
@@ -438,7 +438,7 @@
                 opt_contact: "Contacto Clínico", opt_super: "Supervisión", opt_therapy: "Terapia Personal", opt_cpd: "Formación / CPD",
                 stat_contact: "Contacto", stat_super: "Supervisión", stat_therapy: "Terapia", stat_cpd: "CPD",
                 balance_title: "Balance", health_label: "Salud Operativa", active_records: "Registros Activos",
-                sync_info_1: "Busca palabras clave en eventos. Personaliza en parámetros.", strict_rule: "REGLA ESTRICTA:", sync_info_2: "Se ignoran eventos futuros.",
+                sync_info_1: "Busca palabras clave en eventos. Personaliza en parámetros.", strict_rule: "REGLA ESTRICTA:", sync_info_2: "Se ignoran eventos futuros. Solo eventos finalizados (antes del momento actual) se sincronizan.",
                 entry_info: "Registra horas usando decimales (ej. 1.5).",
                 params_info: "Configura el motor de balance. Ratio, ciclo de acreditación o año académico e idioma.",
                 ratio_1: "Por cada", ratio_2: "hr(s) de supervisión,", ratio_3: "completo", ratio_4: "hrs de contacto.",
@@ -457,7 +457,7 @@
                 opt_contact: "Contact Clinique", opt_super: "Supervision", opt_therapy: "Thérapie Personnelle", opt_cpd: "Formation / CPD",
                 stat_contact: "Contact", stat_super: "Supervision", stat_therapy: "Thérapie", stat_cpd: "CPD",
                 balance_title: "Équilibre", health_label: "Santé Opérationnelle", active_records: "Archives",
-                sync_info_1: "Scanne les titres d'événements. Personnalisez en paramètres.", strict_rule: "RÈGLE STRICTE:", sync_info_2: "Événements futurs ignorés.",
+                sync_info_1: "Scanne les titres d'événements. Personnalisez en paramètres.", strict_rule: "RÈGLE STRICTE:", sync_info_2: "Événements futurs ignorés. Seuls les événements terminés (avant le moment actuel) sont synchronisés.",
                 entry_info: "Notez les heures en décimales (ex: 1.5).",
                 params_info: "Configurez le moteur. Ratio, cycle d'accréditation ou année académique et langue.",
                 ratio_1: "Pour chaque", ratio_2: "hr(s) of supervision,", ratio_3: "je complète", ratio_4: "hrs de contact.",
@@ -624,7 +624,7 @@
         
         // --- GOOGLE CALENDAR LOGIC ---
         const GCAL_CLIENT_ID = '1096186568274-ba5t2npnha0gt0latstffcejbcfgfgiv.apps.googleusercontent.com'; // Insert your Google Cloud Client ID here
-        const GCAL_API_KEY = '';   // Insert your Google Cloud API Key here
+        const GCAL_API_KEY = 'AIzaSyDqE4LzS7OkBfzvoVEfCOGSS2Pk10MmY4s';   // PASTE YOUR API KEY HERE
         const DISCOVERY_DOC = 'https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest';
         const SCOPES = 'https://www.googleapis.com/auth/calendar.readonly';
         let tokenClient = null;
@@ -634,7 +634,11 @@
             gapiScript.src = 'https://apis.google.com/js/api.js';
             gapiScript.onload = () => {
                 window.gapi.load('client', async () => {
-                    await window.gapi.client.init({ apiKey: GCAL_API_KEY, discoveryDocs: [DISCOVERY_DOC] });
+                    try {
+                        await window.gapi.client.init({ apiKey: GCAL_API_KEY, discoveryDocs: [DISCOVERY_DOC] });
+                    } catch (err) {
+                        console.error("Google API Init Error. This is usually due to API key website restrictions.", err);
+                    }
                 });
             };
             document.body.appendChild(gapiScript);
@@ -700,14 +704,12 @@
                 const now = new Date();
                 const firstDayOfMonth = new Date(now.getFullYear(), now.getMonth(), 1).toISOString();
                 
-                // STRICT RULE: End of today. No future events.
-                const endOfToday = new Date();
-                endOfToday.setHours(23, 59, 59, 999);
-                
+                // STRICT RULE: Only pull events that have already completed by this exact moment.
+                // We use current 'now' as timeMax to ignore scheduled future events.
                 const response = await window.gapi.client.calendar.events.list({
                     'calendarId': 'primary',
                     'timeMin': firstDayOfMonth,
-                    'timeMax': endOfToday.toISOString(),
+                    'timeMax': now.toISOString(),
                     'showDeleted': false,
                     'singleEvents': true,
                     'maxResults': 250,
@@ -778,11 +780,17 @@
                 msg.innerText = `Sync successful. ${importedCount} events processed.`;
             } catch (error) {
                 console.error('Calendar Sync Error:', error);
-                msg.innerText = 'Failed to fetch calendar data.';
+                
+                // Gracefully handle the 403 API restriction error
+                if (error.result && error.result.error && error.result.error.code === 403) {
+                    msg.innerText = 'API Key blocked this URL. Test on your live Netlify site!';
+                } else {
+                    msg.innerText = 'Failed to fetch calendar data.';
+                }
             } finally {
                 document.getElementById('btn-sync').disabled = false;
                 document.getElementById('icon-sync').classList.remove('animate-spin');
-                setTimeout(() => msg.classList.add('hidden'), 5000);
+                setTimeout(() => msg.classList.add('hidden'), 6000);
             }
         }
     </script>
