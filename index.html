@@ -25,7 +25,7 @@
                     colors: {
                         ash: '#e8e7e7',
                         void: '#121212',
-                        monolith: '#f28d35',
+                        monolith: '#FF7A00', // UPDATED: Brighter, more vibrant orange
                         darkPanel: '#1c1c1c',
                     },
                     fontFamily: {
@@ -38,6 +38,9 @@
     </script>
 
     <style>
+        :root { color-scheme: light; }
+        .dark { color-scheme: dark; }
+
         .custom-scroll::-webkit-scrollbar { width: 4px; }
         .custom-scroll::-webkit-scrollbar-track { background: transparent; }
         .custom-scroll::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.1); border-radius: 4px; }
@@ -52,6 +55,14 @@
         .font-fraunces { letter-spacing: -0.03em; }
         body, div, section, header, footer, input, select, button, p, span, h1, h2, h3, h4 {
             transition: background-color 0.4s ease, border-color 0.4s ease, color 0.4s ease;
+        }
+
+        select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23FF7A00' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.5rem center;
+            background-size: 1.2em;
+            padding-right: 2.5rem;
         }
     </style>
 </head>
@@ -124,20 +135,20 @@
                             <div class="space-y-2">
                                 <label class="text-[10px] font-black opacity-50 uppercase tracking-widest" data-i18n="label_type">Type</label>
                                 <select id="e-type" class="w-full bg-transparent border-b border-black/10 dark:border-white/10 py-3 font-bold text-base outline-none focus:border-monolith appearance-none dark:text-ash">
-                                    <option value="client" data-i18n="opt_contact">Clinical Contact</option>
-                                    <option value="super" data-i18n="opt_super">Clinical Supervision</option>
-                                    <option value="therapy" data-i18n="opt_therapy">Personal Therapy</option>
-                                    <option value="cpd" data-i18n="opt_cpd">CPD / Training</option>
+                                    <option value="client" class="dark:bg-darkPanel" data-i18n="opt_contact">Client</option>
+                                    <option value="super" class="dark:bg-darkPanel" data-i18n="opt_super">Supervision</option>
+                                    <option value="therapy" class="dark:bg-darkPanel" data-i18n="opt_therapy">Personal Therapy</option>
+                                    <option value="cpd" class="dark:bg-darkPanel" data-i18n="opt_cpd">CPD / Training</option>
                                 </select>
                             </div>
                             <div class="grid grid-cols-2 gap-6">
                                 <div class="space-y-2">
                                     <label class="text-[10px] font-black opacity-50 uppercase tracking-widest" data-i18n="label_date">Date</label>
-                                    <input id="e-date" type="date" class="w-full bg-transparent border-b border-black/10 dark:border-white/10 py-3 font-bold text-sm outline-none">
+                                    <input id="e-date" type="date" class="w-full bg-transparent border-b border-black/10 dark:border-white/10 py-3 font-bold text-sm outline-none focus:border-monolith">
                                 </div>
                                 <div class="space-y-2">
                                     <label class="text-[10px] font-black opacity-50 uppercase tracking-widest" data-i18n="label_hours">Hours</label>
-                                    <input id="e-hours" type="number" step="0.5" placeholder="0.0" class="w-full bg-transparent border-b border-black/10 dark:border-white/10 py-3 font-bold text-base outline-none">
+                                    <input id="e-hours" type="number" step="0.5" placeholder="0.0" class="w-full bg-transparent border-b border-black/10 dark:border-white/10 py-3 font-bold text-base outline-none focus:border-monolith">
                                 </div>
                             </div>
                             <button type="submit" class="w-full py-5 border-2 border-black/10 dark:border-white/10 hover:border-monolith hover:text-monolith font-black uppercase tracking-[0.3em] text-[11px] flex justify-center items-center gap-3 transition-all">
@@ -183,15 +194,15 @@
                             </div>
                             <div class="space-y-2">
                                 <label class="text-[10px] font-black opacity-80 uppercase tracking-widest" data-i18n="label_anchor">Cycle Anchor Date</label>
-                                <input id="p-anchor" type="date" onchange="updateSettings()" onblur="updateSettings()" class="w-full bg-transparent border-b border-black/10 dark:border-white/10 py-3 font-bold text-sm outline-none">
+                                <input id="p-anchor" type="date" onchange="updateSettings()" onblur="updateSettings()" class="w-full bg-transparent border-b border-black/10 dark:border-white/10 py-3 font-bold text-sm outline-none focus:border-monolith">
                             </div>
                             <div class="space-y-2">
                                 <label class="text-[10px] font-black opacity-80 uppercase tracking-widest" data-i18n="label_lang">System Language</label>
                                 <select id="p-lang" onchange="updateSettings()" class="w-full bg-transparent border-b border-black/10 dark:border-white/10 py-3 font-bold text-sm outline-none dark:text-ash">
-                                    <option value="en">English</option>
-                                    <option value="es">Español</option>
-                                    <option value="fr">Français</option>
-                                    <option value="pl">Polski</option>
+                                    <option value="en" class="dark:bg-darkPanel">English</option>
+                                    <option value="es" class="dark:bg-darkPanel">Español</option>
+                                    <option value="fr" class="dark:bg-darkPanel">Français</option>
+                                    <option value="pl" class="dark:bg-darkPanel">Polski</option>
                                 </select>
                             </div>
                         </div>
@@ -201,10 +212,10 @@
 
             <main class="lg:col-span-8 flex flex-col gap-10">
                 <div class="grid grid-cols-2 lg:grid-cols-4 bg-white dark:bg-darkPanel border-t border-l border-black/10 dark:border-white/5 shadow-sm">
-                    <div class="p-6 md:p-10 border-r border-b border-black/10 dark:border-white/5"><span class="text-[10px] font-black uppercase tracking-[0.3em] opacity-30 block mb-4" data-i18n="stat_contact">Contact</span><div id="val-client" class="text-5xl md:text-7xl font-black tracking-tighter tabular-nums">0.0</div></div>
-                    <div class="p-6 md:p-10 border-r border-b border-black/10 dark:border-white/5"><span class="text-[10px] font-black uppercase tracking-[0.3em] opacity-30 block mb-4" data-i18n="stat_super">Supervision</span><div id="val-super" class="text-5xl md:text-7xl font-black tracking-tighter tabular-nums">0.0</div></div>
-                    <div class="p-6 md:p-10 border-r border-b border-black/10 dark:border-white/5"><span class="text-[10px] font-black uppercase tracking-[0.3em] opacity-30 block mb-4" data-i18n="stat_therapy">Therapy</span><div id="val-therapy" class="text-5xl md:text-7xl font-black tracking-tighter tabular-nums">0.0</div></div>
-                    <div class="p-6 md:p-10 border-r border-b border-black/10 dark:border-white/5"><span class="text-[10px] font-black uppercase tracking-[0.3em] opacity-30 block mb-4" data-i18n="stat_cpd">CPD</span><div id="val-cpd" class="text-5xl md:text-7xl font-black tracking-tighter tabular-nums">0.0</div></div>
+                    <div class="p-6 md:p-8 border-r border-b border-black/10 dark:border-white/5"><span class="text-[10px] font-black uppercase tracking-[0.3em] opacity-30 block mb-4" data-i18n="stat_contact">Client</span><div id="val-client" class="text-4xl md:text-6xl font-black tracking-tighter tabular-nums truncate">0.0</div></div>
+                    <div class="p-6 md:p-8 border-r border-b border-black/10 dark:border-white/5"><span class="text-[10px] font-black uppercase tracking-[0.3em] opacity-30 block mb-4" data-i18n="stat_super">Supervision</span><div id="val-super" class="text-4xl md:text-6xl font-black tracking-tighter tabular-nums truncate">0.0</div></div>
+                    <div class="p-6 md:p-8 border-r border-b border-black/10 dark:border-white/5"><span class="text-[10px] font-black uppercase tracking-[0.3em] opacity-30 block mb-4" data-i18n="stat_therapy">Therapy</span><div id="val-therapy" class="text-4xl md:text-6xl font-black tracking-tighter tabular-nums truncate">0.0</div></div>
+                    <div class="p-6 md:p-8 border-r border-b border-black/10 dark:border-white/5"><span class="text-[10px] font-black uppercase tracking-[0.3em] opacity-30 block mb-4" data-i18n="stat_cpd">CPD</span><div id="val-cpd" class="text-4xl md:text-6xl font-black tracking-tighter tabular-nums truncate">0.0</div></div>
                 </div>
 
                 <div class="space-y-6">
@@ -229,23 +240,43 @@
             </main>
         </div>
 
-        <footer class="mt-20 pt-10 border-t border-black/10 dark:border-white/10 flex flex-col md:flex-row justify-between items-center gap-8 no-print opacity-50">
-            <a href="https://builtbyliam.netlify.app/" target="_blank" class="text-lg font-black uppercase tracking-[0.4em] text-monolith" data-i18n="brand">Built By Liam</a>
-            <div class="flex gap-6 items-center">
-                <a href="https://buymeacoffee.com/BUILT_BY_LIAM" target="_blank" class="text-[10px] font-black uppercase tracking-[0.3em] flex items-center gap-2"><i data-lucide="coffee" class="w-3.5 h-3.5"></i> <span data-i18n="btn_coffee">Coffee</span></a>
+        <footer class="mt-20 pt-10 border-t border-black/10 dark:border-white/10 flex flex-col md:flex-row justify-between items-center gap-8 no-print">
+            <div class="flex flex-col items-center md:items-start gap-4">
+                <a href="https://builtbyliam.netlify.app/" target="_blank" class="text-xl font-black uppercase tracking-[0.4em] text-monolith hover:scale-105 transition-transform" data-i18n="brand">Built By Liam</a>
+                <button onclick="handleShare()" class="text-[11px] font-black opacity-50 hover:opacity-100 hover:text-monolith transition-all flex items-center gap-2 uppercase tracking-[0.4em]">
+                    <i data-lucide="share-2" class="w-3.5 h-3.5"></i> <span data-i18n="btn_share">Share</span>
+                </button>
+            </div>
+            
+            <div class="flex gap-8 items-center opacity-40 hover:opacity-100 transition-opacity">
+                <a href="https://buymeacoffee.com/BUILT_BY_LIAM" target="_blank" class="text-[10px] font-black uppercase tracking-[0.3em] flex items-center gap-2"><i data-lucide="coffee" class="w-3.5 h-3.5 text-monolith"></i> <span data-i18n="btn_coffee">Coffee</span></a>
                 <span class="w-1.5 h-1.5 bg-current rounded-full"></span>
                 <button onclick="openPrivacyModal()" class="text-[11px] font-black uppercase tracking-[0.4em]" data-i18n="btn_privacy">Privacy</button>
             </div>
         </footer>
     </div>
 
+    <!-- PRIVACY / DATA MODAL -->
     <div id="privacy-modal" class="fixed inset-0 bg-void/90 z-50 hidden flex items-center justify-center p-6 opacity-0 transition-opacity duration-300" onclick="closePrivacyModal()">
         <div class="bg-white dark:bg-darkPanel p-8 md:p-12 rounded-sm shadow-2xl max-w-lg w-full relative" onclick="event.stopPropagation()">
             <h3 class="text-sm font-black uppercase tracking-[0.4em] opacity-40 mb-6 flex items-center gap-3"><i data-lucide="shield" class="w-5 h-5 text-monolith"></i> Data & Privacy</h3>
             <p class="text-[11px] font-bold opacity-70 leading-relaxed tracking-widest uppercase mb-8" data-i18n="privacy_stmt">Local-first app. All data stays in your browser.</p>
-            <div class="flex gap-4">
-                <button onclick="downloadBackup()" class="w-full py-4 border-2 border-black/10 hover:border-monolith text-xs font-black uppercase tracking-widest transition-all">Export JSON</button>
-                <label class="w-full py-4 border-2 border-black/10 hover:border-monolith text-xs font-black uppercase tracking-widest transition-all flex justify-center items-center cursor-pointer">Restore JSON<input type="file" accept=".json" class="hidden" onchange="restoreBackup(event)"></label>
+            
+            <div class="space-y-8">
+                <div class="space-y-4">
+                    <p class="text-[10px] font-black opacity-30 uppercase tracking-[0.3em]">Management</p>
+                    <div class="flex gap-4">
+                        <button onclick="downloadBackup()" class="w-full py-4 border-2 border-black/10 hover:border-monolith text-[10px] font-black uppercase tracking-widest transition-all">Export JSON</button>
+                        <label class="w-full py-4 border-2 border-black/10 hover:border-monolith text-[10px] font-black uppercase tracking-widest transition-all flex justify-center items-center cursor-pointer">Restore JSON<input type="file" accept=".json" class="hidden" onchange="restoreBackup(event)"></label>
+                    </div>
+                </div>
+
+                <div class="space-y-4 pt-8 border-t border-black/5 dark:border-white/5">
+                    <p class="text-[10px] font-black opacity-30 uppercase tracking-[0.3em]">Danger Zone</p>
+                    <button id="btn-reset" onclick="handleReset()" class="w-full py-5 bg-rose-500/10 text-rose-500 hover:bg-rose-500 hover:text-white text-[10px] font-black uppercase tracking-[0.4em] transition-all">
+                        Reset All Data
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -257,12 +288,11 @@
                 title_part1: "Clinical", title_part2: "Log.",
                 tab_month: "Current Month", tab_cycle: "Active Cycle", tab_all: "All Time",
                 header_sync: "Sync Engine", header_entry: "New Entry", header_params: "Parameters",
-                btn_sync: "Sync Calendar", btn_add: "Add Entry", btn_export: "Export", btn_print: "Print PDF", btn_coffee: "Buy Me a Coffee", btn_privacy: "Data & Privacy",
+                btn_sync: "Sync Calendar", btn_add: "Add Entry", btn_export: "Export", btn_print: "Print PDF", btn_coffee: "Buy Me a Coffee", btn_privacy: "Privacy", btn_share: "Share",
                 label_type: "Type", label_date: "Date", label_hours: "Hours", label_lang: "Language", label_balance: "Balance Ratio", label_keywords: "Sync Keywords", label_trainee: "Trainee Mandate", label_anchor: "Anchor Date",
-                opt_contact: "Clinical Contact", opt_super: "Clinical Supervision", opt_therapy: "Personal Therapy", opt_cpd: "CPD / Training",
-                stat_contact: "Contact", stat_super: "Super", stat_therapy: "Therapy", stat_cpd: "CPD",
+                opt_contact: "Client", opt_super: "Supervision", opt_therapy: "Personal Therapy", opt_cpd: "CPD / Training",
+                stat_contact: "Client", stat_super: "Supervision", stat_therapy: "Therapy", stat_cpd: "CPD",
                 balance_title: "Balance", health_label: "Health Status", active_records: "Active Records",
-                sync_info_1: "Scanning keywords.", strict_rule: "STRICT RULE:", sync_info_2: "Future ignored.",
                 privacy_stmt: "Local-first storage.", awaiting: "AWAITING DATA...", verified: "Balance verified.",
                 deficit: "Deficit: {h} hrs supervision for {r} ratio.", mandate: "Required: 2 supervision sessions/mo (Current: {s})."
             },
@@ -271,10 +301,10 @@
                 title_part1: "Dziennik", title_part2: "Kliniczny.",
                 tab_month: "Bieżący Miesiąc", tab_cycle: "Cykl Akredytacji", tab_all: "Wszystkie Dane",
                 header_sync: "Synchronizacja", header_entry: "Nowy Wpis", header_params: "Parametry",
-                btn_sync: "Synchronizuj Kalendarz", btn_add: "Dodaj Wpis", btn_export: "Eksportuj", btn_print: "Drukuj PDF", btn_coffee: "Kup mi kawę", btn_privacy: "Prywatność",
+                btn_sync: "Synchronizuj Kalendarz", btn_add: "Dodaj Wpis", btn_export: "Eksportuj", btn_print: "Drukuj PDF", btn_coffee: "Kup mi kawę", btn_privacy: "Prywatność", btn_share: "Udostępnij",
                 label_type: "Typ", label_date: "Data", label_hours: "Godziny", label_lang: "Język", label_balance: "Proporcje", label_keywords: "Słowa Kluczowe", label_trainee: "Obowiązek Stażysty", label_anchor: "Data Startowa",
-                opt_contact: "Kontakt z Klientem", opt_super: "Superwizja", opt_therapy: "Terapia Własna", opt_cpd: "Rozwój (CPD)",
-                stat_contact: "Kontakt", stat_super: "Super", stat_therapy: "Terapia", stat_cpd: "CPD",
+                opt_contact: "Klient", opt_super: "Superwizja", opt_therapy: "Terapia Własna", opt_cpd: "Rozwój (CPD)",
+                stat_contact: "Klient", stat_super: "Superwizja", stat_therapy: "Terapia", stat_cpd: "CPD",
                 balance_title: "Bilans", health_label: "Status Operacyjny", active_records: "Aktywne Wpisy",
                 privacy_stmt: "Dane lokalne w przeglądarce.", awaiting: "OCZEKIWANIE...", verified: "Bilans poprawny.",
                 deficit: "Brak: {h} godz. superwizji dla ratio {r}.", mandate: "Wymagane: 2 sesje superwizji miesięcznie (Obecnie: {s})."
@@ -284,10 +314,10 @@
                 title_part1: "Registro", title_part2: "Clínico.",
                 tab_month: "Mes Actual", tab_cycle: "Ciclo Activo", tab_all: "Todo",
                 header_sync: "Sincronizar", header_entry: "Nueva Entrada", header_params: "Parámetros",
-                btn_sync: "Sincronizar", btn_add: "Añadir", btn_export: "Exportar", btn_print: "PDF", btn_coffee: "Invítame a un café", btn_privacy: "Privacidad",
+                btn_sync: "Sincronizar", btn_add: "Añadir", btn_export: "Exportar", btn_print: "PDF", btn_coffee: "Invítame a un café", btn_privacy: "Privacidad", btn_share: "Compartir",
                 label_type: "Tipo", label_date: "Fecha", label_hours: "Horas", label_lang: "Idioma", label_balance: "Balance Ratio", label_keywords: "Palabras Clave", label_trainee: "Mandato Pasante", label_anchor: "Fecha Ancla",
-                opt_contact: "Contacto Clínico", opt_super: "Supervisión", opt_therapy: "Terapia Personal", opt_cpd: "CPD / Formación",
-                stat_contact: "Contacto", stat_super: "Súper", stat_therapy: "Terapia", stat_cpd: "CPD",
+                opt_contact: "Cliente", opt_super: "Supervisión", opt_therapy: "Terapia Personal", opt_cpd: "CPD / Formación",
+                stat_contact: "Cliente", stat_super: "Supervisión", stat_therapy: "Terapia", stat_cpd: "CPD",
                 balance_title: "Balance", health_label: "Estado Operativo", active_records: "Registros",
                 privacy_stmt: "Datos locales.", awaiting: "ESPERANDO...", verified: "Balance verificado.",
                 deficit: "Déficit: {h} hrs para ratio {r}.", mandate: "Mínimo: 2 sesiones de supervisión al mes (Actual: {s})."
@@ -297,10 +327,10 @@
                 title_part1: "Journal", title_part2: "Clinique.",
                 tab_month: "Mois en cours", tab_cycle: "Cycle Actif", tab_all: "Tout",
                 header_sync: "Synchro", header_entry: "Nouvelle entrée", header_params: "Paramètres",
-                btn_sync: "Synchroniser", btn_add: "Ajouter", btn_export: "Exporter", btn_print: "PDF", btn_coffee: "Offrir un café", btn_privacy: "Données",
+                btn_sync: "Synchroniser", btn_add: "Ajouter", btn_export: "Exporter", btn_print: "PDF", btn_coffee: "Offrir un café", btn_privacy: "Confidentialité", btn_share: "Partager",
                 label_type: "Type", label_date: "Date", label_hours: "Heures", label_lang: "Langue", label_balance: "Équilibre", label_keywords: "Mots-clés", label_trainee: "Mandat Stagiaire", label_anchor: "Date Ancre",
-                opt_contact: "Contact Clinique", opt_super: "Supervision", opt_therapy: "Thérapie Personnelle", opt_cpd: "Formation / CPD",
-                stat_contact: "Contact", stat_super: "Súper", stat_therapy: "Thérapie", stat_cpd: "CPD",
+                opt_contact: "Client", opt_super: "Supervision", opt_therapy: "Thérapie Personnelle", opt_cpd: "Formation / CPD",
+                stat_contact: "Client", stat_super: "Supervision", stat_therapy: "Thérapie", stat_cpd: "CPD",
                 balance_title: "Équilibre", health_label: "Statut", active_records: "Archives",
                 privacy_stmt: "Données locales.", awaiting: "EN ATTENTE...", verified: "Équilibre vérifié.",
                 deficit: "Déficit: {h} hrs de supervision pour ratio {r}.", mandate: "Requis: 2 sessions par mois (Actuel: {s})."
@@ -313,11 +343,13 @@
             entries: JSON.parse(localStorage.getItem('liam_data')) || [],
             settings: JSON.parse(localStorage.getItem('liam_set')) || { 
                 lang: 'en', anchor: todayStr, goal: 40, isTrainee: false, ratioSuper: 1, ratioClient: 6, 
-                keywords: { client: 'client, session', super: 'supervision', therapy: 'therapy', cpd: 'cpd, training' }
+                keywords: { client: 'client, session', super: 'supervision', therapy: 'therapy', cpd: 'cpd' }
             },
             lastSync: localStorage.getItem('liam_sync_time') || null,
             displayLimit: 25
         };
+
+        let resetLock = false;
 
         function translateUI() {
             const d = i18n[state.settings.lang] || i18n.en;
@@ -386,7 +418,7 @@
                     </div>
                     <div class="flex items-center gap-8">
                         <p class="text-3xl font-black tabular-nums">${e.hours.toFixed(1)}<span class="text-xs ml-1.5 opacity-30">H</span></p>
-                        <button onclick="deleteEntry(${e.id})" class="opacity-0 group-hover:opacity-100 text-black/30 hover:text-rose-500 transition-all"><i data-lucide="trash-2" class="w-5 h-5"></i></button>
+                        <button onclick="deleteEntry('${e.id}')" class="opacity-0 group-hover:opacity-100 text-black/30 hover:text-rose-500 transition-all"><i data-lucide="trash-2" class="w-5 h-5"></i></button>
                     </div>
                 </div>
             `).join('') : `<div class="py-24 text-center opacity-20 text-xs font-black tracking-widest">NO RECORDS</div>`;
@@ -423,7 +455,33 @@
             render();
         }
 
-        function deleteEntry(id) { if(confirm("Remove?")) { state.entries = state.entries.filter(e => e.id !== id); localStorage.setItem('liam_data', JSON.stringify(state.entries)); render(); } }
+        function deleteEntry(id) { 
+            if(confirm("Permanently delete this record?")) { 
+                state.entries = state.entries.filter(e => String(e.id) !== String(id)); 
+                localStorage.setItem('liam_data', JSON.stringify(state.entries)); 
+                render(); 
+            } 
+        }
+
+        function handleReset() {
+            const btn = document.getElementById('btn-reset');
+            if (!resetLock) {
+                resetLock = true;
+                btn.innerText = "Are you absolutely sure? Click again.";
+                btn.classList.add('bg-rose-500', 'text-white');
+                setTimeout(() => {
+                    resetLock = false;
+                    btn.innerText = "Reset All Data";
+                    btn.classList.remove('bg-rose-500', 'text-white');
+                }, 4000);
+            } else {
+                localStorage.removeItem('liam_data');
+                localStorage.removeItem('liam_set');
+                localStorage.removeItem('liam_sync_time');
+                location.reload();
+            }
+        }
+
         function toggleTheme() { const isDark = document.documentElement.classList.contains('dark'); localStorage.setItem('liam_theme', isDark ? 'light' : 'dark'); applyTheme(); }
         function applyTheme() { const theme = localStorage.getItem('liam_theme') || 'dark'; const icon = document.getElementById('icon-theme'); if (theme === 'light') { document.documentElement.classList.remove('dark'); icon.setAttribute('data-lucide', 'moon'); } else { document.documentElement.classList.add('dark'); icon.setAttribute('data-lucide', 'sun'); } lucide.createIcons(); }
         function setView(v) { state.view = v; document.querySelectorAll('[id^="ind-"]').forEach(el => el.classList.add('hidden')); document.getElementById('ind-'+v).classList.remove('hidden'); render(); }
@@ -451,9 +509,36 @@
         function downloadBackup() { const blob = new Blob([JSON.stringify({entries: state.entries, settings: state.settings})], { type: 'application/json' }); const url = window.URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'clinical_log_backup.json'; a.click(); }
         function restoreBackup(e) { const reader = new FileReader(); reader.onload = function(ev) { const data = JSON.parse(ev.target.result); state.entries = data.entries || state.entries; state.settings = data.settings || state.settings; localStorage.setItem('liam_data', JSON.stringify(state.entries)); localStorage.setItem('liam_set', JSON.stringify(state.settings)); location.reload(); }; reader.readAsText(e.target.files[0]); }
         function exportCSV() { const csv = "Date,Type,Hours\n" + state.entries.map(e => `${e.date},${e.type},${e.hours}`).join("\n"); const blob = new Blob([csv], { type: 'text/csv' }); const url = window.URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'clinical_log.csv'; a.click(); }
-        async function handleShare() { const t = `Clinical Log: ${document.getElementById('val-ratio').innerText}% Balance.`; if (navigator.share) await navigator.share({ title: 'Clinical Log', text: t }); }
+
+        async function handleShare() {
+            const clientVal = document.getElementById('val-client').innerText;
+            const superVal = document.getElementById('val-super').innerText;
+            const ratioVal = document.getElementById('val-ratio').innerText;
+            const summary = `Clinical Log Summary:\nClient: ${clientVal} hrs\nSupervision: ${superVal} hrs\nBalance: ${ratioVal}%`;
+
+            if (navigator.share) {
+                try {
+                    await navigator.share({
+                        title: 'Clinical Log Summary',
+                        text: summary
+                    });
+                } catch (err) {}
+            } else {
+                const textArea = document.createElement("textarea");
+                textArea.value = summary;
+                document.body.appendChild(textArea);
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                    const msg = document.getElementById('msg-sync');
+                    msg.innerText = "Summary copied to clipboard!";
+                    msg.classList.remove('hidden');
+                    setTimeout(() => msg.classList.add('hidden'), 3000);
+                } catch (err) {}
+                document.body.removeChild(textArea);
+            }
+        }
         
-        // --- GOOGLE CALENDAR LOGIC ---
         const GCAL_CLIENT_ID = '1096186568274-ba5t2npnha0gt0latstffcejbcfgfgiv.apps.googleusercontent.com';
         const GCAL_API_KEY = 'AIzaSyDqE4LzS7OkBfzvoVEfCOGSS2Pk10MmY4s';
         const DISCOVERY_DOC = 'https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest';
@@ -494,7 +579,6 @@
             msg.innerText = 'Scanning from Anchor Date...';
             try {
                 const now = new Date();
-                // REPAIRED: Scan now starts from Anchor Date instead of just this month
                 const timeMin = new Date(state.settings.anchor).toISOString();
                 
                 const response = await window.gapi.client.calendar.events.list({
@@ -508,7 +592,6 @@
                 });
 
                 const events = response.result.items;
-                let importedCount = 0;
                 const newEntries = [];
 
                 const getKeywords = (str) => str.split(',').map(k => k.trim().toLowerCase()).filter(k => k.length > 0);
@@ -540,13 +623,12 @@
 
                         if (hours > 0) {
                             newEntries.push({ id: `gcal-${ev.id}`, type, date: dateStr, hours: parseFloat(hours.toFixed(1)) });
-                            importedCount++;
                         }
                     }
                 });
 
-                const existingIds = new Set(state.entries.map(e => e.id));
-                const uniqueNew = newEntries.filter(e => !existingIds.has(e.id));
+                const existingIds = new Set(state.entries.map(e => String(e.id)));
+                const uniqueNew = newEntries.filter(e => !existingIds.has(String(e.id)));
                 state.entries = [...uniqueNew, ...state.entries];
                 localStorage.setItem('liam_data', JSON.stringify(state.entries));
                 state.lastSync = new Date().toISOString();
