@@ -57,7 +57,11 @@
             transition: background-color 0.4s ease, border-color 0.4s ease, color 0.4s ease;
         }
 
+        /* FIXED: Hardened rule to absolutely destroy native browser chevrons on all devices */
         select {
+            -webkit-appearance: none !important;
+            -moz-appearance: none !important;
+            appearance: none !important;
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23FF7A00' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
             background-repeat: no-repeat;
             background-position: right 0.5rem center;
@@ -134,7 +138,7 @@
                         <form onsubmit="addEntry(event)" class="space-y-6">
                             <div class="space-y-2">
                                 <label class="text-[10px] font-black opacity-50 uppercase tracking-widest" data-i18n="label_type">Type</label>
-                                <select id="e-type" class="w-full bg-transparent border-b border-black/10 dark:border-white/10 py-3 font-bold text-base outline-none focus:border-monolith appearance-none dark:text-ash">
+                                <select id="e-type" class="w-full bg-transparent border-b border-black/10 dark:border-white/10 py-3 font-bold text-base outline-none focus:border-monolith dark:text-ash">
                                     <option value="client" class="dark:bg-darkPanel" data-i18n="opt_contact">Client</option>
                                     <option value="super" class="dark:bg-darkPanel" data-i18n="opt_super">Supervision</option>
                                     <option value="therapy" class="dark:bg-darkPanel" data-i18n="opt_therapy">Personal Therapy</option>
@@ -194,16 +198,15 @@
                             </div>
                             <div class="space-y-2">
                                 <label class="text-[10px] font-black opacity-80 uppercase tracking-widest" data-i18n="label_anchor">Cycle Anchor Date</label>
-                                <input id="p-anchor" type="date" onchange="updateSettings()" onblur="updateSettings()" class="w-full bg-transparent border-b border-black/10 dark:border-white/10 py-3 font-bold text-sm outline-none focus:border-monolith">
+                                <input id="p-anchor" type="date" onchange="updateSettings()" class="w-full bg-transparent border-b border-black/10 dark:border-white/10 py-3 font-bold text-sm outline-none focus:border-monolith">
                             </div>
                             <div class="space-y-2">
                                 <label class="text-[10px] font-black opacity-80 uppercase tracking-widest" data-i18n="label_history">Full Sync Start Year</label>
-                                <input id="p-history-year" type="number" min="1990" max="2100" placeholder="2024" onchange="updateSettings()" onblur="updateSettings()" class="w-full bg-transparent border-b border-black/10 dark:border-white/10 py-3 font-bold text-sm outline-none focus:border-monolith text-monolith">
+                                <input id="p-history-year" type="number" min="1990" max="2100" placeholder="2024" onchange="updateSettings()" class="w-full bg-transparent border-b border-black/10 dark:border-white/10 py-3 font-bold text-sm outline-none focus:border-monolith text-monolith">
                             </div>
                             <div class="space-y-2">
                                 <label class="text-[10px] font-black opacity-80 uppercase tracking-widest" data-i18n="label_lang">System Language</label>
-                                <!-- FIXED: Added 'appearance-none' and 'cursor-pointer' to hide native double chevron -->
-                                <select id="p-lang" onchange="updateSettings()" class="w-full bg-transparent border-b border-black/10 dark:border-white/10 py-3 font-bold text-sm outline-none appearance-none cursor-pointer dark:text-ash">
+                                <select id="p-lang" onchange="updateSettings()" class="w-full bg-transparent border-b border-black/10 dark:border-white/10 py-3 font-bold text-sm outline-none dark:text-ash">
                                     <option value="en" class="dark:bg-darkPanel">English</option>
                                     <option value="es" class="dark:bg-darkPanel">Español</option>
                                     <option value="fr" class="dark:bg-darkPanel">Français</option>
@@ -211,6 +214,11 @@
                                 </select>
                             </div>
                         </div>
+
+                        <!-- EXPLICIT SAVE BUTTON -->
+                        <button id="btn-save-params" onclick="handleSaveParams()" class="w-full py-4 border-2 border-black/10 dark:border-white/10 hover:border-monolith hover:text-monolith font-black uppercase tracking-[0.3em] text-[10px] transition-all mt-4" data-i18n="btn_save_params">
+                            Save Parameters
+                        </button>
                     </div>
                 </section>
             </aside>
@@ -295,6 +303,7 @@
                 header_sync: "Sync Engine", header_entry: "New Entry", header_params: "Parameters",
                 btn_sync: "Sync Calendar", btn_add: "Add Entry", btn_export: "Export", btn_print: "Print PDF", btn_coffee: "Buy Me a Coffee", btn_privacy: "Privacy", btn_share: "Share",
                 label_type: "Type", label_date: "Date", label_hours: "Hours", label_lang: "Language", label_balance: "Balance Ratio", label_keywords: "Sync Keywords", label_trainee: "Trainee Mandate", label_anchor: "Anchor Date", label_history: "Full Sync Start Year",
+                btn_save_params: "Save Parameters", msg_saved: "SAVED ✓",
                 opt_contact: "Client", opt_super: "Supervision", opt_therapy: "Personal Therapy", opt_cpd: "CPD / Training",
                 stat_contact: "Client", stat_super: "Supervision", stat_therapy: "Therapy", stat_cpd: "CPD",
                 balance_title: "Balance", health_label: "Health Status", active_records: "Active Records",
@@ -308,6 +317,7 @@
                 header_sync: "Synchronizacja", header_entry: "Nowy Wpis", header_params: "Parametry",
                 btn_sync: "Synchronizuj Kalendarz", btn_add: "Dodaj Wpis", btn_export: "Eksportuj", btn_print: "Drukuj PDF", btn_coffee: "Kup mi kawę", btn_privacy: "Prywatność", btn_share: "Udostępnij",
                 label_type: "Typ", label_date: "Data", label_hours: "Godziny", label_lang: "Język", label_balance: "Proporcje", label_keywords: "Słowa Kluczowe", label_trainee: "Obowiązek Stażysty", label_anchor: "Data Startowa", label_history: "Pełny Rok Startowy Sync",
+                btn_save_params: "Zapisz Parametry", msg_saved: "ZAPISANO ✓",
                 opt_contact: "Client", opt_super: "Superwizja", opt_therapy: "Terapia Własna", opt_cpd: "Rozwój (CPD)",
                 stat_contact: "Client", stat_super: "Superwizja", stat_therapy: "Terapia", stat_cpd: "CPD",
                 balance_title: "Bilans", health_label: "Status Operacyjny", active_records: "Aktywne Wpisy",
@@ -321,6 +331,7 @@
                 header_sync: "Sincronizar", header_entry: "Nueva Entrada", header_params: "Parámetros",
                 btn_sync: "Sincronizar", btn_add: "Añadir", btn_export: "Exportar", btn_print: "PDF", btn_coffee: "Invítame a un café", btn_privacy: "Privacidad", btn_share: "Compartir",
                 label_type: "Tipo", label_date: "Fecha", label_hours: "Horas", label_lang: "Idioma", label_balance: "Balance Ratio", label_keywords: "Palabras Clave", label_trainee: "Mandato Pasante", label_anchor: "Fecha Ancla", label_history: "Año de Sincronización",
+                btn_save_params: "Guardar Parámetros", msg_saved: "GUARDADO ✓",
                 opt_contact: "Client", opt_super: "Supervisión", opt_therapy: "Terapia Personal", opt_cpd: "CPD / Formación",
                 stat_contact: "Client", stat_super: "Supervisión", stat_therapy: "Terapia", stat_cpd: "CPD",
                 balance_title: "Balance", health_label: "Estado Operativo", active_records: "Registros",
@@ -334,6 +345,7 @@
                 header_sync: "Synchro", header_entry: "Nouvelle entrée", header_params: "Paramètres",
                 btn_sync: "Synchroniser", btn_add: "Ajouter", btn_export: "Exporter", btn_print: "PDF", btn_coffee: "Offrir un café", btn_privacy: "Confidentialité", btn_share: "Partager",
                 label_type: "Type", label_date: "Date", label_hours: "Heures", label_lang: "Langue", label_balance: "Équilibre", label_keywords: "Mots-clés", label_trainee: "Mandat Stagiaire", label_anchor: "Date Ancre", label_history: "Année de Synchro",
+                btn_save_params: "Enregistrer", msg_saved: "ENREGISTRÉ ✓",
                 opt_contact: "Client", opt_super: "Supervision", opt_therapy: "Thérapie Personnelle", opt_cpd: "Formation / CPD",
                 stat_contact: "Client", stat_super: "Supervision", stat_therapy: "Thérapie", stat_cpd: "CPD",
                 balance_title: "Équilibre", health_label: "Statut", active_records: "Archives",
@@ -448,6 +460,19 @@
             };
             localStorage.setItem('liam_set', JSON.stringify(state.settings));
             render();
+        }
+
+        // FIXED: Added an explicit save button function for clear user feedback
+        function handleSaveParams() {
+            updateSettings();
+            const btn = document.getElementById('btn-save-params');
+            const d = i18n[state.settings.lang] || i18n.en;
+            btn.innerText = d.msg_saved || "SAVED ✓";
+            btn.classList.add('border-monolith', 'text-monolith');
+            setTimeout(() => {
+                btn.innerText = d.btn_save_params || "Save Parameters";
+                btn.classList.remove('border-monolith', 'text-monolith');
+            }, 2000);
         }
 
         function addEntry(e) {
@@ -583,22 +608,15 @@
 
         async function fetchCalendarEvents() {
             const msg = document.getElementById('msg-sync');
-            const now = new Date();
-            let timeMin;
-
-            if (state.view === 'month') {
-                timeMin = new Date(now.getFullYear(), now.getMonth(), 1).toISOString();
-                msg.innerText = 'Scanning current month...';
-            } else if (state.view === 'cycle') {
-                timeMin = new Date(state.settings.anchor).toISOString();
-                msg.innerText = 'Scanning from Anchor Date...';
-            } else {
-                const startYear = state.settings.historyYear || 2024;
-                timeMin = new Date(startYear, 0, 1).toISOString();
-                msg.innerText = `Scanning all records since ${startYear}...`;
-            }
+            
+            // FIXED: Sync engine ALWAYS downloads full history from the History Year setting
+            // It completely ignores what tab (Month/Cycle/All) you are currently looking at.
+            const startYear = state.settings.historyYear || 2024;
+            const timeMin = new Date(startYear, 0, 1).toISOString();
+            msg.innerText = `Scanning all records since ${startYear}...`;
 
             try {
+                const now = new Date();
                 const response = await window.gapi.client.calendar.events.list({
                     'calendarId': 'primary',
                     'timeMin': timeMin,
