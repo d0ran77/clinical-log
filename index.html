@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Clinical Log | Professional Therapy Hour Tracker</title>
     
-    <!-- FAVICON -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%231c1c1c'/%3E%3Ccircle cx='50' cy='50' r='20' fill='%23FF7A00'/%3E%3C/svg%3E">
-    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%231c1c1c'/%3E%3Ccircle cx='50' cy='50' r='20' fill='%23FF7A00'/%3E%3C/svg%3E">
+    <!-- FAVICON (Updated to Base64 for 100% browser reliability) -->
+    <link id="favicon" rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgcng9IjI0IiBmaWxsPSIjMWMxYzFjIi8+PGNpcmNsZSBjeD0iNTAiIGN5PSI1MCIgcj0iMjAiIGZpbGw9IiNGRjdBMDAiLz48L3N2Zz4=">
+    <link id="apple-touch-icon" rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgcng9IjI0IiBmaWxsPSIjMWMxYzFjIi8+PGNpcmNsZSBjeD0iNTAiIGN5PSI1MCIgcj0iMjAiIGZpbGw9IiNGRjdBMDAiLz48L3N2Zz4=">
 
     <!-- GLOBAL SEO -->
     <meta name="description" content="A premium, secure, local-first clinical log for therapists and counselors. Track client hours, supervision, and CPD balance globally.">
@@ -75,7 +75,6 @@
             transition: background-color 0.4s ease, border-color 0.4s ease, color 0.4s ease;
         }
 
-        /* FIXED: Hardened rule to absolutely destroy native browser chevrons on all devices */
         select {
             -webkit-appearance: none !important;
             -moz-appearance: none !important;
@@ -365,7 +364,8 @@
                 therapy_deficit: "Deficit: {h} hrs personal therapy required.",
                 info_sync: "Imports events automatically from Google Calendar using your custom Keyword Mapping.",
                 info_manual: "Manually log clinical hours to your local secure database.",
-                info_cycle: "Filters the dashboard to only show records within your academic or reporting year."
+                info_cycle: "Filters the dashboard to only show records within your academic or reporting year.",
+                tab_alert: "Don't forget to log your hours!"
             },
             pl: {
                 brand: "Zbudowane Przez Liama", tagline: "Dziennik kliniczny i bilans godzin.",
@@ -384,7 +384,8 @@
                 therapy_deficit: "Brak: {h} godz. terapii własnej.",
                 info_sync: "Automatycznie importuje wydarzenia z Kalendarza Google przy użyciu Twoich Słów Kluczowych.",
                 info_manual: "Ręcznie dodawaj godziny kliniczne do lokalnej, bezpiecznej bazy danych.",
-                info_cycle: "Filtruje pulpit, aby pokazywać tylko wpisy z Twojego roku akademickiego lub raportowego."
+                info_cycle: "Filtruje pulpit, aby pokazywać tylko wpisy z Twojego roku akademickiego lub raportowego.",
+                tab_alert: "Nie zapomnij zanotować godzin!"
             },
             es: {
                 brand: "Creado Por Liam", tagline: "Registro clínico y balance de horas.",
@@ -403,7 +404,8 @@
                 therapy_deficit: "Déficit: se requieren {h} hrs de terapia.",
                 info_sync: "Importa eventos automáticamente desde Google Calendar utilizando tu Mapeo de Palabras Clave.",
                 info_manual: "Registra manualmente las horas clínicas en tu base de datos local y segura.",
-                info_cycle: "Filtra el panel para mostrar solo los registros dentro de tu año académico o de reporte."
+                info_cycle: "Filtra el panel para mostrar solo los registros dentro de tu año académico o de reporte.",
+                tab_alert: "¡No olvides registrar tus horas!"
             },
             fr: {
                 brand: "Par Liam", tagline: "Journal clinique et suivi d'équilibre.",
@@ -422,7 +424,8 @@
                 therapy_deficit: "Déficit: {h} hrs de thérapie requises.",
                 info_sync: "Importe automatiquement les événements de Google Calendar en utilisant vos Mots-clés.",
                 info_manual: "Enregistrez manuellement les heures cliniques dans votre base de données locale sécurisée.",
-                info_cycle: "Filtre le tableau de bord pour n'afficher que les enregistrements de votre année académique ou de référence."
+                info_cycle: "Filtre le tableau de bord pour n'afficher que les enregistrements de votre année académique ou de référence.",
+                tab_alert: "N'oubliez pas vos heures !"
             }
         };
 
@@ -636,6 +639,26 @@
             document.getElementById('k-therapy').value = state.settings.keywords.therapy;
             document.getElementById('k-cpd').value = state.settings.keywords.cpd;
             render();
+            
+            // --- NEW: TAB VISIBILITY ENGINE ---
+            const standardFavicon = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgcng9IjI0IiBmaWxsPSIjMWMxYzFjIi8+PGNpcmNsZSBjeD0iNTAiIGN5PSI1MCIgcj0iMjAiIGZpbGw9IiNGRjdBMDAiLz48L3N2Zz4=";
+            const alertFavicon = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgcng9IjI0IiBmaWxsPSIjRkY3QTAwIi8+PGNpcmNsZSBjeD0iNTAiIGN5PSI1MCIgcj0iMjAiIGZpbGw9IiNmZmZmZmYiLz48L3N2Zz4=";
+            
+            document.addEventListener("visibilitychange", () => {
+                const favicon = document.getElementById("favicon");
+                const appleIcon = document.getElementById("apple-touch-icon");
+                const d = i18n[state.settings.lang] || i18n.en;
+                
+                if (document.hidden) {
+                    document.title = d.tab_alert || "Don't forget to log your hours!";
+                    if (favicon) favicon.href = alertFavicon;
+                    if (appleIcon) appleIcon.href = alertFavicon;
+                } else {
+                    document.title = "Clinical Log | Professional Therapy Hour Tracker";
+                    if (favicon) favicon.href = standardFavicon;
+                    if (appleIcon) appleIcon.href = standardFavicon;
+                }
+            });
         };
 
         function downloadBackup() { const blob = new Blob([JSON.stringify({entries: state.entries, settings: state.settings})], { type: 'application/json' }); const url = window.URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'clinical_log_backup.json'; a.click(); }
