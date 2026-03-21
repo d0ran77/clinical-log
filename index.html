@@ -197,10 +197,30 @@
                                 <input id="p-trainee" type="checkbox" onchange="updateSettings()" class="w-5 h-5 accent-monolith">
                             </div>
                             <div class="space-y-2">
-                                <label class="text-[10px] font-black opacity-80 uppercase tracking-widest" data-i18n="label_anchor">Cycle Anchor Date</label>
-                                <input id="p-anchor" type="date" onchange="updateSettings()" class="w-full bg-transparent border-b border-black/10 dark:border-white/10 py-3 font-bold text-sm outline-none focus:border-monolith">
+                                <label class="text-[10px] font-black opacity-80 uppercase tracking-widest" data-i18n="label_goal">Therapy Mandate (Hrs)</label>
+                                <input id="p-goal" type="number" step="0.5" min="0" placeholder="40" onchange="updateSettings()" class="w-full bg-transparent border-b border-black/10 dark:border-white/10 py-3 font-bold text-sm outline-none focus:border-monolith text-monolith">
                             </div>
-                            <div class="space-y-2">
+
+                            <!-- NEW: ACTIVE CYCLE RANGE -->
+                            <div class="space-y-4 pt-4 border-t border-black/5 dark:border-white/5">
+                                <div>
+                                    <label class="text-[10px] font-black opacity-80 uppercase tracking-widest" data-i18n="label_cycle_range">Active Cycle Range</label>
+                                    <p class="text-[8px] font-bold opacity-40 uppercase tracking-widest mt-1">Define your reporting or academic year.</p>
+                                </div>
+                                <div class="grid grid-cols-2 gap-6">
+                                    <div class="space-y-2">
+                                        <label class="text-[8px] font-black opacity-50 uppercase tracking-widest" data-i18n="label_cycle_start">Start Date</label>
+                                        <input id="p-cycle-start" type="date" onchange="updateSettings()" class="w-full bg-transparent border-b border-black/10 dark:border-white/10 py-2 font-bold text-xs outline-none focus:border-monolith text-monolith">
+                                    </div>
+                                    <div class="space-y-2">
+                                        <label class="text-[8px] font-black opacity-50 uppercase tracking-widest" data-i18n="label_cycle_end">End Date</label>
+                                        <input id="p-cycle-end" type="date" onchange="updateSettings()" class="w-full bg-transparent border-b border-black/10 dark:border-white/10 py-2 font-bold text-xs outline-none focus:border-monolith text-monolith">
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- END ACTIVE CYCLE RANGE -->
+
+                            <div class="space-y-2 pt-4 border-t border-black/5 dark:border-white/5">
                                 <label class="text-[10px] font-black opacity-80 uppercase tracking-widest" data-i18n="label_history">Full Sync Start Year</label>
                                 <input id="p-history-year" type="number" min="1990" max="2100" placeholder="2024" onchange="updateSettings()" class="w-full bg-transparent border-b border-black/10 dark:border-white/10 py-3 font-bold text-sm outline-none focus:border-monolith text-monolith">
                             </div>
@@ -215,7 +235,6 @@
                             </div>
                         </div>
 
-                        <!-- EXPLICIT SAVE BUTTON -->
                         <button id="btn-save-params" onclick="handleSaveParams()" class="w-full py-4 border-2 border-black/10 dark:border-white/10 hover:border-monolith hover:text-monolith font-black uppercase tracking-[0.3em] text-[10px] transition-all mt-4" data-i18n="btn_save_params">
                             Save Parameters
                         </button>
@@ -302,13 +321,15 @@
                 tab_month: "Current Month", tab_cycle: "Active Cycle", tab_all: "All Time",
                 header_sync: "Sync Engine", header_entry: "New Entry", header_params: "Parameters",
                 btn_sync: "Sync Calendar", btn_add: "Add Entry", btn_export: "Export", btn_print: "Print PDF", btn_coffee: "Buy Me a Coffee", btn_privacy: "Privacy", btn_share: "Share",
-                label_type: "Type", label_date: "Date", label_hours: "Hours", label_lang: "Language", label_balance: "Balance Ratio", label_keywords: "Sync Keywords", label_trainee: "Trainee Mandate", label_anchor: "Anchor Date", label_history: "Full Sync Start Year",
+                label_type: "Type", label_date: "Date", label_hours: "Hours", label_lang: "Language", label_balance: "Balance Ratio", label_keywords: "Sync Keywords", label_trainee: "Trainee Mandate", label_goal: "Therapy Mandate (Hrs)", 
+                label_cycle_range: "Active Cycle Range", label_cycle_start: "Start Date", label_cycle_end: "End Date", label_history: "Full Sync Start Year",
                 btn_save_params: "Save Parameters", msg_saved: "SAVED ✓",
                 opt_contact: "Client", opt_super: "Supervision", opt_therapy: "Personal Therapy", opt_cpd: "CPD / Training",
                 stat_contact: "Client", stat_super: "Supervision", stat_therapy: "Therapy", stat_cpd: "CPD",
                 balance_title: "Balance", health_label: "Health Status", active_records: "Active Records",
                 privacy_stmt: "Local-first storage.", awaiting: "AWAITING DATA...", verified: "Balance verified.",
-                deficit: "Deficit: {h} hrs supervision for {r} ratio.", mandate: "Required: 2 supervision sessions/mo (Current: {s})."
+                deficit: "Deficit: {h} hrs supervision for {r} ratio.", mandate: "Required: 2 supervision sessions/mo (Current: {s}).",
+                therapy_deficit: "Deficit: {h} hrs personal therapy required."
             },
             pl: {
                 brand: "Zbudowane Przez Liama", tagline: "Dziennik kliniczny i bilans godzin.",
@@ -316,13 +337,15 @@
                 tab_month: "Bieżący Miesiąc", tab_cycle: "Cykl Akredytacji", tab_all: "Wszystkie Dane",
                 header_sync: "Synchronizacja", header_entry: "Nowy Wpis", header_params: "Parametry",
                 btn_sync: "Synchronizuj Kalendarz", btn_add: "Dodaj Wpis", btn_export: "Eksportuj", btn_print: "Drukuj PDF", btn_coffee: "Kup mi kawę", btn_privacy: "Prywatność", btn_share: "Udostępnij",
-                label_type: "Typ", label_date: "Data", label_hours: "Godziny", label_lang: "Język", label_balance: "Proporcje", label_keywords: "Słowa Kluczowe", label_trainee: "Obowiązek Stażysty", label_anchor: "Data Startowa", label_history: "Pełny Rok Startowy Sync",
+                label_type: "Typ", label_date: "Data", label_hours: "Godziny", label_lang: "Język", label_balance: "Proporcje", label_keywords: "Słowa Kluczowe", label_trainee: "Obowiązek Stażysty", label_goal: "Wymóg Terapii (Godz)", 
+                label_cycle_range: "Zakres Cyklu", label_cycle_start: "Data Startowa", label_cycle_end: "Data Końcowa", label_history: "Pełny Rok Startowy Sync",
                 btn_save_params: "Zapisz Parametry", msg_saved: "ZAPISANO ✓",
                 opt_contact: "Client", opt_super: "Superwizja", opt_therapy: "Terapia Własna", opt_cpd: "Rozwój (CPD)",
                 stat_contact: "Client", stat_super: "Superwizja", stat_therapy: "Terapia", stat_cpd: "CPD",
                 balance_title: "Bilans", health_label: "Status Operacyjny", active_records: "Aktywne Wpisy",
                 privacy_stmt: "Dane lokalne w przeglądarce.", awaiting: "OCZEKIWANIE...", verified: "Bilans poprawny.",
-                deficit: "Brak: {h} godz. superwizji dla ratio {r}.", mandate: "Wymagane: 2 sesje superwizji miesięcznie (Obecnie: {s})."
+                deficit: "Brak: {h} godz. superwizji dla ratio {r}.", mandate: "Wymagane: 2 sesje superwizji miesięcznie (Obecnie: {s}).",
+                therapy_deficit: "Brak: {h} godz. terapii własnej."
             },
             es: {
                 brand: "Creado Por Liam", tagline: "Registro clínico y balance de horas.",
@@ -330,13 +353,15 @@
                 tab_month: "Mes Actual", tab_cycle: "Ciclo Activo", tab_all: "Todo",
                 header_sync: "Sincronizar", header_entry: "Nueva Entrada", header_params: "Parámetros",
                 btn_sync: "Sincronizar", btn_add: "Añadir", btn_export: "Exportar", btn_print: "PDF", btn_coffee: "Invítame a un café", btn_privacy: "Privacidad", btn_share: "Compartir",
-                label_type: "Tipo", label_date: "Fecha", label_hours: "Horas", label_lang: "Idioma", label_balance: "Balance Ratio", label_keywords: "Palabras Clave", label_trainee: "Mandato Pasante", label_anchor: "Fecha Ancla", label_history: "Año de Sincronización",
+                label_type: "Tipo", label_date: "Fecha", label_hours: "Horas", label_lang: "Idioma", label_balance: "Balance Ratio", label_keywords: "Palabras Clave", label_trainee: "Mandato Pasante", label_goal: "Mandato de Terapia (Hrs)", 
+                label_cycle_range: "Rango de Ciclo", label_cycle_start: "Fecha de Inicio", label_cycle_end: "Fecha de Fin", label_history: "Año de Sincronización",
                 btn_save_params: "Guardar Parámetros", msg_saved: "GUARDADO ✓",
                 opt_contact: "Client", opt_super: "Supervisión", opt_therapy: "Terapia Personal", opt_cpd: "CPD / Formación",
                 stat_contact: "Client", stat_super: "Supervisión", stat_therapy: "Terapia", stat_cpd: "CPD",
                 balance_title: "Balance", health_label: "Estado Operativo", active_records: "Registros",
                 privacy_stmt: "Datos locales.", awaiting: "ESPERANDO...", verified: "Balance verificado.",
-                deficit: "Déficit: {h} hrs para ratio {r}.", mandate: "Mínimo: 2 sesiones de supervisión al mes (Actual: {s})."
+                deficit: "Déficit: {h} hrs para ratio {r}.", mandate: "Mínimo: 2 sesiones de supervisión al mes (Actual: {s}).",
+                therapy_deficit: "Déficit: se requieren {h} hrs de terapia."
             },
             fr: {
                 brand: "Par Liam", tagline: "Journal clinique et suivi d'équilibre.",
@@ -344,27 +369,41 @@
                 tab_month: "Mois en cours", tab_cycle: "Cycle Actif", tab_all: "Tout",
                 header_sync: "Synchro", header_entry: "Nouvelle entrée", header_params: "Paramètres",
                 btn_sync: "Synchroniser", btn_add: "Ajouter", btn_export: "Exporter", btn_print: "PDF", btn_coffee: "Offrir un café", btn_privacy: "Confidentialité", btn_share: "Partager",
-                label_type: "Type", label_date: "Date", label_hours: "Heures", label_lang: "Langue", label_balance: "Équilibre", label_keywords: "Mots-clés", label_trainee: "Mandat Stagiaire", label_anchor: "Date Ancre", label_history: "Année de Synchro",
+                label_type: "Type", label_date: "Date", label_hours: "Heures", label_lang: "Langue", label_balance: "Équilibre", label_keywords: "Mots-clés", label_trainee: "Mandat Stagiaire", label_goal: "Mandat Thérapie (Hrs)", 
+                label_cycle_range: "Plage de Cycle", label_cycle_start: "Date de Début", label_cycle_end: "Date de Fin", label_history: "Année de Synchro",
                 btn_save_params: "Enregistrer", msg_saved: "ENREGISTRÉ ✓",
                 opt_contact: "Client", opt_super: "Supervision", opt_therapy: "Thérapie Personnelle", opt_cpd: "Formation / CPD",
                 stat_contact: "Client", stat_super: "Supervision", stat_therapy: "Thérapie", stat_cpd: "CPD",
                 balance_title: "Équilibre", health_label: "Statut", active_records: "Archives",
                 privacy_stmt: "Données locales.", awaiting: "EN ATTENTE...", verified: "Équilibre vérifié.",
-                deficit: "Déficit: {h} hrs de supervision pour ratio {r}.", mandate: "Requis: 2 sessions par mois (Actuel: {s})."
+                deficit: "Déficit: {h} hrs de supervision pour ratio {r}.", mandate: "Requis: 2 sessions par mois (Actuel: {s}).",
+                therapy_deficit: "Déficit: {h} hrs de thérapie requises."
             }
         };
 
         const todayStr = new Date().toISOString().split('T')[0];
+        const nextYearStr = new Date(new Date().setFullYear(new Date().getFullYear() + 1)).toISOString().split('T')[0];
+        
+        let savedSettings = JSON.parse(localStorage.getItem('liam_set'));
+        
         let state = {
             view: 'month',
             entries: JSON.parse(localStorage.getItem('liam_data')) || [],
-            settings: JSON.parse(localStorage.getItem('liam_set')) || { 
-                lang: 'en', anchor: todayStr, historyYear: 2024, goal: 40, isTrainee: false, ratioSuper: 1, ratioClient: 6, 
+            settings: savedSettings || { 
+                lang: 'en', cycleStart: todayStr, cycleEnd: nextYearStr, historyYear: 2024, goal: 40, isTrainee: false, ratioSuper: 1, ratioClient: 6, 
                 keywords: { client: 'client, session', super: 'supervision', therapy: 'therapy', cpd: 'cpd' }
             },
             lastSync: localStorage.getItem('liam_sync_time') || null,
             displayLimit: 25
         };
+
+        // Data Migration: Convert old 'anchor' to new 'cycleStart/cycleEnd' gracefully
+        if (state.settings.anchor && !state.settings.cycleStart) {
+            state.settings.cycleStart = state.settings.anchor;
+            state.settings.cycleEnd = nextYearStr;
+            delete state.settings.anchor;
+            localStorage.setItem('liam_set', JSON.stringify(state.settings));
+        }
 
         let resetLock = false;
 
@@ -380,13 +419,16 @@
             translateUI();
             const d = i18n[state.settings.lang] || i18n.en;
             const now = new Date();
-            const anchor = new Date(state.settings.anchor);
+            const cycleStart = new Date(state.settings.cycleStart);
+            const cycleEnd = new Date(state.settings.cycleEnd);
+            cycleEnd.setHours(23, 59, 59, 999); // Ensure end date includes the whole day
+            
             const moStart = new Date(now.getFullYear(), now.getMonth(), 1);
 
             const filtered = state.entries.filter(e => {
                 const dt = new Date(e.date);
                 if (state.view === 'month') return dt >= moStart;
-                if (state.view === 'cycle') return dt >= anchor;
+                if (state.view === 'cycle') return dt >= cycleStart && dt <= cycleEnd;
                 return true;
             });
 
@@ -403,14 +445,24 @@
 
             document.getElementById('val-client').innerText = totals.client.toFixed(1);
             document.getElementById('val-super').innerText = totals.super.toFixed(1);
-            document.getElementById('val-therapy').innerText = totals.therapy.toFixed(1);
+            
+            document.getElementById('val-therapy').innerHTML = (state.settings.isTrainee && state.settings.goal > 0)
+                ? `${totals.therapy.toFixed(1)}<span class="text-xl md:text-2xl opacity-30 ml-1 font-inter">/ ${state.settings.goal}</span>`
+                : totals.therapy.toFixed(1);
+            
             document.getElementById('val-cpd').innerText = totals.cpd.toFixed(1);
             document.getElementById('val-ratio').innerText = Math.round(ratioVal);
             document.getElementById('bar-ratio').style.width = `${ratioVal}%`;
 
             let warn = [];
             if (totals.client > 0 && ratioVal < 100) warn.push(d.deficit.replace('{h}', (targetSuper - totals.super).toFixed(1)).replace('{r}', `${rSuper}:${rClient}`));
-            if (state.settings.isTrainee && state.view === 'month' && totals.sessions < 2) warn.push(d.mandate.replace('{s}', totals.sessions));
+            
+            if (state.settings.isTrainee) {
+                if (state.view === 'month' && totals.sessions < 2) warn.push(d.mandate.replace('{s}', totals.sessions));
+                if (state.settings.goal > 0 && totals.therapy < state.settings.goal) {
+                    warn.push(d.therapy_deficit.replace('{h}', (state.settings.goal - totals.therapy).toFixed(1)));
+                }
+            }
 
             const warnEl = document.getElementById('txt-warning');
             warnEl.innerHTML = warn.length ? warn.join('<br><br>') : (totals.client === 0 && totals.super === 0 ? d.awaiting : d.verified);
@@ -446,8 +498,10 @@
         function updateSettings() {
             state.settings = {
                 lang: document.getElementById('p-lang').value,
-                anchor: document.getElementById('p-anchor').value || todayStr,
+                cycleStart: document.getElementById('p-cycle-start').value || todayStr,
+                cycleEnd: document.getElementById('p-cycle-end').value || nextYearStr,
                 historyYear: parseInt(document.getElementById('p-history-year').value) || 2024,
+                goal: parseFloat(document.getElementById('p-goal').value) || 0,
                 isTrainee: document.getElementById('p-trainee').checked,
                 ratioSuper: parseFloat(document.getElementById('p-ratio-super').value) || 1,
                 ratioClient: parseFloat(document.getElementById('p-ratio-client').value) || 6,
@@ -462,7 +516,6 @@
             render();
         }
 
-        // FIXED: Added an explicit save button function for clear user feedback
         function handleSaveParams() {
             updateSettings();
             const btn = document.getElementById('btn-save-params');
@@ -515,7 +568,7 @@
 
         function toggleTheme() { const isDark = document.documentElement.classList.contains('dark'); localStorage.setItem('liam_theme', isDark ? 'light' : 'dark'); applyTheme(); }
         function applyTheme() { const theme = localStorage.getItem('liam_theme') || 'dark'; const icon = document.getElementById('icon-theme'); if (theme === 'light') { document.documentElement.classList.remove('dark'); icon.setAttribute('data-lucide', 'moon'); } else { document.documentElement.classList.add('dark'); icon.setAttribute('data-lucide', 'sun'); } lucide.createIcons(); }
-        function setView(v) { state.view = v; document.querySelectorAll('[id^="ind-"]').forEach(el => el.classList.add('hidden')); document.getElementById('ind-'+v).classList.remove('hidden'); render(); }
+        function setView(v) { state.view = v; ['month', 'cycle', 'all'].forEach(id => { const t = document.getElementById('tab-'+id), i = document.getElementById('ind-'+id); if(id===v){i.classList.remove('hidden');t.classList.remove('opacity-30','hover:opacity-60');t.classList.add('text-monolith');}else{i.classList.add('hidden');t.classList.add('opacity-30','hover:opacity-60');t.classList.remove('text-monolith');} }); render(); }
         function toggleCal() { document.getElementById('cal-content').classList.toggle('hidden'); document.getElementById('icon-cal-toggle').classList.toggle('rotate-180'); }
         function toggleEntry() { document.getElementById('entry-content').classList.toggle('hidden'); document.getElementById('icon-entry-toggle').classList.toggle('rotate-180'); }
         function toggleParams() { document.getElementById('params-content').classList.toggle('hidden'); document.getElementById('icon-params-toggle').classList.toggle('rotate-180'); }
@@ -526,8 +579,10 @@
             applyTheme();
             document.getElementById('e-date').valueAsDate = new Date();
             document.getElementById('p-lang').value = state.settings.lang;
-            document.getElementById('p-anchor').value = state.settings.anchor;
+            document.getElementById('p-cycle-start').value = state.settings.cycleStart;
+            document.getElementById('p-cycle-end').value = state.settings.cycleEnd;
             document.getElementById('p-history-year').value = state.settings.historyYear || 2024;
+            document.getElementById('p-goal').value = state.settings.goal || ''; 
             document.getElementById('p-trainee').checked = state.settings.isTrainee;
             document.getElementById('p-ratio-super').value = state.settings.ratioSuper;
             document.getElementById('p-ratio-client').value = state.settings.ratioClient;
@@ -609,8 +664,6 @@
         async function fetchCalendarEvents() {
             const msg = document.getElementById('msg-sync');
             
-            // FIXED: Sync engine ALWAYS downloads full history from the History Year setting
-            // It completely ignores what tab (Month/Cycle/All) you are currently looking at.
             const startYear = state.settings.historyYear || 2024;
             const timeMin = new Date(startYear, 0, 1).toISOString();
             msg.innerText = `Scanning all records since ${startYear}...`;
