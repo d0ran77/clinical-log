@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Clinical Log | Professional Therapy Hour Tracker</title>
     
-    <!-- FAVICON (Updated to Base64 for 100% browser reliability) -->
+    <!-- FAVICON -->
     <link id="favicon" rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgcng9IjI0IiBmaWxsPSIjMWMxYzFjIi8+PGNpcmNsZSBjeD0iNTAiIGN5PSI1MCIgcj0iMjAiIGZpbGw9IiNGRjdBMDAiLz48L3N2Zz4=">
     <link id="apple-touch-icon" rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgcng9IjI0IiBmaWxsPSIjMWMxYzFjIi8+PGNpcmNsZSBjeD0iNTAiIGN5PSI1MCIgcj0iMjAiIGZpbGw9IiNGRjdBMDAiLz48L3N2Zz4=">
 
@@ -14,7 +14,7 @@
     <meta name="keywords" content="Clinical Log, Therapy Hour Tracker, Supervision Log, BACP hours, Counselor CPD, Therapist Dashboard">
     <meta name="author" content="BUILT BY LIAM">
     
-    <!-- OPEN GRAPH / SOCIAL SHARE (WhatsApp, Facebook, LinkedIn) -->
+    <!-- OPEN GRAPH / SOCIAL SHARE -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://clinical-log.netlify.app/">
     <meta property="og:title" content="Clinical Log | Professional Therapy Hour Tracker">
@@ -88,6 +88,9 @@
     </style>
 </head>
 <body class="bg-ash dark:bg-void text-void dark:text-ash font-inter relative overflow-x-hidden selection:bg-monolith selection:text-white min-h-screen">
+
+    <!-- Depth of field background glow -->
+    <div class="fixed top-0 right-0 w-[800px] h-[800px] bg-monolith/5 rounded-full blur-[120px] pointer-events-none -z-10 hidden dark:block"></div>
 
     <div class="absolute top-6 right-6 md:top-12 md:right-12 z-50 no-print">
         <button onclick="toggleTheme()" class="p-3 opacity-40 hover:opacity-100 hover:text-monolith transition-all rounded-full dark:hover:bg-white/5 hover:bg-black/5">
@@ -203,12 +206,12 @@
                             <label class="text-[10px] font-black opacity-80 uppercase tracking-widest" data-i18n="label_balance">Reporting Balance</label>
                             <div class="bg-ash/20 dark:bg-white/5 p-4 rounded-sm border border-black/5 dark:border-white/5 text-[11px] font-bold opacity-60 uppercase tracking-widest leading-relaxed">
                                 <span data-i18n="ratio_1">For every</span>
-                                <input id="p-ratio-super" type="number" step="0.5" onchange="updateSettings()" class="w-12 bg-transparent border-b border-monolith text-monolith text-center outline-none font-black">
-                                <span data-i18n="ratio_2">hr(s) of supervision,</span>
-                                <br class="sm:hidden">
-                                <span data-i18n="ratio_3">I complete</span>
                                 <input id="p-ratio-client" type="number" step="0.5" onchange="updateSettings()" class="w-12 bg-transparent border-b border-monolith text-monolith text-center outline-none font-black">
-                                <span data-i18n="ratio_4">hrs of contact.</span>
+                                <span data-i18n="ratio_2">hr(s) of client contact,</span>
+                                <br class="sm:hidden">
+                                <span data-i18n="ratio_3">I require</span>
+                                <input id="p-ratio-super" type="number" step="0.5" onchange="updateSettings()" class="w-12 bg-transparent border-b border-monolith text-monolith text-center outline-none font-black">
+                                <span data-i18n="ratio_4">hr(s) of supervision.</span>
                             </div>
                         </div>
                         <div class="space-y-4">
@@ -220,14 +223,26 @@
                                 <div class="flex items-center gap-3"><span class="text-[8px] font-black opacity-40 uppercase w-16">CPD:</span><input id="k-cpd" type="text" onchange="updateSettings()" class="flex-1 bg-transparent border-b border-black/5 text-[11px] font-bold outline-none text-monolith"></div>
                             </div>
                         </div>
+                        
                         <div class="space-y-6 pt-4 border-t border-black/10 dark:border-white/10">
+                            
                             <div class="flex items-center justify-between">
-                                <label class="text-[10px] font-black opacity-80 uppercase tracking-widest" data-i18n="label_trainee">Trainee Mandate</label>
-                                <input id="p-trainee" type="checkbox" onchange="updateSettings()" class="w-5 h-5 accent-monolith">
+                                <div class="space-y-1">
+                                    <label class="text-[10px] font-black opacity-80 uppercase tracking-widest" data-i18n="label_trainee">UKCP Trainee Mode</label>
+                                    <p class="text-[8px] font-bold opacity-40 uppercase tracking-widest" data-i18n="desc_trainee">Enables 2x/mo warning & qualification goals</p>
+                                </div>
+                                <input id="p-trainee" type="checkbox" onchange="updateSettings()" class="w-5 h-5 accent-monolith cursor-pointer">
                             </div>
-                            <div class="space-y-2">
-                                <label class="text-[10px] font-black opacity-80 uppercase tracking-widest" data-i18n="label_goal">Therapy Mandate (Hrs)</label>
-                                <input id="p-goal" type="number" step="0.5" min="0" placeholder="40" onchange="updateSettings()" class="w-full bg-transparent border-b border-black/10 dark:border-white/10 py-3 font-bold text-sm outline-none focus:border-monolith text-monolith">
+                            
+                            <div id="trainee-settings" class="space-y-6 hidden">
+                                <div class="space-y-2">
+                                    <label class="text-[10px] font-black opacity-80 uppercase tracking-widest" data-i18n="label_goal">Therapy Mandate (Hrs)</label>
+                                    <input id="p-goal" type="number" step="0.5" min="0" placeholder="40" onchange="updateSettings()" class="w-full bg-transparent border-b border-black/10 dark:border-white/10 py-3 font-bold text-sm outline-none focus:border-monolith text-monolith">
+                                </div>
+                                <div class="space-y-2">
+                                    <label class="text-[10px] font-black opacity-80 uppercase tracking-widest" data-i18n="label_global_goal">Qualification Goal (Client Hrs)</label>
+                                    <input id="p-global-goal" type="number" step="1" min="0" placeholder="100" onchange="updateSettings()" class="w-full bg-transparent border-b border-black/10 dark:border-white/10 py-3 font-bold text-sm outline-none focus:border-monolith text-monolith">
+                                </div>
                             </div>
 
                             <div class="space-y-4 pt-4 border-t border-black/5 dark:border-white/5">
@@ -258,7 +273,7 @@
                             </div>
                             <div class="space-y-2">
                                 <label class="text-[10px] font-black opacity-80 uppercase tracking-widest" data-i18n="label_lang">System Language</label>
-                                <select id="p-lang" onchange="updateSettings()" class="w-full bg-transparent border-b border-black/10 dark:border-white/10 py-3 font-bold text-sm outline-none dark:text-ash">
+                                <select id="p-lang" onchange="updateSettings()" class="w-full bg-transparent border-b border-black/10 dark:border-white/10 py-3 font-bold text-sm outline-none dark:text-ash cursor-pointer">
                                     <option value="en" class="dark:bg-darkPanel">English</option>
                                     <option value="es" class="dark:bg-darkPanel">Español</option>
                                     <option value="fr" class="dark:bg-darkPanel">Français</option>
@@ -282,24 +297,62 @@
                     <div class="p-6 md:p-8 border-r border-b border-black/10 dark:border-white/5"><span class="text-[10px] font-black uppercase tracking-[0.3em] opacity-30 block mb-4" data-i18n="stat_cpd">CPD</span><div id="val-cpd" class="text-3xl md:text-5xl font-black tracking-tighter tabular-nums">0.0</div></div>
                 </div>
 
-                <div class="space-y-6">
-                    <div class="flex justify-between items-end">
-                        <div class="space-y-2"><h2 class="text-4xl font-black tracking-tighter uppercase italic" data-i18n="balance_title">Balance</h2><p class="text-[11px] font-bold opacity-30 uppercase tracking-[0.3em]" data-i18n="health_label">Operational Health</p></div>
-                        <div class="text-7xl font-black tabular-nums leading-none"><span id="val-ratio">0</span><span class="text-3xl opacity-40">%</span></div>
+                <!-- METRICS GRID -->
+                <div id="metrics-grid" class="grid grid-cols-1 gap-10">
+                    
+                    <div class="space-y-6 flex flex-col justify-between">
+                        <div class="flex justify-between items-end">
+                            <div class="space-y-2"><h2 class="text-4xl font-black tracking-tighter uppercase italic" data-i18n="balance_title">Balance</h2><p class="text-[11px] font-bold opacity-30 uppercase tracking-[0.3em]" data-i18n="health_label">Operational Health</p></div>
+                            <div class="text-7xl md:text-6xl font-black tabular-nums leading-none"><span id="val-ratio">0</span><span class="text-3xl md:text-2xl opacity-40">%</span></div>
+                        </div>
+                        <div class="h-2.5 bg-black/10 dark:bg-white/10 w-full overflow-hidden shadow-inner mt-auto"><div id="bar-ratio" class="h-full bg-monolith transition-all duration-1000 ease-in-out w-0"></div></div>
+                        <div class="p-6 bg-white dark:bg-darkPanel border border-black/10 dark:border-white/5 h-full flex items-center"><p id="txt-warning" class="text-[11px] font-bold uppercase tracking-[0.2em] leading-relaxed opacity-60"></p></div>
                     </div>
-                    <div class="h-2.5 bg-black/10 dark:bg-white/10 w-full overflow-hidden shadow-inner"><div id="bar-ratio" class="h-full bg-monolith transition-all duration-1000 ease-in-out w-0"></div></div>
-                    <div class="p-6 bg-white dark:bg-darkPanel border border-black/10 dark:border-white/5"><p id="txt-warning" class="text-[11px] md:text-xs font-bold uppercase tracking-[0.2em] leading-relaxed opacity-60"></p></div>
+
+                    <div id="progress-widget" class="hidden space-y-6 flex-col justify-between">
+                        <div class="flex justify-between items-end">
+                            <div class="space-y-2">
+                                <h2 class="text-4xl font-black tracking-tighter uppercase italic" data-i18n="progress_title">Progress</h2>
+                                <p class="text-[11px] font-bold opacity-30 uppercase tracking-[0.3em]" data-i18n="progress_label">Qualification Goal</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex-1 bg-white dark:bg-darkPanel border border-black/10 dark:border-white/5 p-6 shadow-sm flex items-center justify-between relative overflow-hidden group min-h-[140px]">
+                            <div class="absolute -right-10 -bottom-10 w-48 h-48 bg-monolith/10 rounded-full blur-[40px] group-hover:bg-monolith/20 transition-all duration-1000 z-0"></div>
+                            
+                            <div class="space-y-2 z-10">
+                                <p class="text-4xl font-black tabular-nums"><span id="val-global-current">0.0</span></p>
+                                <p class="text-[10px] font-bold opacity-40 uppercase tracking-widest">/ <span id="val-global-target">100</span> Hours</p>
+                            </div>
+
+                            <div class="relative w-24 h-24 z-10 shrink-0">
+                                <svg class="w-full h-full -rotate-90 drop-shadow-lg" viewBox="0 0 100 100">
+                                    <circle cx="50" cy="50" r="40" fill="transparent" stroke="currentColor" stroke-width="8" class="text-black/5 dark:text-white/5" />
+                                    <circle id="ring-global" cx="50" cy="50" r="40" fill="transparent" stroke="#FF7A00" stroke-width="8" stroke-dasharray="251.2" stroke-dashoffset="251.2" class="transition-all duration-1000 ease-out" stroke-linecap="round" />
+                                </svg>
+                                <div class="absolute inset-0 flex items-center justify-center">
+                                    <span id="val-global-percent" class="text-sm font-black tabular-nums drop-shadow-md">0%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="space-y-6 pb-20">
-                    <div class="flex justify-between items-center border-b border-black/10 dark:border-white/10 pb-4 no-print">
-                        <h3 class="text-xs font-black uppercase tracking-[0.4em] opacity-30" data-i18n="active_records">Active Records</h3>
-                        <div class="flex gap-6 items-center">
+                <div class="space-y-6 pb-20 mt-10">
+                    <div class="flex justify-between items-center border-b border-black/10 dark:border-white/10 pb-4 cursor-pointer group no-print" onclick="toggleRecords()">
+                        <h3 class="text-xs font-black uppercase tracking-[0.4em] opacity-30 group-hover:opacity-100 transition-all flex items-center gap-2" data-i18n="active_records">
+                            Active Records
+                        </h3>
+                        <i data-lucide="chevron-up" id="icon-records-toggle" class="w-5 h-5 opacity-30 transition-transform duration-300"></i>
+                    </div>
+                    
+                    <div id="records-content" class="block space-y-6">
+                        <div class="flex justify-end gap-6 items-center no-print">
                             <button onclick="exportCSV()" class="text-[10px] font-black opacity-40 hover:text-monolith transition-all flex items-center gap-2"><i data-lucide="download" class="w-3.5 h-3.5"></i> <span data-i18n="btn_export">Export</span></button>
                             <button onclick="window.print()" class="text-[10px] font-black text-monolith flex items-center gap-2"><i data-lucide="printer" class="w-3.5 h-3.5"></i> <span data-i18n="btn_print">Print PDF</span></button>
                         </div>
+                        <div id="log-container" class="space-y-3 max-h-[600px] overflow-y-auto pr-2 custom-scroll"></div>
                     </div>
-                    <div id="log-container" class="space-y-3 max-h-[600px] overflow-y-auto pr-2 custom-scroll"></div>
                 </div>
             </main>
         </div>
@@ -318,6 +371,54 @@
                 <button onclick="openPrivacyModal()" class="text-[11px] font-black uppercase tracking-[0.4em]" data-i18n="btn_privacy">Privacy</button>
             </div>
         </footer>
+    </div>
+
+    <!-- NEW: REFLECTION MODAL (Depth of Field & Stickiness feature) -->
+    <div id="reflection-modal" class="fixed inset-0 bg-void/90 backdrop-blur-sm z-50 hidden flex-col items-center justify-center p-6 opacity-0 transition-opacity duration-500">
+        <div class="bg-white dark:bg-darkPanel p-8 md:p-12 rounded-sm shadow-2xl max-w-2xl w-full relative border border-black/5 dark:border-white/5 flex flex-col max-h-[90vh]">
+            
+            <div class="flex justify-between items-start border-b border-black/10 dark:border-white/5 pb-6 mb-8 shrink-0">
+                <div>
+                    <h3 class="text-xs font-black uppercase tracking-[0.4em] opacity-40 flex items-center gap-3">
+                        <i data-lucide="book-open" class="w-4 h-4 text-monolith"></i> <span data-i18n="modal_reflection_title">Clinical Reflection</span>
+                    </h3>
+                    <p id="ref-date-display" class="text-[10px] font-bold opacity-30 tracking-widest uppercase mt-2"></p>
+                </div>
+                <button onclick="closeReflection()" class="p-2 opacity-30 hover:opacity-100 hover:text-rose-500 transition-all"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+
+            <div class="flex-1 overflow-y-auto custom-scroll pr-2 space-y-8">
+                <!-- Ego State / Modality Tracking -->
+                <div class="space-y-4">
+                    <label class="text-[10px] font-black opacity-50 uppercase tracking-widest flex items-center gap-2" data-i18n="label_ego">
+                        <i data-lucide="brain-circuit" class="w-3 h-3 text-monolith"></i> Primary Ego State / Modality
+                    </label>
+                    <select id="ref-ego" class="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 p-4 font-bold text-sm outline-none focus:border-monolith dark:text-ash rounded-sm">
+                        <option value="" class="dark:bg-darkPanel">None Selected</option>
+                        <option value="Adult" class="dark:bg-darkPanel">Adult (Here & Now)</option>
+                        <option value="Parent" class="dark:bg-darkPanel">Parent (Nurturing/Critical)</option>
+                        <option value="Child" class="dark:bg-darkPanel">Child (Adapted/Free)</option>
+                        <option value="Person-Centered" class="dark:bg-darkPanel">Person-Centered</option>
+                        <option value="CBT" class="dark:bg-darkPanel">CBT / Directive</option>
+                        <option value="Psychodynamic" class="dark:bg-darkPanel">Psychodynamic</option>
+                    </select>
+                </div>
+
+                <div class="space-y-4 flex-1 flex flex-col">
+                    <label class="text-[10px] font-black opacity-50 uppercase tracking-widest flex justify-between items-end" data-i18n="label_notes">
+                        <span>Private Session Notes</span>
+                        <span class="text-[8px] opacity-50 lowercase tracking-normal font-normal">Stored locally. Never transmitted.</span>
+                    </label>
+                    <textarea id="ref-notes" class="w-full bg-transparent border-b border-black/10 dark:border-white/10 py-4 font-inter text-sm outline-none focus:border-monolith transition-colors resize-none min-h-[200px]" placeholder="Anonymised reflections for supervision..."></textarea>
+                </div>
+            </div>
+
+            <div class="pt-8 mt-auto shrink-0">
+                <button onclick="saveReflection()" class="w-full py-5 bg-[#f28d35] text-white font-black uppercase tracking-[0.4em] text-[10px] hover:brightness-110 active:scale-[0.98] transition-all shadow-lg shadow-monolith/20" data-i18n="btn_save_ref">
+                    Save Reflection
+                </button>
+            </div>
+        </div>
     </div>
 
     <!-- PRIVACY / DATA MODAL -->
@@ -353,19 +454,23 @@
                 tab_month: "Current Month", tab_cycle: "Active Cycle", tab_all: "All Time",
                 header_sync: "Sync Engine", header_entry: "New Entry", header_params: "Parameters",
                 btn_sync: "Sync Calendar", btn_add: "Add Entry", btn_export: "Export", btn_print: "Print PDF", btn_coffee: "Buy Me a Coffee", btn_privacy: "Privacy", btn_share: "Share",
-                label_type: "Type", label_date: "Date", label_hours: "Hours", label_lang: "Language", label_balance: "Balance Ratio", label_keywords: "Sync Keywords", label_trainee: "Trainee Mandate", label_goal: "Therapy Mandate (Hrs)", 
+                label_type: "Type", label_date: "Date", label_hours: "Hours", label_lang: "Language", label_balance: "Balance Ratio", label_keywords: "Sync Keywords", 
+                label_trainee: "UKCP Trainee Mode", desc_trainee: "Enables 2x/mo warning & qualification goals",
+                label_goal: "Therapy Mandate (Hrs)", label_global_goal: "Qualification Goal (Client Hrs)",
                 label_cycle_range: "Active Cycle Range", label_cycle_start: "Start Date", label_cycle_end: "End Date", label_history: "Full Sync Start Year",
                 btn_save_params: "Save Parameters", msg_saved: "SAVED ✓",
                 opt_contact: "Client", opt_super: "Supervision", opt_therapy: "Personal Therapy", opt_cpd: "CPD / Training",
                 stat_contact: "Client", stat_super: "Supervision", stat_therapy: "Therapy", stat_cpd: "CPD",
-                balance_title: "Balance", health_label: "Health Status", active_records: "Active Records",
+                balance_title: "Balance", health_label: "Operational Health", progress_title: "Progress", progress_label: "Qualification Goal", active_records: "Active Records",
                 privacy_stmt: "Local-first storage.", awaiting: "AWAITING DATA...", verified: "Balance verified.",
-                deficit: "Deficit: {h} hrs supervision for {r} ratio.", mandate: "Required: 2 supervision sessions/mo (Current: {s}).",
+                ratio_1: "For every", ratio_2: "hr(s) of client contact,", ratio_3: "I require", ratio_4: "hr(s) of supervision.",
+                deficit: "Deficit: {h} hrs supervision required for {r} ratio.", mandate: "UKCP Mandate: 2 separate supervision sessions required per month (Current: {s}).",
                 therapy_deficit: "Deficit: {h} hrs personal therapy required.",
                 info_sync: "Imports events automatically from Google Calendar using your custom Keyword Mapping.",
                 info_manual: "Manually log clinical hours to your local secure database.",
                 info_cycle: "Filters the dashboard to only show records within your academic or reporting year.",
-                tab_alert: "Don't forget to log your hours!"
+                tab_alert: "Don't forget to log your hours!",
+                modal_reflection_title: "Clinical Reflection", label_ego: "Primary Ego State / Modality", label_notes: "Private Session Notes", btn_save_ref: "Save Reflection"
             },
             pl: {
                 brand: "Zbudowane Przez Liama", tagline: "Dziennik kliniczny i bilans godzin.",
@@ -373,19 +478,23 @@
                 tab_month: "Bieżący Miesiąc", tab_cycle: "Cykl Akredytacji", tab_all: "Wszystkie Dane",
                 header_sync: "Synchronizacja", header_entry: "Nowy Wpis", header_params: "Parametry",
                 btn_sync: "Synchronizuj Kalendarz", btn_add: "Dodaj Wpis", btn_export: "Eksportuj", btn_print: "Drukuj PDF", btn_coffee: "Kup mi kawę", btn_privacy: "Prywatność", btn_share: "Udostępnij",
-                label_type: "Typ", label_date: "Data", label_hours: "Godziny", label_lang: "Język", label_balance: "Proporcje", label_keywords: "Słowa Kluczowe", label_trainee: "Obowiązek Stażysty", label_goal: "Wymóg Terapii (Godz)", 
+                label_type: "Typ", label_date: "Data", label_hours: "Godziny", label_lang: "Język", label_balance: "Proporcje", label_keywords: "Słowa Kluczowe", 
+                label_trainee: "Tryb UKCP", desc_trainee: "Włącza ostrzeżenia i cele kwalifikacji",
+                label_goal: "Wymóg Terapii (Godz)", label_global_goal: "Cel Kwalifikacji (Godz. Klienta)",
                 label_cycle_range: "Zakres Cyklu", label_cycle_start: "Data Startowa", label_cycle_end: "Data Końcowa", label_history: "Pełny Rok Startowy Sync",
                 btn_save_params: "Zapisz Parametry", msg_saved: "ZAPISANO ✓",
                 opt_contact: "Client", opt_super: "Superwizja", opt_therapy: "Terapia Własna", opt_cpd: "Rozwój (CPD)",
                 stat_contact: "Client", stat_super: "Superwizja", stat_therapy: "Terapia", stat_cpd: "CPD",
-                balance_title: "Bilans", health_label: "Status Operacyjny", active_records: "Aktywne Wpisy",
+                balance_title: "Bilans", health_label: "Status Operacyjny", progress_title: "Postęp", progress_label: "Cel Kwalifikacji", active_records: "Aktywne Wpisy",
                 privacy_stmt: "Dane lokalne w przeglądarce.", awaiting: "OCZEKIWANIE...", verified: "Bilans poprawny.",
-                deficit: "Brak: {h} godz. superwizji dla ratio {r}.", mandate: "Wymagane: 2 sesje superwizji miesięcznie (Obecnie: {s}).",
+                ratio_1: "Na każde", ratio_2: "godz. kontaktu z klientem,", ratio_3: "wymagam", ratio_4: "godz. superwizji.",
+                deficit: "Brak: {h} godz. superwizji dla ratio {r}.", mandate: "Wymóg UKCP: 2 osobne sesje superwizji w miesiącu (Obecnie: {s}).",
                 therapy_deficit: "Brak: {h} godz. terapii własnej.",
                 info_sync: "Automatycznie importuje wydarzenia z Kalendarza Google przy użyciu Twoich Słów Kluczowych.",
                 info_manual: "Ręcznie dodawaj godziny kliniczne do lokalnej, bezpiecznej bazy danych.",
                 info_cycle: "Filtruje pulpit, aby pokazywać tylko wpisy z Twojego roku akademickiego lub raportowego.",
-                tab_alert: "Nie zapomnij zanotować godzin!"
+                tab_alert: "Nie zapomnij zanotować godzin!",
+                modal_reflection_title: "Refleksja Kliniczna", label_ego: "Główny Stan Ego / Modalność", label_notes: "Prywatne Notatki z Sesji", btn_save_ref: "Zapisz Refleksję"
             },
             es: {
                 brand: "Creado Por Liam", tagline: "Registro clínico y balance de horas.",
@@ -393,19 +502,23 @@
                 tab_month: "Mes Actual", tab_cycle: "Ciclo Activo", tab_all: "Todo",
                 header_sync: "Sincronizar", header_entry: "Nueva Entrada", header_params: "Parámetros",
                 btn_sync: "Sincronizar", btn_add: "Añadir", btn_export: "Exportar", btn_print: "PDF", btn_coffee: "Invítame a un café", btn_privacy: "Privacidad", btn_share: "Compartir",
-                label_type: "Tipo", label_date: "Fecha", label_hours: "Horas", label_lang: "Idioma", label_balance: "Balance Ratio", label_keywords: "Palabras Clave", label_trainee: "Mandato Pasante", label_goal: "Mandato de Terapia (Hrs)", 
+                label_type: "Tipo", label_date: "Fecha", label_hours: "Horas", label_lang: "Idioma", label_balance: "Balance Ratio", label_keywords: "Palabras Clave", 
+                label_trainee: "Modo UKCP", desc_trainee: "Habilita alertas y metas de calificación",
+                label_goal: "Mandato de Terapia (Hrs)", label_global_goal: "Meta de Calificación (Hrs Cliente)",
                 label_cycle_range: "Rango de Ciclo", label_cycle_start: "Fecha de Inicio", label_cycle_end: "Fecha de Fin", label_history: "Año de Sincronización",
                 btn_save_params: "Guardar Parámetros", msg_saved: "GUARDADO ✓",
                 opt_contact: "Client", opt_super: "Supervisión", opt_therapy: "Terapia Personal", opt_cpd: "CPD / Formación",
                 stat_contact: "Client", stat_super: "Supervisión", stat_therapy: "Terapia", stat_cpd: "CPD",
-                balance_title: "Balance", health_label: "Estado Operativo", active_records: "Registros",
+                balance_title: "Balance", health_label: "Estado Operativo", progress_title: "Progreso", progress_label: "Meta de Calificación", active_records: "Registros",
                 privacy_stmt: "Datos locales.", awaiting: "ESPERANDO...", verified: "Balance verificado.",
-                deficit: "Déficit: {h} hrs para ratio {r}.", mandate: "Mínimo: 2 sesiones de supervisión al mes (Actual: {s}).",
+                ratio_1: "Por cada", ratio_2: "hrs de contacto con cliente,", ratio_3: "requiero", ratio_4: "hrs de supervisión.",
+                deficit: "Déficit: {h} hrs para ratio {r}.", mandate: "Mandato UKCP: 2 sesiones de supervisión separadas por mes (Actual: {s}).",
                 therapy_deficit: "Déficit: se requieren {h} hrs de terapia.",
                 info_sync: "Importa eventos automáticamente desde Google Calendar utilizando tu Mapeo de Palabras Clave.",
                 info_manual: "Registra manualmente las horas clínicas en tu base de datos local y segura.",
                 info_cycle: "Filtra el panel para mostrar solo los registros dentro de tu año académico o de reporte.",
-                tab_alert: "¡No olvides registrar tus horas!"
+                tab_alert: "¡No olvides registrar tus horas!",
+                modal_reflection_title: "Reflexión Clínica", label_ego: "Estado del Yo / Modalidad", label_notes: "Notas Privadas de Sesión", btn_save_ref: "Guardar Reflexión"
             },
             fr: {
                 brand: "Par Liam", tagline: "Journal clinique et suivi d'équilibre.",
@@ -413,19 +526,23 @@
                 tab_month: "Mois en cours", tab_cycle: "Cycle Actif", tab_all: "Tout",
                 header_sync: "Synchro", header_entry: "Nouvelle entrée", header_params: "Paramètres",
                 btn_sync: "Synchroniser", btn_add: "Ajouter", btn_export: "Exporter", btn_print: "PDF", btn_coffee: "Offrir un café", btn_privacy: "Confidentialité", btn_share: "Partager",
-                label_type: "Type", label_date: "Date", label_hours: "Heures", label_lang: "Langue", label_balance: "Équilibre", label_keywords: "Mots-clés", label_trainee: "Mandat Stagiaire", label_goal: "Mandat Thérapie (Hrs)", 
+                label_type: "Type", label_date: "Date", label_hours: "Heures", label_lang: "Langue", label_balance: "Équilibre", label_keywords: "Mots-clés", 
+                label_trainee: "Mode UKCP", desc_trainee: "Active les alertes et les objectifs de qualification",
+                label_goal: "Mandat Thérapie (Hrs)", label_global_goal: "Objectif de Qualification (Hrs Client)",
                 label_cycle_range: "Plage de Cycle", label_cycle_start: "Date de Début", label_cycle_end: "Date de Fin", label_history: "Année de Synchro",
                 btn_save_params: "Enregistrer", msg_saved: "ENREGISTRÉ ✓",
                 opt_contact: "Client", opt_super: "Supervision", opt_therapy: "Thérapie Personnelle", opt_cpd: "Formation / CPD",
                 stat_contact: "Client", stat_super: "Supervision", stat_therapy: "Thérapie", stat_cpd: "CPD",
-                balance_title: "Équilibre", health_label: "Statut", active_records: "Archives",
+                balance_title: "Équilibre", health_label: "Statut", progress_title: "Progrès", progress_label: "Objectif de Qualification", active_records: "Archives",
                 privacy_stmt: "Données locales.", awaiting: "EN ATTENTE...", verified: "Équilibre vérifié.",
-                deficit: "Déficit: {h} hrs de supervision pour ratio {r}.", mandate: "Requis: 2 sessions par mois (Actuel: {s}).",
+                ratio_1: "Pour chaque", ratio_2: "hrs de contact client,", ratio_3: "j'exige", ratio_4: "hrs de supervision.",
+                deficit: "Déficit: {h} hrs de supervision pour ratio {r}.", mandate: "Mandat UKCP : 2 sessions de supervision séparées par mois (Actuel: {s}).",
                 therapy_deficit: "Déficit: {h} hrs de thérapie requises.",
                 info_sync: "Importe automatiquement les événements de Google Calendar en utilisant vos Mots-clés.",
                 info_manual: "Enregistrez manuellement les heures cliniques dans votre base de données locale sécurisée.",
                 info_cycle: "Filtre le tableau de bord pour n'afficher que les enregistrements de votre année académique ou de référence.",
-                tab_alert: "N'oubliez pas vos heures !"
+                tab_alert: "N'oubliez pas vos heures !",
+                modal_reflection_title: "Réflexion Clinique", label_ego: "État du Moi / Modalité", label_notes: "Notes de Session Privées", btn_save_ref: "Enregistrer la Réflexion"
             }
         };
 
@@ -438,14 +555,13 @@
             view: 'month',
             entries: JSON.parse(localStorage.getItem('liam_data')) || [],
             settings: savedSettings || { 
-                lang: 'en', cycleStart: todayStr, cycleEnd: nextYearStr, historyYear: 2024, goal: 40, isTrainee: false, ratioSuper: 1, ratioClient: 6, 
+                lang: 'en', cycleStart: todayStr, cycleEnd: nextYearStr, historyYear: 2024, goal: 40, globalGoal: 100, isTrainee: false, ratioSuper: 1, ratioClient: 6, 
                 keywords: { client: 'client, session', super: 'supervision', therapy: 'therapy', cpd: 'cpd' }
             },
             lastSync: localStorage.getItem('liam_sync_time') || null,
             displayLimit: 25
         };
 
-        // Data Migration: Convert old 'anchor' to new 'cycleStart/cycleEnd' gracefully
         if (state.settings.anchor && !state.settings.cycleStart) {
             state.settings.cycleStart = state.settings.anchor;
             state.settings.cycleEnd = nextYearStr;
@@ -454,6 +570,7 @@
         }
 
         let resetLock = false;
+        let currentEditId = null; // Tracks which entry is being reflected upon
 
         function translateUI() {
             const d = i18n[state.settings.lang] || i18n.en;
@@ -469,7 +586,7 @@
             const now = new Date();
             const cycleStart = new Date(state.settings.cycleStart);
             const cycleEnd = new Date(state.settings.cycleEnd);
-            cycleEnd.setHours(23, 59, 59, 999); // Ensure end date includes the whole day
+            cycleEnd.setHours(23, 59, 59, 999);
             
             const moStart = new Date(now.getFullYear(), now.getMonth(), 1);
 
@@ -502,8 +619,37 @@
             document.getElementById('val-ratio').innerText = Math.round(ratioVal);
             document.getElementById('bar-ratio').style.width = `${ratioVal}%`;
 
+            // UI TOGGLES BASED ON TRAINEE MODE
+            const traineeSettings = document.getElementById('trainee-settings');
+            const progressWidget = document.getElementById('progress-widget');
+            const metricsGrid = document.getElementById('metrics-grid');
+            
+            if (state.settings.isTrainee) {
+                traineeSettings.classList.remove('hidden');
+                progressWidget.classList.remove('hidden');
+                progressWidget.classList.add('flex');
+                metricsGrid.classList.add('md:grid-cols-2');
+            } else {
+                traineeSettings.classList.add('hidden');
+                progressWidget.classList.add('hidden');
+                progressWidget.classList.remove('flex');
+                metricsGrid.classList.remove('md:grid-cols-2');
+            }
+
+            // Global Progress Ring Calculation
+            const globalGoal = state.settings.globalGoal || 100;
+            const globalProgress = Math.min((totals.client / globalGoal) * 100, 100);
+            
+            document.getElementById('val-global-current').innerText = totals.client.toFixed(1);
+            document.getElementById('val-global-target').innerText = globalGoal;
+            document.getElementById('val-global-percent').innerText = `${Math.round(globalProgress)}%`;
+            
+            const ring = document.getElementById('ring-global');
+            const circumference = 251.2; 
+            ring.style.strokeDashoffset = circumference - (globalProgress / 100) * circumference;
+
             let warn = [];
-            if (totals.client > 0 && ratioVal < 100) warn.push(d.deficit.replace('{h}', (targetSuper - totals.super).toFixed(1)).replace('{r}', `${rSuper}:${rClient}`));
+            if (totals.client > 0 && ratioVal < 100) warn.push(d.deficit.replace('{h}', (targetSuper - totals.super).toFixed(1)).replace('{r}', `${rClient}:${rSuper}`));
             
             if (state.settings.isTrainee) {
                 if (state.view === 'month' && totals.sessions < 2) warn.push(d.mandate.replace('{s}', totals.sessions));
@@ -523,25 +669,87 @@
                 syncEl.classList.remove('hidden');
             }
 
+            // RENDER ACTIVE RECORDS
             const list = document.getElementById('log-container');
-            list.innerHTML = filtered.length ? filtered.slice(0, state.displayLimit).map(e => `
-                <div class="flex justify-between items-center p-6 bg-white dark:bg-darkPanel border border-black/10 dark:border-white/5 shadow-sm group">
+            list.innerHTML = filtered.length ? filtered.slice(0, state.displayLimit).map(e => {
+                const hasNotes = e.notes && e.notes.trim().length > 0;
+                const hasEgo = e.ego && e.ego !== "";
+                return `
+                <div class="flex justify-between items-center p-6 bg-white dark:bg-darkPanel border border-black/10 dark:border-white/5 hover:border-monolith/50 transition-all shadow-sm group cursor-pointer" onclick="openReflection('${e.id}')">
                     <div class="flex items-center gap-6">
                         <div class="w-1 h-10 ${e.type === 'super' ? 'bg-monolith' : 'bg-black/10 dark:bg-white/10'}"></div>
                         <div class="space-y-1.5">
-                            <p class="text-xs font-black uppercase tracking-widest">${d['opt_'+e.type] || e.type}</p>
-                            <p class="text-[11px] opacity-50 font-bold">${new Date(e.date).toLocaleDateString(state.settings.lang)}</p>
+                            <p class="text-xs font-black uppercase tracking-widest flex items-center gap-2">
+                                ${d['opt_'+e.type] || e.type}
+                                ${(hasNotes || hasEgo) ? `<i data-lucide="book-open" class="w-3 h-3 text-monolith"></i>` : ''}
+                            </p>
+                            <p class="text-[11px] opacity-50 font-bold">${new Date(e.date).toLocaleDateString(state.settings.lang)} ${hasEgo ? `• ${e.ego}` : ''}</p>
                         </div>
                     </div>
                     <div class="flex items-center gap-8">
                         <p class="text-3xl font-black tabular-nums">${e.hours.toFixed(1)}<span class="text-xs ml-1.5 opacity-30">H</span></p>
-                        <button onclick="deleteEntry('${e.id}')" class="opacity-0 group-hover:opacity-100 text-black/30 hover:text-rose-500 transition-all"><i data-lucide="trash-2" class="w-5 h-5"></i></button>
+                        <button onclick="event.stopPropagation(); deleteEntry('${e.id}')" class="opacity-0 group-hover:opacity-100 text-black/30 hover:text-rose-500 transition-all"><i data-lucide="trash-2" class="w-5 h-5"></i></button>
                     </div>
                 </div>
-            `).join('') : `<div class="py-24 text-center opacity-20 text-xs font-black tracking-widest">NO RECORDS</div>`;
+            `}).join('') : `<div class="py-24 text-center opacity-20 text-xs font-black tracking-widest">NO RECORDS</div>`;
             
             lucide.createIcons();
         }
+
+        // --- REFLECTION / NOTES ENGINE ---
+        function openReflection(id) {
+            const entry = state.entries.find(e => String(e.id) === String(id));
+            if (!entry) return;
+            
+            currentEditId = id;
+            document.getElementById('ref-date-display').innerText = new Date(entry.date).toLocaleDateString(state.settings.lang);
+            document.getElementById('ref-notes').value = entry.notes || "";
+            document.getElementById('ref-ego').value = entry.ego || "";
+            
+            const m = document.getElementById('reflection-modal');
+            m.classList.remove('hidden');
+            void m.offsetWidth; // Trigger reflow
+            m.classList.remove('opacity-0');
+            m.classList.add('flex');
+            
+            // Auto focus textarea slightly after modal opens
+            setTimeout(() => document.getElementById('ref-notes').focus(), 300);
+        }
+
+        function closeReflection() {
+            const m = document.getElementById('reflection-modal');
+            m.classList.add('opacity-0');
+            setTimeout(() => {
+                m.classList.add('hidden');
+                m.classList.remove('flex');
+                currentEditId = null;
+            }, 300);
+        }
+
+        function saveReflection() {
+            if (!currentEditId) return;
+            const newNotes = document.getElementById('ref-notes').value;
+            const newEgo = document.getElementById('ref-ego').value;
+            
+            state.entries = state.entries.map(e => {
+                if (String(e.id) === String(currentEditId)) {
+                    return { ...e, notes: newNotes, ego: newEgo };
+                }
+                return e;
+            });
+            
+            localStorage.setItem('liam_data', JSON.stringify(state.entries));
+            render();
+            closeReflection();
+        }
+
+        // Close modal on escape key
+        document.addEventListener('keydown', function(event){
+            if(event.key === "Escape" && currentEditId){
+                closeReflection();
+            }
+        });
+
 
         function updateSettings() {
             state.settings = {
@@ -550,6 +758,7 @@
                 cycleEnd: document.getElementById('p-cycle-end').value || nextYearStr,
                 historyYear: parseInt(document.getElementById('p-history-year').value) || 2024,
                 goal: parseFloat(document.getElementById('p-goal').value) || 0,
+                globalGoal: parseFloat(document.getElementById('p-global-goal').value) || 100,
                 isTrainee: document.getElementById('p-trainee').checked,
                 ratioSuper: parseFloat(document.getElementById('p-ratio-super').value) || 1,
                 ratioClient: parseFloat(document.getElementById('p-ratio-client').value) || 6,
@@ -581,7 +790,7 @@
             const h = parseFloat(document.getElementById('e-hours').value);
             const d = document.getElementById('e-date').value;
             if (!h || !d) return;
-            state.entries.unshift({ id: Date.now(), type: document.getElementById('e-type').value, date: d, hours: h });
+            state.entries.unshift({ id: Date.now(), type: document.getElementById('e-type').value, date: d, hours: h, notes: "", ego: "" });
             localStorage.setItem('liam_data', JSON.stringify(state.entries));
             document.getElementById('e-hours').value = '';
             render();
@@ -620,6 +829,7 @@
         function toggleCal() { document.getElementById('cal-content').classList.toggle('hidden'); document.getElementById('icon-cal-toggle').classList.toggle('rotate-180'); }
         function toggleEntry() { document.getElementById('entry-content').classList.toggle('hidden'); document.getElementById('icon-entry-toggle').classList.toggle('rotate-180'); }
         function toggleParams() { document.getElementById('params-content').classList.toggle('hidden'); document.getElementById('icon-params-toggle').classList.toggle('rotate-180'); }
+        function toggleRecords() { document.getElementById('records-content').classList.toggle('hidden'); document.getElementById('icon-records-toggle').classList.toggle('rotate-180'); }
         function openPrivacyModal() { const m = document.getElementById('privacy-modal'); m.classList.remove('hidden'); void m.offsetWidth; m.classList.remove('opacity-0'); }
         function closePrivacyModal() { const m = document.getElementById('privacy-modal'); m.classList.add('opacity-0'); setTimeout(() => m.classList.add('hidden'), 300); }
 
@@ -631,16 +841,16 @@
             document.getElementById('p-cycle-end').value = state.settings.cycleEnd;
             document.getElementById('p-history-year').value = state.settings.historyYear || 2024;
             document.getElementById('p-goal').value = state.settings.goal || ''; 
+            document.getElementById('p-global-goal').value = state.settings.globalGoal || 100;
             document.getElementById('p-trainee').checked = state.settings.isTrainee;
-            document.getElementById('p-ratio-super').value = state.settings.ratioSuper;
             document.getElementById('p-ratio-client').value = state.settings.ratioClient;
+            document.getElementById('p-ratio-super').value = state.settings.ratioSuper;
             document.getElementById('k-client').value = state.settings.keywords.client;
             document.getElementById('k-super').value = state.settings.keywords.super;
             document.getElementById('k-therapy').value = state.settings.keywords.therapy;
             document.getElementById('k-cpd').value = state.settings.keywords.cpd;
             render();
             
-            // --- NEW: TAB VISIBILITY ENGINE ---
             const standardFavicon = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgcng9IjI0IiBmaWxsPSIjMWMxYzFjIi8+PGNpcmNsZSBjeD0iNTAiIGN5PSI1MCIgcj0iMjAiIGZpbGw9IiNGRjdBMDAiLz48L3N2Zz4=";
             const alertFavicon = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgcng9IjI0IiBmaWxsPSIjRkY3QTAwIi8+PGNpcmNsZSBjeD0iNTAiIGN5PSI1MCIgcj0iMjAiIGZpbGw9IiNmZmZmZmYiLz48L3N2Zz4=";
             
@@ -663,7 +873,17 @@
 
         function downloadBackup() { const blob = new Blob([JSON.stringify({entries: state.entries, settings: state.settings})], { type: 'application/json' }); const url = window.URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'clinical_log_backup.json'; a.click(); }
         function restoreBackup(e) { const reader = new FileReader(); reader.onload = function(ev) { const data = JSON.parse(ev.target.result); state.entries = data.entries || state.entries; state.settings = data.settings || state.settings; localStorage.setItem('liam_data', JSON.stringify(state.entries)); localStorage.setItem('liam_set', JSON.stringify(state.settings)); location.reload(); }; reader.readAsText(e.target.files[0]); }
-        function exportCSV() { const csv = "Date,Type,Hours\n" + state.entries.map(e => `${e.date},${e.type},${e.hours}`).join("\n"); const blob = new Blob([csv], { type: 'text/csv' }); const url = window.URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'clinical_log.csv'; a.click(); }
+        
+        // UPDATED EXPORT: Now includes Ego State and Notes in the CSV file
+        function exportCSV() { 
+            const csv = "Date,Type,Hours,Ego_State,Notes\n" + state.entries.map(e => {
+                const cleanNote = e.notes ? e.notes.replace(/"/g, '""').replace(/\n/g, ' ') : '';
+                return `${e.date},${e.type},${e.hours},${e.ego || ''},"${cleanNote}"`
+            }).join("\n"); 
+            const blob = new Blob([csv], { type: 'text/csv' }); 
+            const url = window.URL.createObjectURL(blob); 
+            const a = document.createElement('a'); a.href = url; a.download = 'clinical_log.csv'; a.click(); 
+        }
 
         async function handleShare() {
             const clientVal = document.getElementById('val-client').innerText;
@@ -780,7 +1000,7 @@
                         }
 
                         if (hours > 0) {
-                            newEntries.push({ id: `gcal-${ev.id}`, type, date: dateStr, hours: parseFloat(hours.toFixed(1)) });
+                            newEntries.push({ id: `gcal-${ev.id}`, type, date: dateStr, hours: parseFloat(hours.toFixed(1)), notes: "", ego: "" });
                         }
                     }
                 });
