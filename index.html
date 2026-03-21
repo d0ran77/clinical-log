@@ -9,13 +9,10 @@
     <link id="favicon" rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgcng9IjI0IiBmaWxsPSIjMWMxYzFjIi8+PGNpcmNsZSBjeD0iNTAiIGN5PSI1MCIgcj0iMjAiIGZpbGw9IiNGRjdBMDAiLz48L3N2Zz4=">
     <link id="apple-touch-icon" rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgcng9IjI0IiBmaWxsPSIjMWMxYzFjIi8+PGNpcmNsZSBjeD0iNTAiIGN5PSI1MCIgcj0iMjAiIGZpbGw9IiNGRjdBMDAiLz48L3N2Zz4=">
 
-    <!-- ADVANCED TECHNICAL SEO -->
+    <!-- GLOBAL SEO -->
     <meta name="description" content="A premium, secure, local-first clinical log for therapists and counselors. Track client hours, supervision, and CPD balance globally.">
-    <meta name="keywords" content="Clinical Log, Therapy Hour Tracker, Supervision Log, BACP hours, UKCP Trainee Tracker, Counselor CPD, Therapist Dashboard">
+    <meta name="keywords" content="Clinical Log, Therapy Hour Tracker, Supervision Log, BACP hours, Counselor CPD, Therapist Dashboard">
     <meta name="author" content="BUILT BY LIAM">
-    <meta name="robots" content="index, follow">
-    <meta name="theme-color" content="#FF7A00">
-    <link rel="canonical" href="https://clinical-log.netlify.app/">
     
     <!-- OPEN GRAPH / SOCIAL SHARE -->
     <meta property="og:type" content="website">
@@ -30,27 +27,6 @@
     <meta property="twitter:title" content="Clinical Log | Professional Therapy Hour Tracker">
     <meta property="twitter:description" content="A premium, secure, local-first clinical log for therapists and counselors. Track client hours, supervision, and CPD balance globally.">
     <meta property="twitter:image" content="https://clinical-log.netlify.app/social-card.png">
-
-    <!-- SCHEMA.ORG STRUCTURED DATA -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "SoftwareApplication",
-      "name": "Clinical Log",
-      "operatingSystem": "WebBrowser",
-      "applicationCategory": "BusinessApplication",
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "GBP"
-      },
-      "description": "A premium, secure, local-first clinical log for therapists and counselors to track client hours, supervision, and CPD balance.",
-      "author": {
-        "@type": "Person",
-        "name": "Liam"
-      }
-    }
-    </script>
     
     <!-- BRAND FONTS -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -150,6 +126,56 @@
     </style>
 </head>
 <body class="bg-ash dark:bg-void text-void dark:text-ash font-inter relative overflow-x-hidden selection:bg-monolith selection:text-white min-h-screen">
+
+    <!-- WELCOME MODAL ONBOARDING -->
+    <div id="welcome-modal" class="fixed inset-0 bg-void/90 backdrop-blur-md z-[100] hidden flex-col items-center justify-center p-6 opacity-0 transition-opacity duration-500">
+        <div class="bg-white dark:bg-darkPanel p-8 md:p-12 rounded-sm shadow-2xl max-w-2xl w-full relative border border-black/5 dark:border-white/5 overflow-hidden">
+            <!-- Depth of field glow -->
+            <div class="absolute -right-20 -bottom-20 w-64 h-64 bg-monolith/20 rounded-full blur-[60px] pointer-events-none"></div>
+
+            <h2 class="text-3xl md:text-4xl font-black tracking-tighter uppercase italic mb-2 relative z-10 dark:text-ash">Welcome to Clinical Log.</h2>
+            <p class="text-[11px] font-bold opacity-50 uppercase tracking-widest mb-10 relative z-10 dark:text-ash">Your local-first therapy hour tracker.</p>
+
+            <div class="space-y-8 relative z-10">
+                <!-- Step 1 -->
+                <div class="flex items-start gap-6">
+                    <div class="p-3 bg-monolith/10 rounded-full shrink-0">
+                        <i data-lucide="calendar" class="w-5 h-5 text-monolith"></i>
+                    </div>
+                    <div class="dark:text-ash">
+                        <h4 class="text-xs font-black uppercase tracking-[0.2em] mb-1">1. Smart Sync</h4>
+                        <p class="text-[11px] font-bold opacity-60 leading-relaxed">Connect your Google Calendar. Any events containing "client", "supervision", or "therapy" will automatically import into your dashboard.</p>
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="flex items-start gap-6">
+                    <div class="p-3 bg-monolith/10 rounded-full shrink-0">
+                        <i data-lucide="move" class="w-5 h-5 text-monolith"></i>
+                    </div>
+                    <div class="dark:text-ash">
+                        <h4 class="text-xs font-black uppercase tracking-[0.2em] mb-1">2. Custom Workspace</h4>
+                        <p class="text-[11px] font-bold opacity-60 leading-relaxed">Your workflow is unique. Simply close any of the left-hand panels and drag them into whatever order works best for you.</p>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="flex items-start gap-6">
+                    <div class="p-3 bg-monolith/10 rounded-full shrink-0">
+                        <i data-lucide="graduation-cap" class="w-5 h-5 text-monolith"></i>
+                    </div>
+                    <div class="dark:text-ash">
+                        <h4 class="text-xs font-black uppercase tracking-[0.2em] mb-1">3. Trainee Mode</h4>
+                        <p class="text-[11px] font-bold opacity-60 leading-relaxed">Working towards qualification? Enable "Trainee Mode" in Parameters to unlock UKCP goal tracking and mandatory session warnings.</p>
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="closeWelcomeModal()" class="w-full mt-12 py-5 bg-[#f28d35] text-white font-black uppercase tracking-[0.4em] text-[11px] hover:brightness-110 active:scale-[0.98] transition-all relative z-10 shadow-lg shadow-monolith/20">
+                Start Tracking
+            </button>
+        </div>
+    </div>
 
     <!-- PRINT CONTAINER (Hidden in Browser, Visible in PDF/Print) -->
     <div id="print-container" class="hidden">
@@ -683,7 +709,6 @@
             displayLimit: 25
         };
 
-        // Schema migrations
         if (state.settings.anchor && !state.settings.cycleStart) {
             state.settings.cycleStart = state.settings.anchor;
             state.settings.cycleEnd = nextYearStr;
@@ -923,7 +948,7 @@
 
         function updateSettings() {
             state.settings = {
-                ...state.settings, // Preserve order logic
+                ...state.settings,
                 lang: document.getElementById('p-lang').value,
                 cycleStart: document.getElementById('p-cycle-start').value || todayStr,
                 cycleEnd: document.getElementById('p-cycle-end').value || nextYearStr,
@@ -996,6 +1021,7 @@
                 localStorage.removeItem('liam_data');
                 localStorage.removeItem('liam_set');
                 localStorage.removeItem('liam_sync_time');
+                localStorage.removeItem('liam_has_seen_welcome');
                 location.reload();
             }
         }
@@ -1113,11 +1139,30 @@
         function toggleRecords() { document.getElementById('records-content').classList.toggle('hidden'); document.getElementById('icon-records-toggle').classList.toggle('rotate-180'); }
         function openPrivacyModal() { const m = document.getElementById('privacy-modal'); m.classList.remove('hidden'); void m.offsetWidth; m.classList.remove('opacity-0'); }
         function closePrivacyModal() { const m = document.getElementById('privacy-modal'); m.classList.add('opacity-0'); setTimeout(() => m.classList.add('hidden'), 300); }
+        
+        // Modal function logic
+        function closeWelcomeModal() {
+            localStorage.setItem('liam_has_seen_welcome', 'true');
+            const wm = document.getElementById('welcome-modal');
+            wm.classList.add('opacity-0');
+            setTimeout(() => {
+                wm.classList.add('hidden');
+                wm.classList.remove('flex');
+            }, 500);
+        }
 
         window.onload = () => {
             applyTheme();
             loadPanelOrder();
             initDragAndDrop();
+
+            // First time onboarding check
+            if (!localStorage.getItem('liam_has_seen_welcome')) {
+                const wm = document.getElementById('welcome-modal');
+                wm.classList.remove('hidden');
+                wm.classList.add('flex');
+                setTimeout(() => wm.classList.remove('opacity-0'), 100);
+            }
 
             document.getElementById('e-date').valueAsDate = new Date();
             document.getElementById('p-lang').value = state.settings.lang;
