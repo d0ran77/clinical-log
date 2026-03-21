@@ -5,10 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Clinical Log | Professional Therapy Hour Tracker</title>
     
+    <!-- FAVICON -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%231c1c1c'/%3E%3Ccircle cx='50' cy='50' r='20' fill='%23FF7A00'/%3E%3C/svg%3E">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%231c1c1c'/%3E%3Ccircle cx='50' cy='50' r='20' fill='%23FF7A00'/%3E%3C/svg%3E">
+
     <!-- GLOBAL SEO -->
     <meta name="description" content="A premium, secure, local-first clinical log for therapists and counselors. Track client hours, supervision, and CPD balance globally.">
     <meta name="keywords" content="Clinical Log, Therapy Hour Tracker, Supervision Log, BACP hours, Counselor CPD, Therapist Dashboard">
     <meta name="author" content="BUILT BY LIAM">
+    
+    <!-- OPEN GRAPH / SOCIAL SHARE (WhatsApp, Facebook, LinkedIn) -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://clinical-log.netlify.app/">
+    <meta property="og:title" content="Clinical Log | Professional Therapy Hour Tracker">
+    <meta property="og:description" content="A premium, secure, local-first clinical log for therapists and counselors. Track client hours, supervision, and CPD balance globally.">
+    <meta property="og:image" content="https://clinical-log.netlify.app/social-card.png">
+
+    <!-- TWITTER / X CARDS -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://clinical-log.netlify.app/">
+    <meta property="twitter:title" content="Clinical Log | Professional Therapy Hour Tracker">
+    <meta property="twitter:description" content="A premium, secure, local-first clinical log for therapists and counselors. Track client hours, supervision, and CPD balance globally.">
+    <meta property="twitter:image" content="https://clinical-log.netlify.app/social-card.png">
     
     <!-- BRAND FONTS -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -57,6 +75,7 @@
             transition: background-color 0.4s ease, border-color 0.4s ease, color 0.4s ease;
         }
 
+        /* FIXED: Hardened rule to absolutely destroy native browser chevrons on all devices */
         select {
             -webkit-appearance: none !important;
             -moz-appearance: none !important;
