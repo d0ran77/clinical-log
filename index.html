@@ -64,12 +64,6 @@
         .custom-scroll::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.1); border-radius: 4px; }
         .dark .custom-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); }
         
-        @media print {
-            .no-print { display: none !important; }
-            body { background: white !important; color: black !important; }
-            .max-w-6xl { max-width: 100% !important; padding: 0 !important; }
-        }
-
         .font-fraunces { letter-spacing: -0.03em; }
         body, div, section, header, footer, input, select, button, p, span, h1, h2, h3, h4 {
             transition: background-color 0.4s ease, border-color 0.4s ease, color 0.4s ease;
@@ -85,231 +79,259 @@
             background-size: 1.2em;
             padding-right: 2.5rem;
         }
+
+        /* --- NEW: DEDICATED PRINT ENGINE CSS --- */
+        @media print {
+            body * { visibility: hidden; }
+            body { background: white !important; color: black !important; }
+            #print-container, #print-container * { visibility: visible; }
+            #print-container { 
+                position: absolute; 
+                left: 0; 
+                top: 0; 
+                width: 100%; 
+                display: block !important; 
+                padding: 2cm;
+                font-family: 'Inter', sans-serif;
+            }
+            .print-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+            .print-table th, .print-table td { border: 1px solid #ccc; padding: 12px; text-align: left; font-size: 12px; }
+            .print-table th { background-color: #f5f5f5 !important; -webkit-print-color-adjust: exact; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
+            .print-header { text-align: center; margin-bottom: 30px; border-bottom: 2px solid #000; padding-bottom: 20px; }
+            .print-summary { display: flex; justify-content: space-between; margin-bottom: 30px; font-weight: bold; }
+        }
     </style>
 </head>
 <body class="bg-ash dark:bg-void text-void dark:text-ash font-inter relative overflow-x-hidden selection:bg-monolith selection:text-white min-h-screen">
 
-    <!-- Depth of field background glow -->
-    <div class="fixed top-0 right-0 w-[800px] h-[800px] bg-monolith/5 rounded-full blur-[120px] pointer-events-none -z-10 hidden dark:block"></div>
-
-    <div class="absolute top-6 right-6 md:top-12 md:right-12 z-50 no-print">
-        <button onclick="toggleTheme()" class="p-3 opacity-40 hover:opacity-100 hover:text-monolith transition-all rounded-full dark:hover:bg-white/5 hover:bg-black/5">
-            <i data-lucide="sun" id="icon-theme" class="w-6 h-6"></i>
-        </button>
+    <!-- PRINT CONTAINER (Hidden in Browser, Visible in PDF/Print) -->
+    <div id="print-container" class="hidden">
+        <!-- Injected via JavaScript render() -->
     </div>
 
-    <div class="max-w-6xl mx-auto px-6 py-12 md:py-24 relative z-10">
-        <header class="flex flex-col md:flex-row justify-between items-start md:items-end gap-12 mb-20 no-print">
-            <div class="space-y-6">
-                <h2 class="text-xs font-black uppercase tracking-[0.6em] opacity-40" data-i18n="brand">BUILT BY LIAM</h2>
-                <h1 class="text-6xl md:text-8xl font-black tracking-tighter uppercase italic leading-tight">
-                    <span data-i18n="title_part1">Clinical</span> <br /> <span data-i18n="title_part2">Log.</span>
-                </h1>
-                <p class="text-xs font-bold opacity-40 uppercase tracking-widest max-w-md leading-relaxed pt-2" data-i18n="tagline">
-                    Secure clinical recording and balance tracking.
-                </p>
-            </div>
-            
-            <div class="flex flex-col items-start md:items-end gap-10 w-full md:w-auto">
-                <nav class="flex gap-8 w-full border-b border-black/10 dark:border-white/10 pb-2">
-                    <button onclick="setView('month')" id="tab-month" class="text-xs font-black uppercase tracking-[0.3em] pb-3 relative text-monolith">
-                        <span data-i18n="tab_month">Current Month</span>
-                        <div id="ind-month" class="absolute bottom-0 left-0 w-full h-0.5 bg-monolith"></div>
-                    </button>
-                    <button onclick="setView('cycle')" id="tab-cycle" class="text-xs font-black uppercase tracking-[0.3em] pb-3 relative opacity-30 hover:opacity-60 transition-opacity">
-                        <span data-i18n="tab_cycle">Active Cycle</span>
-                        <div id="ind-cycle" class="absolute bottom-0 left-0 w-full h-0.5 bg-monolith hidden"></div>
-                    </button>
-                    <button onclick="setView('all')" id="tab-all" class="text-xs font-black uppercase tracking-[0.3em] pb-3 relative opacity-30 hover:opacity-60 transition-opacity">
-                        <span data-i18n="tab_all">All Time</span>
-                        <div id="ind-all" class="absolute bottom-0 left-0 w-full h-0.5 bg-monolith hidden"></div>
-                    </button>
-                </nav>
-            </div>
-        </header>
+    <!-- MAIN APP UI -->
+    <div id="app-container">
+        <!-- Depth of field background glow -->
+        <div class="fixed top-0 right-0 w-[800px] h-[800px] bg-monolith/5 rounded-full blur-[120px] pointer-events-none -z-10 hidden dark:block"></div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 md:gap-24">
-            <aside class="lg:col-span-4 space-y-12 no-print">
-                <section class="bg-white dark:bg-darkPanel border border-black/10 dark:border-white/5 p-8 rounded-sm shadow-sm transition-all">
-                    <div class="flex justify-between items-center cursor-pointer group" onclick="toggleCal()">
-                        <h3 class="text-xs font-black uppercase tracking-[0.4em] opacity-30 group-hover:opacity-100 transition-all flex items-center gap-2">
-                            <i data-lucide="calendar" class="w-4 h-4 text-monolith"></i> <span data-i18n="header_sync">Sync Engine</span>
-                        </h3>
-                        <i data-lucide="chevron-up" id="icon-cal-toggle" class="w-5 h-5 opacity-30 transition-transform duration-300"></i>
-                    </div>
-                    <div id="cal-content" class="mt-8 block space-y-4">
-                        <div class="bg-black/5 dark:bg-white/5 p-4 border-l-2 border-monolith rounded-r-sm mb-6">
-                            <p class="text-[9px] font-bold opacity-60 uppercase tracking-widest leading-relaxed flex items-start gap-3">
-                                <i data-lucide="info" class="w-3 h-3 text-monolith shrink-0 mt-0.5"></i>
-                                <span data-i18n="info_sync">Imports events automatically from Google Calendar using your custom Keyword Mapping.</span>
-                            </p>
-                        </div>
-                        <button onclick="handleCalendarSync()" id="btn-sync" class="w-full py-5 border-2 border-black/10 dark:border-white/10 hover:border-monolith hover:text-monolith font-black uppercase tracking-[0.3em] text-[11px] flex justify-center items-center gap-3 disabled:opacity-50 transition-all">
-                            <i data-lucide="refresh-cw" id="icon-sync" class="w-4 h-4"></i>
-                            <span id="txt-sync" data-i18n="btn_sync">Sync Calendar</span>
+        <div class="absolute top-6 right-6 md:top-12 md:right-12 z-50 no-print">
+            <button onclick="toggleTheme()" class="p-3 opacity-40 hover:opacity-100 hover:text-monolith transition-all rounded-full dark:hover:bg-white/5 hover:bg-black/5">
+                <i data-lucide="sun" id="icon-theme" class="w-6 h-6"></i>
+            </button>
+        </div>
+
+        <div class="max-w-6xl mx-auto px-6 py-12 md:py-24 relative z-10">
+            <header class="flex flex-col md:flex-row justify-between items-start md:items-end gap-12 mb-20 no-print">
+                <div class="space-y-6">
+                    <h2 class="text-xs font-black uppercase tracking-[0.6em] opacity-40" data-i18n="brand">BUILT BY LIAM</h2>
+                    <h1 class="text-6xl md:text-8xl font-black tracking-tighter uppercase italic leading-tight">
+                        <span data-i18n="title_part1">Clinical</span> <br /> <span data-i18n="title_part2">Log.</span>
+                    </h1>
+                    <p class="text-xs font-bold opacity-40 uppercase tracking-widest max-w-md leading-relaxed pt-2" data-i18n="tagline">
+                        Secure clinical recording and balance tracking.
+                    </p>
+                </div>
+                
+                <div class="flex flex-col items-start md:items-end gap-10 w-full md:w-auto">
+                    <nav class="flex gap-8 w-full border-b border-black/10 dark:border-white/10 pb-2">
+                        <button onclick="setView('month')" id="tab-month" class="text-xs font-black uppercase tracking-[0.3em] pb-3 relative text-monolith">
+                            <span data-i18n="tab_month">Current Month</span>
+                            <div id="ind-month" class="absolute bottom-0 left-0 w-full h-0.5 bg-monolith"></div>
                         </button>
-                        <p id="msg-sync" class="text-[11px] font-bold text-monolith uppercase tracking-widest text-center animate-pulse pt-2 hidden"></p>
-                        <p id="txt-last-sync" class="text-[10px] font-black opacity-40 uppercase tracking-widest text-center hidden"></p>
-                    </div>
-                </section>
+                        <button onclick="setView('cycle')" id="tab-cycle" class="text-xs font-black uppercase tracking-[0.3em] pb-3 relative opacity-30 hover:opacity-60 transition-opacity">
+                            <span data-i18n="tab_cycle">Active Cycle</span>
+                            <div id="ind-cycle" class="absolute bottom-0 left-0 w-full h-0.5 bg-monolith hidden"></div>
+                        </button>
+                        <button onclick="setView('all')" id="tab-all" class="text-xs font-black uppercase tracking-[0.3em] pb-3 relative opacity-30 hover:opacity-60 transition-opacity">
+                            <span data-i18n="tab_all">All Time</span>
+                            <div id="ind-all" class="absolute bottom-0 left-0 w-full h-0.5 bg-monolith hidden"></div>
+                        </button>
+                    </nav>
+                </div>
+            </header>
 
-                <section class="bg-white dark:bg-darkPanel border border-black/10 dark:border-white/5 p-8 rounded-sm shadow-sm">
-                    <div class="flex justify-between items-center cursor-pointer group" onclick="toggleEntry()">
-                        <h3 class="text-xs font-black uppercase tracking-[0.4em] opacity-30 group-hover:opacity-100 transition-all flex items-center gap-2">
-                            <i data-lucide="activity" class="w-4 h-4 text-monolith"></i> <span data-i18n="header_entry">New Entry</span>
-                        </h3>
-                        <i data-lucide="chevron-up" id="icon-entry-toggle" class="w-5 h-5 opacity-30 transition-transform duration-300"></i>
-                    </div>
-                    <div id="entry-content" class="mt-8 block">
-                        <div class="bg-black/5 dark:bg-white/5 p-4 border-l-2 border-monolith rounded-r-sm mb-6">
-                            <p class="text-[9px] font-bold opacity-60 uppercase tracking-widest leading-relaxed flex items-start gap-3">
-                                <i data-lucide="info" class="w-3 h-3 text-monolith shrink-0 mt-0.5"></i>
-                                <span data-i18n="info_manual">Manually log clinical hours to your local secure database.</span>
-                            </p>
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 md:gap-24">
+                <aside class="lg:col-span-4 space-y-12 no-print">
+                    <section class="bg-white dark:bg-darkPanel border border-black/10 dark:border-white/5 p-8 rounded-sm shadow-sm transition-all">
+                        <div class="flex justify-between items-center cursor-pointer group" onclick="toggleCal()">
+                            <h3 class="text-xs font-black uppercase tracking-[0.4em] opacity-30 group-hover:opacity-100 transition-all flex items-center gap-2">
+                                <i data-lucide="calendar" class="w-4 h-4 text-monolith"></i> <span data-i18n="header_sync">Sync Engine</span>
+                            </h3>
+                            <i data-lucide="chevron-up" id="icon-cal-toggle" class="w-5 h-5 opacity-30 transition-transform duration-300"></i>
                         </div>
-                        <form onsubmit="addEntry(event)" class="space-y-6">
-                            <div class="space-y-2">
-                                <label class="text-[10px] font-black opacity-50 uppercase tracking-widest" data-i18n="label_type">Type</label>
-                                <select id="e-type" class="w-full bg-transparent border-b border-black/10 dark:border-white/10 py-3 font-bold text-base outline-none focus:border-monolith dark:text-ash">
-                                    <option value="client" class="dark:bg-darkPanel" data-i18n="opt_contact">Client</option>
-                                    <option value="super" class="dark:bg-darkPanel" data-i18n="opt_super">Supervision</option>
-                                    <option value="therapy" class="dark:bg-darkPanel" data-i18n="opt_therapy">Personal Therapy</option>
-                                    <option value="cpd" class="dark:bg-darkPanel" data-i18n="opt_cpd">CPD / Training</option>
-                                </select>
+                        <div id="cal-content" class="mt-8 block space-y-4">
+                            <div class="bg-black/5 dark:bg-white/5 p-4 border-l-2 border-monolith rounded-r-sm mb-6">
+                                <p class="text-[9px] font-bold opacity-60 uppercase tracking-widest leading-relaxed flex items-start gap-3">
+                                    <i data-lucide="info" class="w-3 h-3 text-monolith shrink-0 mt-0.5"></i>
+                                    <span data-i18n="info_sync">Imports events automatically from Google Calendar using your custom Keyword Mapping.</span>
+                                </p>
                             </div>
-                            <div class="grid grid-cols-2 gap-6">
-                                <div class="space-y-2">
-                                    <label class="text-[10px] font-black opacity-50 uppercase tracking-widest" data-i18n="label_date">Date</label>
-                                    <input id="e-date" type="date" class="w-full bg-transparent border-b border-black/10 dark:border-white/10 py-3 font-bold text-sm outline-none focus:border-monolith">
-                                </div>
-                                <div class="space-y-2">
-                                    <label class="text-[10px] font-black opacity-50 uppercase tracking-widest" data-i18n="label_hours">Hours</label>
-                                    <input id="e-hours" type="number" step="0.5" placeholder="0.0" class="w-full bg-transparent border-b border-black/10 dark:border-white/10 py-3 font-bold text-base outline-none focus:border-monolith">
-                                </div>
-                            </div>
-                            <button type="submit" class="w-full py-5 border-2 border-black/10 dark:border-white/10 hover:border-monolith hover:text-monolith font-black uppercase tracking-[0.3em] text-[11px] flex justify-center items-center gap-3 transition-all">
-                                <i data-lucide="plus" class="w-4 h-4"></i> <span data-i18n="btn_add">Add Entry</span>
+                            <button onclick="handleCalendarSync()" id="btn-sync" class="w-full py-5 border-2 border-black/10 dark:border-white/10 hover:border-monolith hover:text-monolith font-black uppercase tracking-[0.3em] text-[11px] flex justify-center items-center gap-3 disabled:opacity-50 transition-all">
+                                <i data-lucide="refresh-cw" id="icon-sync" class="w-4 h-4"></i>
+                                <span id="txt-sync" data-i18n="btn_sync">Sync Calendar</span>
                             </button>
-                        </form>
-                    </div>
-                </section>
-
-                <section class="bg-white dark:bg-darkPanel border border-black/10 dark:border-white/5 p-8 rounded-sm shadow-sm">
-                    <div class="flex justify-between items-center cursor-pointer group" onclick="toggleParams()">
-                        <h3 class="text-xs font-black uppercase tracking-[0.4em] opacity-30 group-hover:opacity-100 transition-all flex items-center gap-2">
-                            <i data-lucide="sliders" class="w-4 h-4 text-monolith"></i> <span data-i18n="header_params">Parameters</span>
-                        </h3>
-                        <i data-lucide="chevron-up" id="icon-params-toggle" class="w-5 h-5 opacity-30 transition-transform duration-300"></i>
-                    </div>
-                    <div id="params-content" class="mt-8 block space-y-10">
-                        <div class="space-y-4">
-                            <label class="text-[10px] font-black opacity-80 uppercase tracking-widest" data-i18n="label_balance">Reporting Balance</label>
-                            <div class="bg-ash/20 dark:bg-white/5 p-4 rounded-sm border border-black/5 dark:border-white/5 text-[11px] font-bold opacity-60 uppercase tracking-widest leading-relaxed">
-                                <span data-i18n="ratio_1">For every</span>
-                                <input id="p-ratio-client" type="number" step="0.5" onchange="updateSettings()" class="w-12 bg-transparent border-b border-monolith text-monolith text-center outline-none font-black">
-                                <span data-i18n="ratio_2">hr(s) of client contact,</span>
-                                <br class="sm:hidden">
-                                <span data-i18n="ratio_3">I require</span>
-                                <input id="p-ratio-super" type="number" step="0.5" onchange="updateSettings()" class="w-12 bg-transparent border-b border-monolith text-monolith text-center outline-none font-black">
-                                <span data-i18n="ratio_4">hr(s) of supervision.</span>
-                            </div>
+                            <p id="msg-sync" class="text-[11px] font-bold text-monolith uppercase tracking-widest text-center animate-pulse pt-2 hidden"></p>
+                            <p id="txt-last-sync" class="text-[10px] font-black opacity-40 uppercase tracking-widest text-center hidden"></p>
                         </div>
-                        <div class="space-y-4">
-                            <label class="text-[10px] font-black opacity-80 uppercase tracking-widest" data-i18n="label_keywords">Keyword Mapping</label>
-                            <div class="space-y-2">
-                                <div class="flex items-center gap-3"><span class="text-[8px] font-black opacity-40 uppercase w-16">Contact:</span><input id="k-client" type="text" onchange="updateSettings()" class="flex-1 bg-transparent border-b border-black/5 text-[11px] font-bold outline-none text-monolith"></div>
-                                <div class="flex items-center gap-3"><span class="text-[8px] font-black opacity-40 uppercase w-16">Super:</span><input id="k-super" type="text" onchange="updateSettings()" class="flex-1 bg-transparent border-b border-black/5 text-[11px] font-bold outline-none text-monolith"></div>
-                                <div class="flex items-center gap-3"><span class="text-[8px] font-black opacity-40 uppercase w-16">Therapy:</span><input id="k-therapy" type="text" onchange="updateSettings()" class="flex-1 bg-transparent border-b border-black/5 text-[11px] font-bold outline-none text-monolith"></div>
-                                <div class="flex items-center gap-3"><span class="text-[8px] font-black opacity-40 uppercase w-16">CPD:</span><input id="k-cpd" type="text" onchange="updateSettings()" class="flex-1 bg-transparent border-b border-black/5 text-[11px] font-bold outline-none text-monolith"></div>
-                            </div>
-                        </div>
-                        
-                        <div class="space-y-6 pt-4 border-t border-black/10 dark:border-white/10">
-                            
-                            <div class="flex items-center justify-between">
-                                <div class="space-y-1">
-                                    <label class="text-[10px] font-black opacity-80 uppercase tracking-widest" data-i18n="label_trainee">UKCP Trainee Mode</label>
-                                    <p class="text-[8px] font-bold opacity-40 uppercase tracking-widest" data-i18n="desc_trainee">Enables 2x/mo warning & qualification goals</p>
-                                </div>
-                                <input id="p-trainee" type="checkbox" onchange="updateSettings()" class="w-5 h-5 accent-monolith cursor-pointer">
-                            </div>
-                            
-                            <div id="trainee-settings" class="space-y-6 hidden">
-                                <div class="space-y-2">
-                                    <label class="text-[10px] font-black opacity-80 uppercase tracking-widest" data-i18n="label_goal">Therapy Mandate (Hrs)</label>
-                                    <input id="p-goal" type="number" step="0.5" min="0" placeholder="40" onchange="updateSettings()" class="w-full bg-transparent border-b border-black/10 dark:border-white/10 py-3 font-bold text-sm outline-none focus:border-monolith text-monolith">
-                                </div>
-                                <div class="space-y-2">
-                                    <label class="text-[10px] font-black opacity-80 uppercase tracking-widest" data-i18n="label_global_goal">Qualification Goal (Client Hrs)</label>
-                                    <input id="p-global-goal" type="number" step="1" min="0" placeholder="100" onchange="updateSettings()" class="w-full bg-transparent border-b border-black/10 dark:border-white/10 py-3 font-bold text-sm outline-none focus:border-monolith text-monolith">
-                                </div>
-                            </div>
+                    </section>
 
-                            <div class="space-y-4 pt-4 border-t border-black/5 dark:border-white/5">
-                                <div>
-                                    <label class="text-[10px] font-black opacity-80 uppercase tracking-widest" data-i18n="label_cycle_range">Active Cycle Range</label>
-                                    <div class="bg-black/5 dark:bg-white/5 p-4 border-l-2 border-monolith rounded-r-sm mt-3 mb-4">
-                                        <p class="text-[9px] font-bold opacity-60 uppercase tracking-widest leading-relaxed flex items-start gap-3">
-                                            <i data-lucide="info" class="w-3 h-3 text-monolith shrink-0 mt-0.5"></i>
-                                            <span data-i18n="info_cycle">Filters the dashboard to only show records within your academic or reporting year.</span>
-                                        </p>
-                                    </div>
+                    <section class="bg-white dark:bg-darkPanel border border-black/10 dark:border-white/5 p-8 rounded-sm shadow-sm">
+                        <div class="flex justify-between items-center cursor-pointer group" onclick="toggleEntry()">
+                            <h3 class="text-xs font-black uppercase tracking-[0.4em] opacity-30 group-hover:opacity-100 transition-all flex items-center gap-2">
+                                <i data-lucide="activity" class="w-4 h-4 text-monolith"></i> <span data-i18n="header_entry">New Entry</span>
+                            </h3>
+                            <i data-lucide="chevron-up" id="icon-entry-toggle" class="w-5 h-5 opacity-30 transition-transform duration-300"></i>
+                        </div>
+                        <div id="entry-content" class="mt-8 block">
+                            <div class="bg-black/5 dark:bg-white/5 p-4 border-l-2 border-monolith rounded-r-sm mb-6">
+                                <p class="text-[9px] font-bold opacity-60 uppercase tracking-widest leading-relaxed flex items-start gap-3">
+                                    <i data-lucide="info" class="w-3 h-3 text-monolith shrink-0 mt-0.5"></i>
+                                    <span data-i18n="info_manual">Manually log clinical hours to your local secure database.</span>
+                                </p>
+                            </div>
+                            <form onsubmit="addEntry(event)" class="space-y-6">
+                                <div class="space-y-2">
+                                    <label class="text-[10px] font-black opacity-50 uppercase tracking-widest" data-i18n="label_type">Type</label>
+                                    <select id="e-type" class="w-full bg-transparent border-b border-black/10 dark:border-white/10 py-3 font-bold text-base outline-none focus:border-monolith dark:text-ash">
+                                        <option value="client" class="dark:bg-darkPanel" data-i18n="opt_contact">Client</option>
+                                        <option value="super" class="dark:bg-darkPanel" data-i18n="opt_super">Supervision</option>
+                                        <option value="therapy" class="dark:bg-darkPanel" data-i18n="opt_therapy">Personal Therapy</option>
+                                        <option value="cpd" class="dark:bg-darkPanel" data-i18n="opt_cpd">CPD / Training</option>
+                                    </select>
                                 </div>
                                 <div class="grid grid-cols-2 gap-6">
                                     <div class="space-y-2">
-                                        <label class="text-[8px] font-black opacity-50 uppercase tracking-widest" data-i18n="label_cycle_start">Start Date</label>
-                                        <input id="p-cycle-start" type="date" onchange="updateSettings()" class="w-full bg-transparent border-b border-black/10 dark:border-white/10 py-2 font-bold text-xs outline-none focus:border-monolith text-monolith">
+                                        <label class="text-[10px] font-black opacity-50 uppercase tracking-widest" data-i18n="label_date">Date</label>
+                                        <input id="e-date" type="date" class="w-full bg-transparent border-b border-black/10 dark:border-white/10 py-3 font-bold text-sm outline-none focus:border-monolith">
                                     </div>
                                     <div class="space-y-2">
-                                        <label class="text-[8px] font-black opacity-50 uppercase tracking-widest" data-i18n="label_cycle_end">End Date</label>
-                                        <input id="p-cycle-end" type="date" onchange="updateSettings()" class="w-full bg-transparent border-b border-black/10 dark:border-white/10 py-2 font-bold text-xs outline-none focus:border-monolith text-monolith">
+                                        <label class="text-[10px] font-black opacity-50 uppercase tracking-widest" data-i18n="label_hours">Hours</label>
+                                        <input id="e-hours" type="number" step="0.5" placeholder="0.0" class="w-full bg-transparent border-b border-black/10 dark:border-white/10 py-3 font-bold text-base outline-none focus:border-monolith">
                                     </div>
+                                </div>
+                                <button type="submit" class="w-full py-5 border-2 border-black/10 dark:border-white/10 hover:border-monolith hover:text-monolith font-black uppercase tracking-[0.3em] text-[11px] flex justify-center items-center gap-3 transition-all">
+                                    <i data-lucide="plus" class="w-4 h-4"></i> <span data-i18n="btn_add">Add Entry</span>
+                                </button>
+                            </form>
+                        </div>
+                    </section>
+
+                    <section class="bg-white dark:bg-darkPanel border border-black/10 dark:border-white/5 p-8 rounded-sm shadow-sm">
+                        <div class="flex justify-between items-center cursor-pointer group" onclick="toggleParams()">
+                            <h3 class="text-xs font-black uppercase tracking-[0.4em] opacity-30 group-hover:opacity-100 transition-all flex items-center gap-2">
+                                <i data-lucide="sliders" class="w-4 h-4 text-monolith"></i> <span data-i18n="header_params">Parameters</span>
+                            </h3>
+                            <i data-lucide="chevron-up" id="icon-params-toggle" class="w-5 h-5 opacity-30 transition-transform duration-300"></i>
+                        </div>
+                        <div id="params-content" class="mt-8 block space-y-10">
+                            <div class="space-y-4">
+                                <label class="text-[10px] font-black opacity-80 uppercase tracking-widest" data-i18n="label_balance">Reporting Balance</label>
+                                <div class="bg-ash/20 dark:bg-white/5 p-4 rounded-sm border border-black/5 dark:border-white/5 text-[11px] font-bold opacity-60 uppercase tracking-widest leading-relaxed">
+                                    <span data-i18n="ratio_1">For every</span>
+                                    <input id="p-ratio-client" type="number" step="0.5" onchange="updateSettings()" class="w-12 bg-transparent border-b border-monolith text-monolith text-center outline-none font-black">
+                                    <span data-i18n="ratio_2">hr(s) of client contact,</span>
+                                    <br class="sm:hidden">
+                                    <span data-i18n="ratio_3">I require</span>
+                                    <input id="p-ratio-super" type="number" step="0.5" onchange="updateSettings()" class="w-12 bg-transparent border-b border-monolith text-monolith text-center outline-none font-black">
+                                    <span data-i18n="ratio_4">hr(s) of supervision.</span>
+                                </div>
+                            </div>
+                            <div class="space-y-4">
+                                <label class="text-[10px] font-black opacity-80 uppercase tracking-widest" data-i18n="label_keywords">Keyword Mapping</label>
+                                <div class="space-y-2">
+                                    <div class="flex items-center gap-3"><span class="text-[8px] font-black opacity-40 uppercase w-16">Contact:</span><input id="k-client" type="text" onchange="updateSettings()" class="flex-1 bg-transparent border-b border-black/5 text-[11px] font-bold outline-none text-monolith"></div>
+                                    <div class="flex items-center gap-3"><span class="text-[8px] font-black opacity-40 uppercase w-16">Super:</span><input id="k-super" type="text" onchange="updateSettings()" class="flex-1 bg-transparent border-b border-black/5 text-[11px] font-bold outline-none text-monolith"></div>
+                                    <div class="flex items-center gap-3"><span class="text-[8px] font-black opacity-40 uppercase w-16">Therapy:</span><input id="k-therapy" type="text" onchange="updateSettings()" class="flex-1 bg-transparent border-b border-black/5 text-[11px] font-bold outline-none text-monolith"></div>
+                                    <div class="flex items-center gap-3"><span class="text-[8px] font-black opacity-40 uppercase w-16">CPD:</span><input id="k-cpd" type="text" onchange="updateSettings()" class="flex-1 bg-transparent border-b border-black/5 text-[11px] font-bold outline-none text-monolith"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="space-y-6 pt-4 border-t border-black/10 dark:border-white/10">
+                                
+                                <div class="flex items-center justify-between">
+                                    <div class="space-y-1">
+                                        <label class="text-[10px] font-black opacity-80 uppercase tracking-widest" data-i18n="label_trainee">UKCP Trainee Mode</label>
+                                        <p class="text-[8px] font-bold opacity-40 uppercase tracking-widest" data-i18n="desc_trainee">Enables 2x/mo warning & qualification goals</p>
+                                    </div>
+                                    <input id="p-trainee" type="checkbox" onchange="updateSettings()" class="w-5 h-5 accent-monolith cursor-pointer">
+                                </div>
+                                
+                                <div id="trainee-settings" class="space-y-6 hidden">
+                                    <div class="space-y-2">
+                                        <label class="text-[10px] font-black opacity-80 uppercase tracking-widest" data-i18n="label_goal">Therapy Mandate (Hrs)</label>
+                                        <input id="p-goal" type="number" step="0.5" min="0" placeholder="40" onchange="updateSettings()" class="w-full bg-transparent border-b border-black/10 dark:border-white/10 py-3 font-bold text-sm outline-none focus:border-monolith text-monolith">
+                                    </div>
+                                    <div class="space-y-2">
+                                        <label class="text-[10px] font-black opacity-80 uppercase tracking-widest" data-i18n="label_global_goal">Qualification Goal (Client Hrs)</label>
+                                        <input id="p-global-goal" type="number" step="1" min="0" placeholder="100" onchange="updateSettings()" class="w-full bg-transparent border-b border-black/10 dark:border-white/10 py-3 font-bold text-sm outline-none focus:border-monolith text-monolith">
+                                    </div>
+                                </div>
+
+                                <div class="space-y-4 pt-4 border-t border-black/5 dark:border-white/5">
+                                    <div>
+                                        <label class="text-[10px] font-black opacity-80 uppercase tracking-widest" data-i18n="label_cycle_range">Active Cycle Range</label>
+                                        <div class="bg-black/5 dark:bg-white/5 p-4 border-l-2 border-monolith rounded-r-sm mt-3 mb-4">
+                                            <p class="text-[9px] font-bold opacity-60 uppercase tracking-widest leading-relaxed flex items-start gap-3">
+                                                <i data-lucide="info" class="w-3 h-3 text-monolith shrink-0 mt-0.5"></i>
+                                                <span data-i18n="info_cycle">Filters the dashboard to only show records within your academic or reporting year.</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="grid grid-cols-2 gap-6">
+                                        <div class="space-y-2">
+                                            <label class="text-[8px] font-black opacity-50 uppercase tracking-widest" data-i18n="label_cycle_start">Start Date</label>
+                                            <input id="p-cycle-start" type="date" onchange="updateSettings()" class="w-full bg-transparent border-b border-black/10 dark:border-white/10 py-2 font-bold text-xs outline-none focus:border-monolith text-monolith">
+                                        </div>
+                                        <div class="space-y-2">
+                                            <label class="text-[8px] font-black opacity-50 uppercase tracking-widest" data-i18n="label_cycle_end">End Date</label>
+                                            <input id="p-cycle-end" type="date" onchange="updateSettings()" class="w-full bg-transparent border-b border-black/10 dark:border-white/10 py-2 font-bold text-xs outline-none focus:border-monolith text-monolith">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="space-y-2 pt-4 border-t border-black/5 dark:border-white/5">
+                                    <label class="text-[10px] font-black opacity-80 uppercase tracking-widest" data-i18n="label_history">Full Sync Start Year</label>
+                                    <input id="p-history-year" type="number" min="1990" max="2100" placeholder="2024" onchange="updateSettings()" class="w-full bg-transparent border-b border-black/10 dark:border-white/10 py-3 font-bold text-sm outline-none focus:border-monolith text-monolith">
+                                </div>
+                                <div class="space-y-2">
+                                    <label class="text-[10px] font-black opacity-80 uppercase tracking-widest" data-i18n="label_lang">System Language</label>
+                                    <select id="p-lang" onchange="updateSettings()" class="w-full bg-transparent border-b border-black/10 dark:border-white/10 py-3 font-bold text-sm outline-none dark:text-ash cursor-pointer">
+                                        <option value="en" class="dark:bg-darkPanel">English</option>
+                                        <option value="es" class="dark:bg-darkPanel">Español</option>
+                                        <option value="fr" class="dark:bg-darkPanel">Français</option>
+                                        <option value="pl" class="dark:bg-darkPanel">Polski</option>
+                                    </select>
                                 </div>
                             </div>
 
-                            <div class="space-y-2 pt-4 border-t border-black/5 dark:border-white/5">
-                                <label class="text-[10px] font-black opacity-80 uppercase tracking-widest" data-i18n="label_history">Full Sync Start Year</label>
-                                <input id="p-history-year" type="number" min="1990" max="2100" placeholder="2024" onchange="updateSettings()" class="w-full bg-transparent border-b border-black/10 dark:border-white/10 py-3 font-bold text-sm outline-none focus:border-monolith text-monolith">
-                            </div>
-                            <div class="space-y-2">
-                                <label class="text-[10px] font-black opacity-80 uppercase tracking-widest" data-i18n="label_lang">System Language</label>
-                                <select id="p-lang" onchange="updateSettings()" class="w-full bg-transparent border-b border-black/10 dark:border-white/10 py-3 font-bold text-sm outline-none dark:text-ash cursor-pointer">
-                                    <option value="en" class="dark:bg-darkPanel">English</option>
-                                    <option value="es" class="dark:bg-darkPanel">Español</option>
-                                    <option value="fr" class="dark:bg-darkPanel">Français</option>
-                                    <option value="pl" class="dark:bg-darkPanel">Polski</option>
-                                </select>
-                            </div>
+                            <button id="btn-save-params" onclick="handleSaveParams()" class="w-full py-4 border-2 border-black/10 dark:border-white/10 hover:border-monolith hover:text-monolith font-black uppercase tracking-[0.3em] text-[10px] transition-all mt-4" data-i18n="btn_save_params">
+                                Save Parameters
+                            </button>
                         </div>
+                    </section>
+                </aside>
 
-                        <button id="btn-save-params" onclick="handleSaveParams()" class="w-full py-4 border-2 border-black/10 dark:border-white/10 hover:border-monolith hover:text-monolith font-black uppercase tracking-[0.3em] text-[10px] transition-all mt-4" data-i18n="btn_save_params">
-                            Save Parameters
-                        </button>
-                    </div>
-                </section>
-            </aside>
-
-            <main class="lg:col-span-8 flex flex-col gap-10">
-                <div class="grid grid-cols-2 lg:grid-cols-4 bg-white dark:bg-darkPanel border-t border-l border-black/10 dark:border-white/5 shadow-sm">
-                    <div class="p-6 md:p-8 border-r border-b border-black/10 dark:border-white/5"><span class="text-[10px] font-black uppercase tracking-[0.3em] opacity-30 block mb-4" data-i18n="stat_contact">Client</span><div id="val-client" class="text-3xl md:text-5xl font-black tracking-tighter tabular-nums">0.0</div></div>
-                    <div class="p-6 md:p-8 border-r border-b border-black/10 dark:border-white/5"><span class="text-[10px] font-black uppercase tracking-[0.3em] opacity-30 block mb-4" data-i18n="stat_super">Supervision</span><div id="val-super" class="text-3xl md:text-5xl font-black tracking-tighter tabular-nums">0.0</div></div>
-                    <div class="p-6 md:p-8 border-r border-b border-black/10 dark:border-white/5"><span class="text-[10px] font-black uppercase tracking-[0.3em] opacity-30 block mb-4" data-i18n="stat_therapy">Therapy</span><div id="val-therapy" class="text-3xl md:text-5xl font-black tracking-tighter tabular-nums">0.0</div></div>
-                    <div class="p-6 md:p-8 border-r border-b border-black/10 dark:border-white/5"><span class="text-[10px] font-black uppercase tracking-[0.3em] opacity-30 block mb-4" data-i18n="stat_cpd">CPD</span><div id="val-cpd" class="text-3xl md:text-5xl font-black tracking-tighter tabular-nums">0.0</div></div>
-                </div>
-
-                <!-- METRICS GRID -->
-                <div id="metrics-grid" class="grid grid-cols-1 gap-10">
-                    
-                    <div class="space-y-6 flex flex-col justify-between">
-                        <div class="flex justify-between items-end">
-                            <div class="space-y-2"><h2 class="text-4xl font-black tracking-tighter uppercase italic" data-i18n="balance_title">Balance</h2><p class="text-[11px] font-bold opacity-30 uppercase tracking-[0.3em]" data-i18n="health_label">Operational Health</p></div>
-                            <div class="text-7xl md:text-6xl font-black tabular-nums leading-none"><span id="val-ratio">0</span><span class="text-3xl md:text-2xl opacity-40">%</span></div>
-                        </div>
-                        <div class="h-2.5 bg-black/10 dark:bg-white/10 w-full overflow-hidden shadow-inner mt-auto"><div id="bar-ratio" class="h-full bg-monolith transition-all duration-1000 ease-in-out w-0"></div></div>
-                        <div class="p-6 bg-white dark:bg-darkPanel border border-black/10 dark:border-white/5 h-full flex items-center"><p id="txt-warning" class="text-[11px] font-bold uppercase tracking-[0.2em] leading-relaxed opacity-60"></p></div>
+                <main class="lg:col-span-8 flex flex-col gap-10">
+                    <div class="grid grid-cols-2 lg:grid-cols-4 bg-white dark:bg-darkPanel border-t border-l border-black/10 dark:border-white/5 shadow-sm">
+                        <div class="p-6 md:p-8 border-r border-b border-black/10 dark:border-white/5"><span class="text-[10px] font-black uppercase tracking-[0.3em] opacity-30 block mb-4" data-i18n="stat_contact">Client</span><div id="val-client" class="text-3xl md:text-5xl font-black tracking-tighter tabular-nums">0.0</div></div>
+                        <div class="p-6 md:p-8 border-r border-b border-black/10 dark:border-white/5"><span class="text-[10px] font-black uppercase tracking-[0.3em] opacity-30 block mb-4" data-i18n="stat_super">Supervision</span><div id="val-super" class="text-3xl md:text-5xl font-black tracking-tighter tabular-nums">0.0</div></div>
+                        <div class="p-6 md:p-8 border-r border-b border-black/10 dark:border-white/5"><span class="text-[10px] font-black uppercase tracking-[0.3em] opacity-30 block mb-4" data-i18n="stat_therapy">Therapy</span><div id="val-therapy" class="text-3xl md:text-5xl font-black tracking-tighter tabular-nums">0.0</div></div>
+                        <div class="p-6 md:p-8 border-r border-b border-black/10 dark:border-white/5"><span class="text-[10px] font-black uppercase tracking-[0.3em] opacity-30 block mb-4" data-i18n="stat_cpd">CPD</span><div id="val-cpd" class="text-3xl md:text-5xl font-black tracking-tighter tabular-nums">0.0</div></div>
                     </div>
 
-                    <div id="progress-widget" class="hidden space-y-6 flex-col justify-between">
+                    <!-- METRICS GRID -->
+                    <div id="metrics-grid" class="grid grid-cols-1 gap-10">
+                        
+                        <div class="space-y-6 flex flex-col justify-between">
+                            <div class="flex justify-between items-end">
+                                <div class="space-y-2"><h2 class="text-4xl font-black tracking-tighter uppercase italic" data-i18n="balance_title">Balance</h2><p class="text-[11px] font-bold opacity-30 uppercase tracking-[0.3em]" data-i18n="health_label">Operational Health</p></div>
+                                <div class="text-7xl md:text-6xl font-black tabular-nums leading-none"><span id="val-ratio">0</span><span class="text-3xl md:text-2xl opacity-40">%</span></div>
+                            </div>
+                            <div class="h-2.5 bg-black/10 dark:bg-white/10 w-full overflow-hidden shadow-inner mt-auto"><div id="bar-ratio" class="h-full bg-monolith transition-all duration-1000 ease-in-out w-0"></div></div>
+                            <div class="p-6 bg-white dark:bg-darkPanel border border-black/10 dark:border-white/5 h-full flex items-center"><p id="txt-warning" class="text-[11px] font-bold uppercase tracking-[0.2em] leading-relaxed opacity-60"></p></div>
+                        </div>
+
+                        <div id="progress-widget" class="hidden space-y-6 flex-col justify-between">
                         <div class="flex justify-between items-end">
                             <div class="space-y-2">
                                 <h2 class="text-4xl font-black tracking-tighter uppercase italic" data-i18n="progress_title">Progress</h2>
@@ -339,18 +361,30 @@
                 </div>
 
                 <div class="space-y-6 pb-20 mt-10">
-                    <div class="flex justify-between items-center border-b border-black/10 dark:border-white/10 pb-4 cursor-pointer group no-print" onclick="toggleRecords()">
-                        <h3 class="text-xs font-black uppercase tracking-[0.4em] opacity-30 group-hover:opacity-100 transition-all flex items-center gap-2" data-i18n="active_records">
-                            Active Records
-                        </h3>
-                        <i data-lucide="chevron-up" id="icon-records-toggle" class="w-5 h-5 opacity-30 transition-transform duration-300"></i>
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-end border-b border-black/10 dark:border-white/10 pb-4 gap-4 no-print">
+                        <div class="flex items-center gap-2 cursor-pointer group" onclick="toggleRecords()">
+                            <h3 class="text-xs font-black uppercase tracking-[0.4em] opacity-30 group-hover:opacity-100 transition-all flex items-center gap-2" data-i18n="active_records">
+                                Active Records
+                            </h3>
+                            <i data-lucide="chevron-up" id="icon-records-toggle" class="w-5 h-5 opacity-30 transition-transform duration-300"></i>
+                        </div>
+                        
+                        <div class="flex gap-4 md:gap-6 items-center flex-wrap">
+                            <button id="btn-sheets" onclick="saveToGoogleSheets()" class="text-[10px] font-black opacity-40 hover:opacity-100 hover:text-monolith transition-all flex items-center gap-2">
+                                <i data-lucide="table" class="w-3.5 h-3.5"></i> <span data-i18n="btn_sheets">Save to Sheets</span>
+                            </button>
+                            
+                            <button onclick="exportCSV()" class="text-[10px] font-black opacity-40 hover:opacity-100 hover:text-monolith transition-all flex items-center gap-2">
+                                <i data-lucide="download" class="w-3.5 h-3.5"></i> <span data-i18n="btn_export">Export CSV</span>
+                            </button>
+                            
+                            <button onclick="window.print()" class="text-[10px] font-black opacity-40 hover:opacity-100 hover:text-monolith transition-all flex items-center gap-2">
+                                <i data-lucide="printer" class="w-3.5 h-3.5"></i> <span data-i18n="btn_print">Print PDF</span>
+                            </button>
+                        </div>
                     </div>
                     
                     <div id="records-content" class="block space-y-6">
-                        <div class="flex justify-end gap-6 items-center no-print">
-                            <button onclick="exportCSV()" class="text-[10px] font-black opacity-40 hover:text-monolith transition-all flex items-center gap-2"><i data-lucide="download" class="w-3.5 h-3.5"></i> <span data-i18n="btn_export">Export</span></button>
-                            <button onclick="window.print()" class="text-[10px] font-black text-monolith flex items-center gap-2"><i data-lucide="printer" class="w-3.5 h-3.5"></i> <span data-i18n="btn_print">Print PDF</span></button>
-                        </div>
                         <div id="log-container" class="space-y-3 max-h-[600px] overflow-y-auto pr-2 custom-scroll"></div>
                     </div>
                 </div>
@@ -358,22 +392,23 @@
         </div>
 
         <footer class="mt-20 pt-10 border-t border-black/10 dark:border-white/10 flex flex-col md:flex-row justify-between items-center gap-8 no-print">
-            <div class="flex flex-col items-center md:items-start gap-4">
-                <a href="https://builtbyliam.netlify.app/" target="_blank" class="text-xl font-black uppercase tracking-[0.4em] text-monolith hover:scale-105 transition-transform" data-i18n="brand">Built By Liam</a>
-                <button onclick="handleShare()" class="text-[11px] font-black opacity-50 hover:opacity-100 hover:text-monolith transition-all flex items-center gap-2 uppercase tracking-[0.4em]">
-                    <i data-lucide="share-2" class="w-3.5 h-3.5"></i> <span data-i18n="btn_share">Share</span>
-                </button>
-            </div>
-            
-            <div class="flex gap-8 items-center opacity-40 hover:opacity-100 transition-opacity">
-                <a href="https://buymeacoffee.com/BUILT_BY_LIAM" target="_blank" class="text-[10px] font-black uppercase tracking-[0.3em] flex items-center gap-2"><i data-lucide="coffee" class="w-3.5 h-3.5 text-monolith"></i> <span data-i18n="btn_coffee">Coffee</span></a>
-                <span class="w-1.5 h-1.5 bg-current rounded-full"></span>
-                <button onclick="openPrivacyModal()" class="text-[11px] font-black uppercase tracking-[0.4em]" data-i18n="btn_privacy">Privacy</button>
-            </div>
-        </footer>
-    </div>
+                <div class="flex flex-col items-center md:items-start gap-4">
+                    <a href="https://builtbyliam.netlify.app/" target="_blank" class="text-xl font-black uppercase tracking-[0.4em] text-monolith hover:scale-105 transition-transform" data-i18n="brand">Built By Liam</a>
+                    <button onclick="handleShare()" class="text-[11px] font-black opacity-50 hover:opacity-100 hover:text-monolith transition-all flex items-center gap-2 uppercase tracking-[0.4em]">
+                        <i data-lucide="share-2" class="w-3.5 h-3.5"></i> <span data-i18n="btn_share">Share</span>
+                    </button>
+                </div>
+                
+                <div class="flex gap-8 items-center opacity-40 hover:opacity-100 transition-opacity">
+                    <a href="https://buymeacoffee.com/BUILT_BY_LIAM" target="_blank" class="text-[10px] font-black uppercase tracking-[0.3em] flex items-center gap-2"><i data-lucide="coffee" class="w-3.5 h-3.5 text-monolith"></i> <span data-i18n="btn_coffee">Coffee</span></a>
+                    <span class="w-1.5 h-1.5 bg-current rounded-full"></span>
+                    <button onclick="openPrivacyModal()" class="text-[11px] font-black uppercase tracking-[0.4em]" data-i18n="btn_privacy">Privacy</button>
+                </div>
+            </footer>
+        </div>
+    </div> <!-- END APP CONTAINER -->
 
-    <!-- NEW: REFLECTION MODAL (Depth of Field & Stickiness feature) -->
+    <!-- REFLECTION MODAL -->
     <div id="reflection-modal" class="fixed inset-0 bg-void/90 backdrop-blur-sm z-50 hidden flex-col items-center justify-center p-6 opacity-0 transition-opacity duration-500">
         <div class="bg-white dark:bg-darkPanel p-8 md:p-12 rounded-sm shadow-2xl max-w-2xl w-full relative border border-black/5 dark:border-white/5 flex flex-col max-h-[90vh]">
             
@@ -388,22 +423,6 @@
             </div>
 
             <div class="flex-1 overflow-y-auto custom-scroll pr-2 space-y-8">
-                <!-- Ego State / Modality Tracking -->
-                <div class="space-y-4">
-                    <label class="text-[10px] font-black opacity-50 uppercase tracking-widest flex items-center gap-2" data-i18n="label_ego">
-                        <i data-lucide="brain-circuit" class="w-3 h-3 text-monolith"></i> Primary Ego State / Modality
-                    </label>
-                    <select id="ref-ego" class="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 p-4 font-bold text-sm outline-none focus:border-monolith dark:text-ash rounded-sm">
-                        <option value="" class="dark:bg-darkPanel">None Selected</option>
-                        <option value="Adult" class="dark:bg-darkPanel">Adult (Here & Now)</option>
-                        <option value="Parent" class="dark:bg-darkPanel">Parent (Nurturing/Critical)</option>
-                        <option value="Child" class="dark:bg-darkPanel">Child (Adapted/Free)</option>
-                        <option value="Person-Centered" class="dark:bg-darkPanel">Person-Centered</option>
-                        <option value="CBT" class="dark:bg-darkPanel">CBT / Directive</option>
-                        <option value="Psychodynamic" class="dark:bg-darkPanel">Psychodynamic</option>
-                    </select>
-                </div>
-
                 <div class="space-y-4 flex-1 flex flex-col">
                     <label class="text-[10px] font-black opacity-50 uppercase tracking-widest flex justify-between items-end" data-i18n="label_notes">
                         <span>Private Session Notes</span>
@@ -453,7 +472,7 @@
                 title_part1: "Clinical", title_part2: "Log.",
                 tab_month: "Current Month", tab_cycle: "Active Cycle", tab_all: "All Time",
                 header_sync: "Sync Engine", header_entry: "New Entry", header_params: "Parameters",
-                btn_sync: "Sync Calendar", btn_add: "Add Entry", btn_export: "Export", btn_print: "Print PDF", btn_coffee: "Buy Me a Coffee", btn_privacy: "Privacy", btn_share: "Share",
+                btn_sync: "Sync Calendar", btn_add: "Add Entry", btn_export: "Export CSV", btn_print: "Print PDF", btn_sheets: "Save to Sheets", btn_coffee: "Buy Me a Coffee", btn_privacy: "Privacy", btn_share: "Share",
                 label_type: "Type", label_date: "Date", label_hours: "Hours", label_lang: "Language", label_balance: "Balance Ratio", label_keywords: "Sync Keywords", 
                 label_trainee: "UKCP Trainee Mode", desc_trainee: "Enables 2x/mo warning & qualification goals",
                 label_goal: "Therapy Mandate (Hrs)", label_global_goal: "Qualification Goal (Client Hrs)",
@@ -470,14 +489,14 @@
                 info_manual: "Manually log clinical hours to your local secure database.",
                 info_cycle: "Filters the dashboard to only show records within your academic or reporting year.",
                 tab_alert: "Don't forget to log your hours!",
-                modal_reflection_title: "Clinical Reflection", label_ego: "Primary Ego State / Modality", label_notes: "Private Session Notes", btn_save_ref: "Save Reflection"
+                modal_reflection_title: "Clinical Reflection", label_notes: "Private Session Notes", btn_save_ref: "Save Reflection"
             },
             pl: {
                 brand: "Zbudowane Przez Liama", tagline: "Dziennik kliniczny i bilans godzin.",
                 title_part1: "Dziennik", title_part2: "Kliniczny.",
                 tab_month: "Bieżący Miesiąc", tab_cycle: "Cykl Akredytacji", tab_all: "Wszystkie Dane",
                 header_sync: "Synchronizacja", header_entry: "Nowy Wpis", header_params: "Parametry",
-                btn_sync: "Synchronizuj Kalendarz", btn_add: "Dodaj Wpis", btn_export: "Eksportuj", btn_print: "Drukuj PDF", btn_coffee: "Kup mi kawę", btn_privacy: "Prywatność", btn_share: "Udostępnij",
+                btn_sync: "Synchronizuj Kalendarz", btn_add: "Dodaj Wpis", btn_export: "Eksportuj CSV", btn_print: "Drukuj PDF", btn_sheets: "Zapisz w Arkuszach", btn_coffee: "Kup mi kawę", btn_privacy: "Prywatność", btn_share: "Udostępnij",
                 label_type: "Typ", label_date: "Data", label_hours: "Godziny", label_lang: "Język", label_balance: "Proporcje", label_keywords: "Słowa Kluczowe", 
                 label_trainee: "Tryb UKCP", desc_trainee: "Włącza ostrzeżenia i cele kwalifikacji",
                 label_goal: "Wymóg Terapii (Godz)", label_global_goal: "Cel Kwalifikacji (Godz. Klienta)",
@@ -494,14 +513,14 @@
                 info_manual: "Ręcznie dodawaj godziny kliniczne do lokalnej, bezpiecznej bazy danych.",
                 info_cycle: "Filtruje pulpit, aby pokazywać tylko wpisy z Twojego roku akademickiego lub raportowego.",
                 tab_alert: "Nie zapomnij zanotować godzin!",
-                modal_reflection_title: "Refleksja Kliniczna", label_ego: "Główny Stan Ego / Modalność", label_notes: "Prywatne Notatki z Sesji", btn_save_ref: "Zapisz Refleksję"
+                modal_reflection_title: "Refleksja Kliniczna", label_notes: "Prywatne Notatki z Sesji", btn_save_ref: "Zapisz Refleksję"
             },
             es: {
                 brand: "Creado Por Liam", tagline: "Registro clínico y balance de horas.",
                 title_part1: "Registro", title_part2: "Clínico.",
                 tab_month: "Mes Actual", tab_cycle: "Ciclo Activo", tab_all: "Todo",
                 header_sync: "Sincronizar", header_entry: "Nueva Entrada", header_params: "Parámetros",
-                btn_sync: "Sincronizar", btn_add: "Añadir", btn_export: "Exportar", btn_print: "PDF", btn_coffee: "Invítame a un café", btn_privacy: "Privacidad", btn_share: "Compartir",
+                btn_sync: "Sincronizar", btn_add: "Añadir", btn_export: "Exportar CSV", btn_print: "PDF", btn_sheets: "Guardar en Sheets", btn_coffee: "Invítame a un café", btn_privacy: "Privacidad", btn_share: "Compartir",
                 label_type: "Tipo", label_date: "Fecha", label_hours: "Horas", label_lang: "Idioma", label_balance: "Balance Ratio", label_keywords: "Palabras Clave", 
                 label_trainee: "Modo UKCP", desc_trainee: "Habilita alertas y metas de calificación",
                 label_goal: "Mandato de Terapia (Hrs)", label_global_goal: "Meta de Calificación (Hrs Cliente)",
@@ -518,14 +537,14 @@
                 info_manual: "Registra manualmente las horas clínicas en tu base de datos local y segura.",
                 info_cycle: "Filtra el panel para mostrar solo los registros dentro de tu año académico o de reporte.",
                 tab_alert: "¡No olvides registrar tus horas!",
-                modal_reflection_title: "Reflexión Clínica", label_ego: "Estado del Yo / Modalidad", label_notes: "Notas Privadas de Sesión", btn_save_ref: "Guardar Reflexión"
+                modal_reflection_title: "Reflexión Clínica", label_notes: "Notas Privadas de Sesión", btn_save_ref: "Guardar Reflexión"
             },
             fr: {
                 brand: "Par Liam", tagline: "Journal clinique et suivi d'équilibre.",
                 title_part1: "Journal", title_part2: "Clinique.",
                 tab_month: "Mois en cours", tab_cycle: "Cycle Actif", tab_all: "Tout",
                 header_sync: "Synchro", header_entry: "Nouvelle entrée", header_params: "Paramètres",
-                btn_sync: "Synchroniser", btn_add: "Ajouter", btn_export: "Exporter", btn_print: "PDF", btn_coffee: "Offrir un café", btn_privacy: "Confidentialité", btn_share: "Partager",
+                btn_sync: "Synchroniser", btn_add: "Ajouter", btn_export: "Exporter CSV", btn_print: "Imprimer PDF", btn_sheets: "Sauvegarder dans Sheets", btn_coffee: "Offrir un café", btn_privacy: "Confidentialité", btn_share: "Partager",
                 label_type: "Type", label_date: "Date", label_hours: "Heures", label_lang: "Langue", label_balance: "Équilibre", label_keywords: "Mots-clés", 
                 label_trainee: "Mode UKCP", desc_trainee: "Active les alertes et les objectifs de qualification",
                 label_goal: "Mandat Thérapie (Hrs)", label_global_goal: "Objectif de Qualification (Hrs Client)",
@@ -542,7 +561,7 @@
                 info_manual: "Enregistrez manuellement les heures cliniques dans votre base de données locale sécurisée.",
                 info_cycle: "Filtre le tableau de bord pour n'afficher que les enregistrements de votre année académique ou de référence.",
                 tab_alert: "N'oubliez pas vos heures !",
-                modal_reflection_title: "Réflexion Clinique", label_ego: "État du Moi / Modalité", label_notes: "Notes de Session Privées", btn_save_ref: "Enregistrer la Réflexion"
+                modal_reflection_title: "Réflexion Clinique", label_notes: "Notes de Session Privées", btn_save_ref: "Enregistrer la Réflexion"
             }
         };
 
@@ -570,7 +589,12 @@
         }
 
         let resetLock = false;
-        let currentEditId = null; // Tracks which entry is being reflected upon
+        let currentEditId = null; 
+        
+        // Expose currently filtered records so the Print Engine can access them globally
+        let currentFilteredEntries = [];
+        let currentFilteredTotals = { client: 0, super: 0, therapy: 0, cpd: 0, sessions: 0 };
+        let currentRatioVal = 0;
 
         function translateUI() {
             const d = i18n[state.settings.lang] || i18n.en;
@@ -590,14 +614,14 @@
             
             const moStart = new Date(now.getFullYear(), now.getMonth(), 1);
 
-            const filtered = state.entries.filter(e => {
+            currentFilteredEntries = state.entries.filter(e => {
                 const dt = new Date(e.date);
                 if (state.view === 'month') return dt >= moStart;
                 if (state.view === 'cycle') return dt >= cycleStart && dt <= cycleEnd;
                 return true;
             });
 
-            const totals = filtered.reduce((acc, e) => {
+            currentFilteredTotals = currentFilteredEntries.reduce((acc, e) => {
                 acc[e.type] += parseFloat(e.hours);
                 if (e.type === 'super') acc.sessions++;
                 return acc;
@@ -605,21 +629,20 @@
 
             const rSuper = state.settings.ratioSuper || 1;
             const rClient = state.settings.ratioClient || 6;
-            const targetSuper = (totals.client / rClient) * rSuper;
-            const ratioVal = totals.client > 0 ? Math.min((totals.super / targetSuper) * 100, 100) : (totals.super > 0 ? 100 : 0);
+            const targetSuper = (currentFilteredTotals.client / rClient) * rSuper;
+            currentRatioVal = currentFilteredTotals.client > 0 ? Math.min((currentFilteredTotals.super / targetSuper) * 100, 100) : (currentFilteredTotals.super > 0 ? 100 : 0);
 
-            document.getElementById('val-client').innerText = totals.client.toFixed(1);
-            document.getElementById('val-super').innerText = totals.super.toFixed(1);
+            document.getElementById('val-client').innerText = currentFilteredTotals.client.toFixed(1);
+            document.getElementById('val-super').innerText = currentFilteredTotals.super.toFixed(1);
             
             document.getElementById('val-therapy').innerHTML = (state.settings.isTrainee && state.settings.goal > 0)
-                ? `${totals.therapy.toFixed(1)}<span class="text-xl md:text-2xl opacity-30 ml-1 font-inter">/ ${state.settings.goal}</span>`
-                : totals.therapy.toFixed(1);
+                ? `${currentFilteredTotals.therapy.toFixed(1)}<span class="text-xl md:text-2xl opacity-30 ml-1 font-inter">/ ${state.settings.goal}</span>`
+                : currentFilteredTotals.therapy.toFixed(1);
             
-            document.getElementById('val-cpd').innerText = totals.cpd.toFixed(1);
-            document.getElementById('val-ratio').innerText = Math.round(ratioVal);
-            document.getElementById('bar-ratio').style.width = `${ratioVal}%`;
+            document.getElementById('val-cpd').innerText = currentFilteredTotals.cpd.toFixed(1);
+            document.getElementById('val-ratio').innerText = Math.round(currentRatioVal);
+            document.getElementById('bar-ratio').style.width = `${currentRatioVal}%`;
 
-            // UI TOGGLES BASED ON TRAINEE MODE
             const traineeSettings = document.getElementById('trainee-settings');
             const progressWidget = document.getElementById('progress-widget');
             const metricsGrid = document.getElementById('metrics-grid');
@@ -636,11 +659,10 @@
                 metricsGrid.classList.remove('md:grid-cols-2');
             }
 
-            // Global Progress Ring Calculation
             const globalGoal = state.settings.globalGoal || 100;
-            const globalProgress = Math.min((totals.client / globalGoal) * 100, 100);
+            const globalProgress = Math.min((currentFilteredTotals.client / globalGoal) * 100, 100);
             
-            document.getElementById('val-global-current').innerText = totals.client.toFixed(1);
+            document.getElementById('val-global-current').innerText = currentFilteredTotals.client.toFixed(1);
             document.getElementById('val-global-target').innerText = globalGoal;
             document.getElementById('val-global-percent').innerText = `${Math.round(globalProgress)}%`;
             
@@ -649,17 +671,17 @@
             ring.style.strokeDashoffset = circumference - (globalProgress / 100) * circumference;
 
             let warn = [];
-            if (totals.client > 0 && ratioVal < 100) warn.push(d.deficit.replace('{h}', (targetSuper - totals.super).toFixed(1)).replace('{r}', `${rClient}:${rSuper}`));
+            if (currentFilteredTotals.client > 0 && currentRatioVal < 100) warn.push(d.deficit.replace('{h}', (targetSuper - currentFilteredTotals.super).toFixed(1)).replace('{r}', `${rClient}:${rSuper}`));
             
             if (state.settings.isTrainee) {
-                if (state.view === 'month' && totals.sessions < 2) warn.push(d.mandate.replace('{s}', totals.sessions));
-                if (state.settings.goal > 0 && totals.therapy < state.settings.goal) {
-                    warn.push(d.therapy_deficit.replace('{h}', (state.settings.goal - totals.therapy).toFixed(1)));
+                if (state.view === 'month' && currentFilteredTotals.sessions < 2) warn.push(d.mandate.replace('{s}', currentFilteredTotals.sessions));
+                if (state.settings.goal > 0 && currentFilteredTotals.therapy < state.settings.goal) {
+                    warn.push(d.therapy_deficit.replace('{h}', (state.settings.goal - currentFilteredTotals.therapy).toFixed(1)));
                 }
             }
 
             const warnEl = document.getElementById('txt-warning');
-            warnEl.innerHTML = warn.length ? warn.join('<br><br>') : (totals.client === 0 && totals.super === 0 ? d.awaiting : d.verified);
+            warnEl.innerHTML = warn.length ? warn.join('<br><br>') : (currentFilteredTotals.client === 0 && currentFilteredTotals.super === 0 ? d.awaiting : d.verified);
             warnEl.className = `text-[11px] font-bold uppercase tracking-widest ${warn.length ? 'text-monolith' : 'opacity-60'}`;
 
             const syncEl = document.getElementById('txt-last-sync');
@@ -671,9 +693,8 @@
 
             // RENDER ACTIVE RECORDS
             const list = document.getElementById('log-container');
-            list.innerHTML = filtered.length ? filtered.slice(0, state.displayLimit).map(e => {
+            list.innerHTML = currentFilteredEntries.length ? currentFilteredEntries.slice(0, state.displayLimit).map(e => {
                 const hasNotes = e.notes && e.notes.trim().length > 0;
-                const hasEgo = e.ego && e.ego !== "";
                 return `
                 <div class="flex justify-between items-center p-6 bg-white dark:bg-darkPanel border border-black/10 dark:border-white/5 hover:border-monolith/50 transition-all shadow-sm group cursor-pointer" onclick="openReflection('${e.id}')">
                     <div class="flex items-center gap-6">
@@ -681,9 +702,9 @@
                         <div class="space-y-1.5">
                             <p class="text-xs font-black uppercase tracking-widest flex items-center gap-2">
                                 ${d['opt_'+e.type] || e.type}
-                                ${(hasNotes || hasEgo) ? `<i data-lucide="book-open" class="w-3 h-3 text-monolith"></i>` : ''}
+                                ${hasNotes ? `<i data-lucide="book-open" class="w-3 h-3 text-monolith"></i>` : ''}
                             </p>
-                            <p class="text-[11px] opacity-50 font-bold">${new Date(e.date).toLocaleDateString(state.settings.lang)} ${hasEgo ? `• ${e.ego}` : ''}</p>
+                            <p class="text-[11px] opacity-50 font-bold">${new Date(e.date).toLocaleDateString(state.settings.lang)}</p>
                         </div>
                     </div>
                     <div class="flex items-center gap-8">
@@ -693,7 +714,51 @@
                 </div>
             `}).join('') : `<div class="py-24 text-center opacity-20 text-xs font-black tracking-widest">NO RECORDS</div>`;
             
+            // BUILD THE INVISIBLE PRINT LAYOUT
+            buildPrintLayout();
             lucide.createIcons();
+        }
+
+        // --- NEW: PRINT PDF ENGINE ---
+        // Dynamically builds a clean HTML table structure that only shows up when the browser invokes window.print()
+        function buildPrintLayout() {
+            const container = document.getElementById('print-container');
+            const d = i18n[state.settings.lang] || i18n.en;
+            const viewTitle = state.view === 'month' ? d.tab_month : (state.view === 'cycle' ? d.tab_cycle : d.tab_all);
+            
+            container.innerHTML = `
+                <div class="print-header">
+                    <h1 style="margin: 0; font-size: 24px; font-weight: bold; text-transform: uppercase;">Clinical Log Report</h1>
+                    <p style="margin: 5px 0 0 0; font-size: 12px; color: #666;">Generated: ${new Date().toLocaleDateString()} | View: ${viewTitle}</p>
+                </div>
+                <div class="print-summary">
+                    <span>${d.stat_contact}: ${currentFilteredTotals.client.toFixed(1)} hrs</span>
+                    <span>${d.stat_super}: ${currentFilteredTotals.super.toFixed(1)} hrs</span>
+                    <span>${d.stat_therapy}: ${currentFilteredTotals.therapy.toFixed(1)} hrs</span>
+                    <span>${d.stat_cpd}: ${currentFilteredTotals.cpd.toFixed(1)} hrs</span>
+                    <span>Ratio: ${Math.round(currentRatioVal)}%</span>
+                </div>
+                <table class="print-table">
+                    <thead>
+                        <tr>
+                            <th>${d.label_date}</th>
+                            <th>${d.label_type}</th>
+                            <th>${d.label_hours}</th>
+                            <th>${d.label_notes || 'Notes'}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${currentFilteredEntries.map(e => `
+                            <tr>
+                                <td>${new Date(e.date).toLocaleDateString(state.settings.lang)}</td>
+                                <td>${d['opt_'+e.type] || e.type}</td>
+                                <td>${e.hours.toFixed(1)}</td>
+                                <td>${e.notes ? e.notes.substring(0, 100) + (e.notes.length > 100 ? '...' : '') : ''}</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
         }
 
         // --- REFLECTION / NOTES ENGINE ---
@@ -704,7 +769,6 @@
             currentEditId = id;
             document.getElementById('ref-date-display').innerText = new Date(entry.date).toLocaleDateString(state.settings.lang);
             document.getElementById('ref-notes').value = entry.notes || "";
-            document.getElementById('ref-ego').value = entry.ego || "";
             
             const m = document.getElementById('reflection-modal');
             m.classList.remove('hidden');
@@ -729,11 +793,10 @@
         function saveReflection() {
             if (!currentEditId) return;
             const newNotes = document.getElementById('ref-notes').value;
-            const newEgo = document.getElementById('ref-ego').value;
             
             state.entries = state.entries.map(e => {
                 if (String(e.id) === String(currentEditId)) {
-                    return { ...e, notes: newNotes, ego: newEgo };
+                    return { ...e, notes: newNotes };
                 }
                 return e;
             });
@@ -743,7 +806,6 @@
             closeReflection();
         }
 
-        // Close modal on escape key
         document.addEventListener('keydown', function(event){
             if(event.key === "Escape" && currentEditId){
                 closeReflection();
@@ -790,7 +852,7 @@
             const h = parseFloat(document.getElementById('e-hours').value);
             const d = document.getElementById('e-date').value;
             if (!h || !d) return;
-            state.entries.unshift({ id: Date.now(), type: document.getElementById('e-type').value, date: d, hours: h, notes: "", ego: "" });
+            state.entries.unshift({ id: Date.now(), type: document.getElementById('e-type').value, date: d, hours: h, notes: "" });
             localStorage.setItem('liam_data', JSON.stringify(state.entries));
             document.getElementById('e-hours').value = '';
             render();
@@ -874,11 +936,10 @@
         function downloadBackup() { const blob = new Blob([JSON.stringify({entries: state.entries, settings: state.settings})], { type: 'application/json' }); const url = window.URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'clinical_log_backup.json'; a.click(); }
         function restoreBackup(e) { const reader = new FileReader(); reader.onload = function(ev) { const data = JSON.parse(ev.target.result); state.entries = data.entries || state.entries; state.settings = data.settings || state.settings; localStorage.setItem('liam_data', JSON.stringify(state.entries)); localStorage.setItem('liam_set', JSON.stringify(state.settings)); location.reload(); }; reader.readAsText(e.target.files[0]); }
         
-        // UPDATED EXPORT: Now includes Ego State and Notes in the CSV file
         function exportCSV() { 
-            const csv = "Date,Type,Hours,Ego_State,Notes\n" + state.entries.map(e => {
+            const csv = "Date,Type,Hours,Notes\n" + currentFilteredEntries.map(e => {
                 const cleanNote = e.notes ? e.notes.replace(/"/g, '""').replace(/\n/g, ' ') : '';
-                return `${e.date},${e.type},${e.hours},${e.ego || ''},"${cleanNote}"`
+                return `${e.date},${e.type},${e.hours},"${cleanNote}"`
             }).join("\n"); 
             const blob = new Blob([csv], { type: 'text/csv' }); 
             const url = window.URL.createObjectURL(blob); 
@@ -914,10 +975,16 @@
             }
         }
         
+        // --- GOOGLE API CONFIGURATION ---
         const GCAL_CLIENT_ID = '1096186568274-ba5t2npnha0gt0latstffcejbcfgfgiv.apps.googleusercontent.com';
         const GCAL_API_KEY = 'AIzaSyDqE4LzS7OkBfzvoVEfCOGSS2Pk10MmY4s';
-        const DISCOVERY_DOC = 'https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest';
-        const SCOPES = 'https://www.googleapis.com/auth/calendar.readonly';
+        
+        // UPDATED: Added Google Sheets to Discovery Docs and Scopes
+        const DISCOVERY_DOCS = [
+            'https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest',
+            'https://sheets.googleapis.com/$discovery/rest?version=v4'
+        ];
+        const SCOPES = 'https://www.googleapis.com/auth/calendar.readonly https://www.googleapis.com/auth/spreadsheets';
         let tokenClient = null;
 
         if (GCAL_CLIENT_ID) {
@@ -925,7 +992,7 @@
             gapiScript.src = 'https://apis.google.com/js/api.js';
             gapiScript.onload = () => {
                 window.gapi.load('client', async () => {
-                    try { await window.gapi.client.init({ apiKey: GCAL_API_KEY, discoveryDocs: [DISCOVERY_DOC] }); } catch (err) {}
+                    try { await window.gapi.client.init({ apiKey: GCAL_API_KEY, discoveryDocs: DISCOVERY_DOCS }); } catch (err) { console.error("GAPI Init Error", err); }
                 });
             };
             document.body.appendChild(gapiScript);
@@ -935,7 +1002,9 @@
             gisScript.onload = () => {
                 tokenClient = window.google.accounts.oauth2.initTokenClient({
                     client_id: GCAL_CLIENT_ID, scope: SCOPES,
-                    callback: (resp) => { if (!resp.error) fetchCalendarEvents(); else { document.getElementById('btn-sync').disabled = false; document.getElementById('icon-sync').classList.remove('animate-spin'); } }
+                    callback: (resp) => { 
+                        // Callback routing handled inside specific functions (Sync vs Sheets)
+                    }
                 });
             };
             document.body.appendChild(gisScript);
@@ -946,12 +1015,25 @@
             const icon = document.getElementById('icon-sync');
             const msg = document.getElementById('msg-sync');
             btn.disabled = true; icon.classList.add('animate-spin'); msg.innerText = "Connecting..."; msg.classList.remove('hidden');
-            if (tokenClient) tokenClient.requestAccessToken({ prompt: '' });
+            
+            if (!tokenClient) {
+                msg.innerText = "Google API not configured.";
+                btn.disabled = false; icon.classList.remove('animate-spin');
+                return;
+            }
+
+            tokenClient.callback = async (resp) => {
+                if (resp.error) {
+                    msg.innerText = "Authentication failed.";
+                    btn.disabled = false; icon.classList.remove('animate-spin');
+                    return;
+                }
+                await fetchCalendarEvents(msg, btn, icon);
+            };
+            tokenClient.requestAccessToken({ prompt: '' });
         }
 
-        async function fetchCalendarEvents() {
-            const msg = document.getElementById('msg-sync');
-            
+        async function fetchCalendarEvents(msg, btn, icon) {
             const startYear = state.settings.historyYear || 2024;
             const timeMin = new Date(startYear, 0, 1).toISOString();
             msg.innerText = `Scanning all records since ${startYear}...`;
@@ -1000,7 +1082,7 @@
                         }
 
                         if (hours > 0) {
-                            newEntries.push({ id: `gcal-${ev.id}`, type, date: dateStr, hours: parseFloat(hours.toFixed(1)), notes: "", ego: "" });
+                            newEntries.push({ id: `gcal-${ev.id}`, type, date: dateStr, hours: parseFloat(hours.toFixed(1)), notes: "" });
                         }
                     }
                 });
@@ -1015,10 +1097,79 @@
                 msg.innerText = `Imported ${uniqueNew.length} new records.`;
             } catch (err) { msg.innerText = 'Sync failed. Check credentials.'; }
             finally {
-                document.getElementById('btn-sync').disabled = false;
-                document.getElementById('icon-sync').classList.remove('animate-spin');
+                btn.disabled = false;
+                icon.classList.remove('animate-spin');
                 setTimeout(() => msg.classList.add('hidden'), 5000);
             }
+        }
+
+        // --- NEW: GOOGLE SHEETS EXPORT ENGINE ---
+        async function saveToGoogleSheets() {
+            const btn = document.getElementById('btn-sheets');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = `<i data-lucide="loader" class="w-3.5 h-3.5 animate-spin"></i> <span data-i18n="btn_sheets">Saving...</span>`;
+            lucide.createIcons();
+            
+            if (!tokenClient) {
+                alert("Google API not initialized. Please check your credentials.");
+                btn.innerHTML = originalText;
+                lucide.createIcons();
+                return;
+            }
+
+            tokenClient.callback = async (resp) => {
+                if (resp.error) {
+                    alert("Authentication failed.");
+                    btn.innerHTML = originalText;
+                    lucide.createIcons();
+                    return;
+                }
+                
+                try {
+                    // 1. Create a new Spreadsheet
+                    const sheetTitle = `Clinical Log Export - ${new Date().toLocaleDateString()}`;
+                    const sheetResp = await window.gapi.client.sheets.spreadsheets.create({
+                        properties: { title: sheetTitle }
+                    });
+                    const spreadsheetId = sheetResp.result.spreadsheetId;
+                    
+                    // 2. Prepare Data (Headers + Filtered Rows)
+                    const d = i18n[state.settings.lang] || i18n.en;
+                    const values = [
+                        [d.label_date || 'Date', d.label_type || 'Type', d.label_hours || 'Hours', d.label_notes || 'Notes'],
+                        ...currentFilteredEntries.map(e => [
+                            new Date(e.date).toLocaleDateString(state.settings.lang), 
+                            d['opt_'+e.type] || e.type, 
+                            e.hours, 
+                            e.notes || ''
+                        ])
+                    ];
+                    
+                    // 3. Update the Spreadsheet with Data
+                    await window.gapi.client.sheets.spreadsheets.values.update({
+                        spreadsheetId: spreadsheetId,
+                        range: 'Sheet1!A1',
+                        valueInputOption: 'USER_ENTERED',
+                        resource: { values: values }
+                    });
+                    
+                    // 4. Notify User and Provide Link
+                    const msg = document.getElementById('msg-sync'); // Reusing sync message container for feedback
+                    msg.innerHTML = `Saved! <a href="https://docs.google.com/spreadsheets/d/${spreadsheetId}" target="_blank" class="underline hover:text-white">Open Google Sheet</a>`;
+                    msg.classList.remove('hidden');
+                    setTimeout(() => { msg.classList.add('hidden'); msg.innerHTML = ''; }, 10000);
+                    
+                } catch (err) {
+                    console.error("Sheets Error:", err);
+                    alert("Failed to save to Google Sheets.");
+                } finally {
+                    btn.innerHTML = originalText;
+                    lucide.createIcons();
+                }
+            };
+            
+            // Request Token (will trigger the callback above)
+            tokenClient.requestAccessToken({ prompt: '' });
         }
     </script>
 </body>
