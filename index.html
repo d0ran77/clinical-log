@@ -33,7 +33,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Fraunces:ital,opsz,wght@1,9..144,400;1,9..144,700&display=swap" rel="stylesheet">
     
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     
     <!-- NEW: PDF EXPORT LIBRARIES -->
@@ -135,9 +135,6 @@
     <!-- WELCOME MODAL ONBOARDING -->
     <div id="welcome-modal" class="fixed inset-0 bg-void/90 backdrop-blur-md z-[100] hidden flex-col items-center justify-center p-6 opacity-0 transition-opacity duration-500">
         <div class="bg-white dark:bg-darkPanel p-8 md:p-12 rounded-sm shadow-2xl max-w-2xl w-full relative border border-black/5 dark:border-white/5 overflow-hidden">
-            <!-- Depth of field glow -->
-            <div class="absolute -right-20 -bottom-20 w-64 h-64 bg-monolith/20 rounded-full blur-[60px] pointer-events-none"></div>
-
             <h2 class="text-3xl md:text-4xl font-black tracking-tighter uppercase italic mb-2 relative z-10 dark:text-ash">Welcome to Clinical Log.</h2>
             <p class="text-[11px] font-bold opacity-50 uppercase tracking-widest mb-10 relative z-10 dark:text-ash">Your local-first therapy hour tracker.</p>
 
@@ -160,7 +157,7 @@
                     </div>
                     <div class="dark:text-ash">
                         <h4 class="text-xs font-black uppercase tracking-[0.2em] mb-1">2. Custom Workspace</h4>
-                        <p class="text-[11px] font-bold opacity-60 leading-relaxed">Your workflow is unique. Simply close any of the left-hand panels and drag them into whatever order works best for you.</p>
+                        <p class="text-[11px] font-bold opacity-60 leading-relaxed">Your workflow is unique. Simply hover over any metric block or close the left-hand panels, then drag them into whatever order works best for you. <strong>You can also tailor the tool to any profession by renaming the core metrics in Parameters.</strong></p>
                     </div>
                 </div>
 
@@ -172,6 +169,17 @@
                     <div class="dark:text-ash">
                         <h4 class="text-xs font-black uppercase tracking-[0.2em] mb-1">3. Trainee Mode</h4>
                         <p class="text-[11px] font-bold opacity-60 leading-relaxed">Working towards qualification? Enable "Trainee Mode" in Parameters to unlock UKCP goal tracking and mandatory session warnings.</p>
+                    </div>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="flex items-start gap-6">
+                    <div class="p-3 bg-monolith/10 rounded-full shrink-0">
+                        <i data-lucide="hard-drive" class="w-5 h-5 text-monolith"></i>
+                    </div>
+                    <div class="dark:text-ash">
+                        <h4 class="text-xs font-black uppercase tracking-[0.2em] mb-1">4. Device Specific</h4>
+                        <p class="text-[11px] font-bold opacity-60 leading-relaxed">For ultimate privacy, your data is saved strictly to the browser on this device. To seamlessly move between your phone and laptop, use the <strong>Data & Privacy</strong> menu (bottom right) to export and restore your log.</p>
                     </div>
                 </div>
             </div>
@@ -356,6 +364,16 @@
                                     <div class="flex items-center gap-3"><span class="text-[8px] font-black opacity-40 uppercase w-16">CPD:</span><input id="k-cpd" type="text" onchange="updateSettings()" class="flex-1 bg-transparent border-b border-black/5 text-[11px] font-bold outline-none text-monolith"></div>
                                 </div>
                             </div>
+
+                            <div class="space-y-4 pt-4 border-t border-black/5 dark:border-white/5">
+                                <label class="text-[10px] font-black opacity-80 uppercase tracking-widest" data-i18n="label_custom_names">Custom Nomenclature</label>
+                                <div class="space-y-2">
+                                    <div class="flex items-center gap-3"><span class="text-[8px] font-black opacity-40 uppercase w-16">Client:</span><input id="l-client" type="text" placeholder="e.g. Billable" onchange="updateSettings()" class="flex-1 bg-transparent border-b border-black/5 text-[11px] font-bold outline-none text-monolith"></div>
+                                    <div class="flex items-center gap-3"><span class="text-[8px] font-black opacity-40 uppercase w-16">Super:</span><input id="l-super" type="text" placeholder="e.g. Mentoring" onchange="updateSettings()" class="flex-1 bg-transparent border-b border-black/5 text-[11px] font-bold outline-none text-monolith"></div>
+                                    <div class="flex items-center gap-3"><span class="text-[8px] font-black opacity-40 uppercase w-16">Therapy:</span><input id="l-therapy" type="text" placeholder="e.g. Admin" onchange="updateSettings()" class="flex-1 bg-transparent border-b border-black/5 text-[11px] font-bold outline-none text-monolith"></div>
+                                    <div class="flex items-center gap-3"><span class="text-[8px] font-black opacity-40 uppercase w-16">CPD:</span><input id="l-cpd" type="text" placeholder="e.g. Training" onchange="updateSettings()" class="flex-1 bg-transparent border-b border-black/5 text-[11px] font-bold outline-none text-monolith"></div>
+                                </div>
+                            </div>
                             
                             <div class="space-y-6 pt-4 border-t border-black/10 dark:border-white/10">
                                 
@@ -408,9 +426,14 @@
                                     <label class="text-[10px] font-black opacity-80 uppercase tracking-widest" data-i18n="label_lang">System Language</label>
                                     <select id="p-lang" onchange="updateSettings()" class="w-full bg-transparent border-b border-black/10 dark:border-white/10 py-3 font-bold text-sm outline-none dark:text-ash cursor-pointer">
                                         <option value="en" class="dark:bg-darkPanel">English</option>
+                                        <option value="de" class="dark:bg-darkPanel">Deutsch</option>
                                         <option value="es" class="dark:bg-darkPanel">Español</option>
                                         <option value="fr" class="dark:bg-darkPanel">Français</option>
+                                        <option value="it" class="dark:bg-darkPanel">Italiano</option>
+                                        <option value="nl" class="dark:bg-darkPanel">Nederlands</option>
                                         <option value="pl" class="dark:bg-darkPanel">Polski</option>
+                                        <option value="pt" class="dark:bg-darkPanel">Português</option>
+                                        <option value="cy" class="dark:bg-darkPanel">Cymraeg (Welsh)</option>
                                     </select>
                                 </div>
                             </div>
@@ -451,7 +474,6 @@
                             </div>
                             
                             <div class="flex-1 bg-white dark:bg-darkPanel border border-black/10 dark:border-white/5 p-6 shadow-sm flex items-center justify-between relative overflow-hidden group min-h-[140px]">
-                                <div class="absolute -right-10 -bottom-10 w-48 h-48 bg-monolith/10 rounded-full blur-[40px] group-hover:bg-monolith/20 transition-all duration-1000 z-0"></div>
                                 
                                 <div class="space-y-2 z-10">
                                     <p class="text-4xl font-black tabular-nums"><span id="val-global-current">0.0</span></p>
@@ -504,16 +526,16 @@
 
             <footer class="mt-20 pt-10 border-t border-black/10 dark:border-white/10 flex flex-col md:flex-row justify-between items-center gap-8 no-print">
                 <div class="flex flex-col items-center md:items-start gap-4">
-                    <a href="https://builtbyliam.netlify.app/" target="_blank" class="text-xl font-black uppercase tracking-[0.4em] text-monolith hover:scale-105 transition-transform" data-i18n="brand">Built By Liam</a>
-                    <button onclick="handleShare()" class="text-[11px] font-black opacity-50 hover:opacity-100 hover:text-monolith transition-all flex items-center gap-2 uppercase tracking-[0.4em]">
-                        <i data-lucide="share-2" class="w-3.5 h-3.5"></i> <span data-i18n="btn_share">Share</span>
+                    <a href="https://builtbyliam.netlify.app/" target="_blank" class="text-sm font-black uppercase tracking-[0.4em] text-monolith hover:scale-105 transition-transform" data-i18n="brand">Built By Liam</a>
+                    <button onclick="handleShare()" class="text-xs font-black opacity-50 hover:opacity-100 hover:text-monolith transition-all flex items-center gap-2 uppercase tracking-[0.4em]">
+                        <i data-lucide="share-2" class="w-4 h-4"></i> <span data-i18n="btn_share">Share</span>
                     </button>
                 </div>
                 
-                <div class="flex gap-8 items-center opacity-40 hover:opacity-100 transition-opacity">
-                    <a href="https://buymeacoffee.com/BUILT_BY_LIAM" target="_blank" class="text-[10px] font-black uppercase tracking-[0.3em] flex items-center gap-2"><i data-lucide="coffee" class="w-3.5 h-3.5 text-monolith"></i> <span data-i18n="btn_coffee">Coffee</span></a>
-                    <span class="w-1.5 h-1.5 bg-current rounded-full"></span>
-                    <button onclick="openPrivacyModal()" class="text-[11px] font-black uppercase tracking-[0.4em]" data-i18n="btn_privacy">Privacy</button>
+                <div class="flex gap-8 items-center">
+                    <a href="https://buymeacoffee.com/BUILT_BY_LIAM" target="_blank" class="text-[10px] font-black uppercase tracking-[0.3em] flex items-center gap-2 opacity-50 hover:opacity-100 hover:text-monolith transition-all"><i data-lucide="coffee" class="w-3.5 h-3.5 text-monolith"></i> <span data-i18n="btn_coffee">Coffee</span></a>
+                    <span class="w-1.5 h-1.5 bg-black/20 dark:bg-white/20 rounded-full"></span>
+                    <button onclick="openPrivacyModal()" class="text-[11px] font-black uppercase tracking-[0.4em] opacity-50 hover:opacity-100 hover:text-monolith transition-all" data-i18n="btn_privacy">Privacy</button>
                 </div>
             </footer>
         </div>
@@ -589,6 +611,7 @@
                 label_goal: "Therapy Mandate (Hrs)", label_global_goal: "Qualification Goal (Client Hrs)",
                 label_cycle_range: "Active Cycle Range", label_cycle_start: "Start Date", label_cycle_end: "End Date", label_sync_start: "Calendar Sync Start Date",
                 label_starting: "Starting / Rollover Balances", info_starting: "Add historical hours here. To avoid double-counting, ensure your Calendar Sync Start Date is set to after these hours were completed.",
+                label_custom_names: "Custom Nomenclature",
                 btn_save_params: "Save Parameters", msg_saved: "SAVED ✓",
                 opt_contact: "Client", opt_super: "Supervision", opt_therapy: "Personal Therapy", opt_cpd: "CPD / Training",
                 stat_contact: "Client", stat_super: "Supervision", stat_therapy: "Therapy", stat_cpd: "CPD",
@@ -603,6 +626,32 @@
                 tab_alert: "Don't forget to log your hours!",
                 modal_reflection_title: "Clinical Reflection", label_notes: "Private Session Notes", btn_save_ref: "Save Reflection"
             },
+            de: {
+                brand: "Built By Liam", tagline: "Sichere klinische Erfassung und Stundenverfolgung.",
+                title_part1: "Klinisches", title_part2: "Logbuch.",
+                tab_month: "Aktueller Monat", tab_cycle: "Aktiver Zyklus", tab_all: "Gesamte Zeit",
+                header_sync: "Sync-Engine", header_entry: "Neuer Eintrag", header_params: "Parameter",
+                btn_sync: "Kalender synchronisieren", btn_add: "Eintrag hinzufügen", btn_export: "CSV exportieren", btn_print: "PDF drucken", btn_sheets: "In Sheets speichern", btn_coffee: "Kaffee spendieren", btn_privacy: "Datenschutz", btn_share: "Teilen",
+                label_type: "Typ", label_date: "Datum", label_hours: "Stunden", label_lang: "Sprache", label_balance: "Verhältnis", label_keywords: "Schlüsselwörter", 
+                label_trainee: "UKCP-Trainee-Modus", desc_trainee: "Aktiviert 2x/Monat Warnung & Qualifikationsziele",
+                label_goal: "Therapie-Soll (Std.)", label_global_goal: "Qualifikationsziel (Klienten-Std.)",
+                label_cycle_range: "Aktiver Zyklus", label_cycle_start: "Startdatum", label_cycle_end: "Enddatum", label_sync_start: "Sync-Startdatum",
+                label_starting: "Startsaldo / Überträge", info_starting: "Fügen Sie hier historische Stunden hinzu. Um Doppelzählungen zu vermeiden, stellen Sie sicher, dass Ihr Kalender-Sync-Startdatum nach diesen Stunden liegt.",
+                label_custom_names: "Eigene Nomenklatur",
+                btn_save_params: "Parameter speichern", msg_saved: "GESPEICHERT ✓",
+                opt_contact: "Klient", opt_super: "Supervision", opt_therapy: "Eigentherapie", opt_cpd: "Fortbildung (CPD)",
+                stat_contact: "Klient", stat_super: "Supervision", stat_therapy: "Therapie", stat_cpd: "CPD",
+                balance_title: "Bilanz", health_label: "Betriebsstatus", progress_title: "Fortschritt", progress_label: "Qualifikationsziel", active_records: "Aktive Einträge",
+                privacy_stmt: "Lokale Speicherung. Alle Daten bleiben in Ihrem Browser.", awaiting: "WARTEN AUF DATEN...", verified: "Bilanz verifiziert.",
+                ratio_1: "Für jede", ratio_2: "Std. Klientenkontakt,", ratio_3: "benötige ich", ratio_4: "Std. Supervision.",
+                deficit: "Defizit: {h} Std. Supervision für {r}-Verhältnis erforderlich.", mandate: "UKCP-Vorgabe: 2 separate Supervisionssitzungen pro Monat (Aktuell: {s}).",
+                therapy_deficit: "Defizit: {h} Std. Eigentherapie erforderlich.",
+                info_sync: "Importiert Ereignisse automatisch aus dem Google Kalender anhand Ihrer Schlüsselwörter.",
+                info_manual: "Protokollieren Sie klinische Stunden manuell in Ihrer lokalen, sicheren Datenbank.",
+                info_cycle: "Filtert das Dashboard, um nur Datensätze innerhalb Ihres akademischen oder Berichtsjahres anzuzeigen.",
+                tab_alert: "Stunden nicht vergessen!",
+                modal_reflection_title: "Klinische Reflexion", label_notes: "Private Sitzungsnotizen", btn_save_ref: "Reflexion speichern"
+            },
             pl: {
                 brand: "Zbudowane Przez Liama", tagline: "Dziennik kliniczny i bilans godzin.",
                 title_part1: "Dziennik", title_part2: "Kliniczny.",
@@ -614,6 +663,7 @@
                 label_goal: "Wymóg Terapii (Godz)", label_global_goal: "Cel Kwalifikacji (Godz. Klienta)",
                 label_cycle_range: "Zakres Cyklu", label_cycle_start: "Data Startowa", label_cycle_end: "Data Końcowa", label_sync_start: "Data Startu Synchronizacji",
                 label_starting: "Salda Początkowe / Przeniesione", info_starting: "Dodaj tutaj historyczne godziny. Aby uniknąć podwójnego liczenia, upewnij się, że Data Startu Sync jest po tych godzinach.",
+                label_custom_names: "Własne Nazewnictwo",
                 btn_save_params: "Zapisz Parametry", msg_saved: "ZAPISANO ✓",
                 opt_contact: "Client", opt_super: "Superwizja", opt_therapy: "Terapia Własna", opt_cpd: "Rozwój (CPD)",
                 stat_contact: "Client", stat_super: "Superwizja", stat_therapy: "Terapia", stat_cpd: "CPD",
@@ -639,6 +689,7 @@
                 label_goal: "Mandato de Terapia (Hrs)", label_global_goal: "Meta de Calificación (Hrs Cliente)",
                 label_cycle_range: "Rango de Ciclo", label_cycle_start: "Fecha de Inicio", label_cycle_end: "Fecha de Fin", label_sync_start: "Fecha Inicio de Sincronización",
                 label_starting: "Saldos Iniciales / Acumulados", info_starting: "Agrega horas históricas aquí. Para evitar contar doble, asegúrate de que tu Fecha de Sincronización comience después de estas horas.",
+                label_custom_names: "Nomenclatura Personalizada",
                 btn_save_params: "Guardar Parámetros", msg_saved: "GUARDADO ✓",
                 opt_contact: "Client", opt_super: "Supervisión", opt_therapy: "Terapia Personal", opt_cpd: "CPD / Formación",
                 stat_contact: "Client", stat_super: "Supervisión", stat_therapy: "Terapia", stat_cpd: "CPD",
@@ -664,6 +715,7 @@
                 label_goal: "Mandat Thérapie (Hrs)", label_global_goal: "Objectif de Qualification (Hrs Client)",
                 label_cycle_range: "Plage de Cycle", label_cycle_start: "Date de Début", label_cycle_end: "Date de Fin", label_sync_start: "Date de Début de Synchro",
                 label_starting: "Soldes Initiaux / Reportés", info_starting: "Ajoutez les heures historiques ici. Pour éviter les doublons, assurez-vous que la synchro commence après ces heures.",
+                label_custom_names: "Nomenclature Personnalisée",
                 btn_save_params: "Enregistrer", msg_saved: "ENREGISTRÉ ✓",
                 opt_contact: "Client", opt_super: "Supervision", opt_therapy: "Thérapie Personnelle", opt_cpd: "Formation / CPD",
                 stat_contact: "Client", stat_super: "Supervision", stat_therapy: "Thérapie", stat_cpd: "CPD",
@@ -677,6 +729,110 @@
                 info_cycle: "Filtre le tableau de bord pour n'afficher que les enregistrements de votre année académique ou de référence.",
                 tab_alert: "N'oubliez pas vos heures !",
                 modal_reflection_title: "Réflexion Clinique", label_notes: "Notes de Session Privées", btn_save_ref: "Enregistrer la Réflexion"
+            },
+            it: {
+                brand: "Sviluppato da Liam", tagline: "Registrazione clinica sicura e tracciamento del saldo.",
+                title_part1: "Registro", title_part2: "Clinico.",
+                tab_month: "Mese Corrente", tab_cycle: "Ciclo Attivo", tab_all: "Tutto",
+                header_sync: "Sincronizzazione", header_entry: "Nuova Voce", header_params: "Parametri",
+                btn_sync: "Sincronizza Calendario", btn_add: "Aggiungi Voce", btn_export: "Esporta CSV", btn_print: "Stampa PDF", btn_sheets: "Salva in Fogli", btn_coffee: "Offrimi un caffè", btn_privacy: "Privacy", btn_share: "Condividi",
+                label_type: "Tipo", label_date: "Data", label_hours: "Ore", label_lang: "Lingua", label_balance: "Rapporto Saldo", label_keywords: "Parole Chiave", 
+                label_trainee: "Modalità Tirocinante", desc_trainee: "Abilita avvisi 2x/mese e obiettivi di qualifica",
+                label_goal: "Obiettivo Terapia (Ore)", label_global_goal: "Obiettivo Qualifica (Ore Clienti)",
+                label_cycle_range: "Intervallo Ciclo Attivo", label_cycle_start: "Data Inizio", label_cycle_end: "Data Fine", label_sync_start: "Data Inizio Sincronizzazione",
+                label_starting: "Saldi Iniziali / Riportati", info_starting: "Aggiungi qui le ore storiche. Per evitare doppi conteggi, assicurati che la Data di Inizio Sincronizzazione sia successiva.",
+                label_custom_names: "Nomenclatura Personalizzata",
+                btn_save_params: "Salva Parametri", msg_saved: "SALVATO ✓",
+                opt_contact: "Cliente", opt_super: "Supervisione", opt_therapy: "Terapia Personale", opt_cpd: "Formazione (CPD)",
+                stat_contact: "Cliente", stat_super: "Supervisione", stat_therapy: "Terapia", stat_cpd: "CPD",
+                balance_title: "Saldo", health_label: "Stato Operativo", progress_title: "Progresso", progress_label: "Obiettivo Qualifica", active_records: "Record Attivi",
+                privacy_stmt: "Archiviazione locale. Tutti i dati rimangono nel browser.", awaiting: "IN ATTESA DI DATI...", verified: "Saldo verificato.",
+                ratio_1: "Per ogni", ratio_2: "ore di contatto cliente,", ratio_3: "richiedo", ratio_4: "ore di supervisione.",
+                deficit: "Deficit: richieste {h} ore di supervisione per rapporto {r}.", mandate: "Mandato: 2 sessioni di supervisione separate al mese (Attuali: {s}).",
+                therapy_deficit: "Deficit: richieste {h} ore di terapia personale.",
+                info_sync: "Importa automaticamente gli eventi da Google Calendar utilizzando le parole chiave.",
+                info_manual: "Registra manualmente le ore cliniche nel database locale sicuro.",
+                info_cycle: "Filtra la dashboard per mostrare solo i record dell'anno accademico.",
+                tab_alert: "Non dimenticare di registrare le ore!",
+                modal_reflection_title: "Riflessione Clinica", label_notes: "Note di Sessione Private", btn_save_ref: "Salva Riflessione"
+            },
+            pt: {
+                brand: "Desenvolvido por Liam", tagline: "Registro clínico seguro e controle de saldo.",
+                title_part1: "Registro", title_part2: "Clínico.",
+                tab_month: "Mês Atual", tab_cycle: "Ciclo Ativo", tab_all: "Tudo",
+                header_sync: "Sincronização", header_entry: "Nova Entrada", header_params: "Parâmetros",
+                btn_sync: "Sincronizar Calendário", btn_add: "Adicionar Entrada", btn_export: "Exportar CSV", btn_print: "Imprimir PDF", btn_sheets: "Salvar no Sheets", btn_coffee: "Pague-me um café", btn_privacy: "Privacidade", btn_share: "Compartilhar",
+                label_type: "Tipo", label_date: "Data", label_hours: "Horas", label_lang: "Idioma", label_balance: "Proporção de Saldo", label_keywords: "Palavras-chave", 
+                label_trainee: "Modo Estagiário", desc_trainee: "Ativa alertas 2x/mês e metas de qualificação",
+                label_goal: "Meta de Terapia (Hrs)", label_global_goal: "Meta de Qualificação (Hrs Cliente)",
+                label_cycle_range: "Intervalo do Ciclo Ativo", label_cycle_start: "Data de Início", label_cycle_end: "Data de Término", label_sync_start: "Data Início Sincronização",
+                label_starting: "Saldos Iniciais / Acumulados", info_starting: "Adicione horas históricas aqui. Para evitar contagem dupla, garanta que a Data de Início da Sincronização seja posterior.",
+                label_custom_names: "Nomenclatura Personalizada",
+                btn_save_params: "Salvar Parâmetros", msg_saved: "SALVO ✓",
+                opt_contact: "Cliente", opt_super: "Supervisão", opt_therapy: "Terapia Pessoal", opt_cpd: "Treinamento (CPD)",
+                stat_contact: "Cliente", stat_super: "Supervisão", stat_therapy: "Terapia", stat_cpd: "CPD",
+                balance_title: "Saldo", health_label: "Saúde Operacional", progress_title: "Progresso", progress_label: "Meta de Qualificação", active_records: "Registros Ativos",
+                privacy_stmt: "Armazenamento local. Seus dados ficam no navegador.", awaiting: "AGUARDANDO DADOS...", verified: "Saldo verificado.",
+                ratio_1: "Para cada", ratio_2: "hrs de contato com cliente,", ratio_3: "exijo", ratio_4: "hrs de supervisão.",
+                deficit: "Déficit: necessárias {h} hrs de supervisão para proporção {r}.", mandate: "Mandato: 2 sessões de supervisão separadas por mês (Atual: {s}).",
+                therapy_deficit: "Déficit: necessárias {h} hrs de terapia pessoal.",
+                info_sync: "Importa eventos automaticamente do Google Calendar usando suas Palavras-chave.",
+                info_manual: "Registre manualmente as horas clínicas em seu banco de dados local seguro.",
+                info_cycle: "Filtra o painel para mostrar apenas registros do seu ano acadêmico.",
+                tab_alert: "Não esqueça de registrar suas horas!",
+                modal_reflection_title: "Reflexão Clínica", label_notes: "Notas Privadas da Sessão", btn_save_ref: "Salvar Reflexão"
+            },
+            nl: {
+                brand: "Gebouwd Door Liam", tagline: "Veilige klinische registratie en urenbalans.",
+                title_part1: "Klinisch", title_part2: "Logboek.",
+                tab_month: "Huidige Maand", tab_cycle: "Actieve Cyclus", tab_all: "Alles",
+                header_sync: "Synchronisatie", header_entry: "Nieuwe Invoer", header_params: "Parameters",
+                btn_sync: "Kalender Synchroniseren", btn_add: "Invoer Toevoegen", btn_export: "CSV Exporteren", btn_print: "PDF Afdrukken", btn_sheets: "Opslaan in Sheets", btn_coffee: "Koffie Kopen", btn_privacy: "Privacy", btn_share: "Delen",
+                label_type: "Type", label_date: "Datum", label_hours: "Uren", label_lang: "Taal", label_balance: "Balansverhouding", label_keywords: "Trefwoorden", 
+                label_trainee: "Trainee Modus", desc_trainee: "Schakelt 2x/mnd waarschuwingen & kwalificatiedoelen in",
+                label_goal: "Therapie Doel (Uren)", label_global_goal: "Kwalificatiedoel (Cliënturen)",
+                label_cycle_range: "Actieve Cyclus Periode", label_cycle_start: "Startdatum", label_cycle_end: "Einddatum", label_sync_start: "Sync Startdatum",
+                label_starting: "Startsaldo / Meegenomen Uren", info_starting: "Voeg hier historische uren toe. Voorkom dubbele tellingen door de Sync Startdatum na deze uren in te stellen.",
+                label_custom_names: "Aangepaste Nomenclatuur",
+                btn_save_params: "Parameters Opslaan", msg_saved: "OPGESLAGEN ✓",
+                opt_contact: "Cliënt", opt_super: "Supervisie", opt_therapy: "Leertherapie", opt_cpd: "Bijscholing (CPD)",
+                stat_contact: "Cliënt", stat_super: "Supervisie", stat_therapy: "Therapie", stat_cpd: "CPD",
+                balance_title: "Balans", health_label: "Operationele Status", progress_title: "Voortgang", progress_label: "Kwalificatiedoel", active_records: "Actieve Registraties",
+                privacy_stmt: "Lokale opslag. Alle gegevens blijven in uw browser.", awaiting: "WACHTEN OP GEGEVENS...", verified: "Balans geverifieerd.",
+                ratio_1: "Voor elke", ratio_2: "uur cliëntcontact,", ratio_3: "heb ik", ratio_4: "uur supervisie nodig.",
+                deficit: "Tekort: {h} uur supervisie nodig voor {r} verhouding.", mandate: "Verplichting: 2 aparte supervisiesessies per maand (Huidig: {s}).",
+                therapy_deficit: "Tekort: {h} uur leertherapie vereist.",
+                info_sync: "Importeert automatisch afspraken uit Google Calendar op basis van uw Trefwoorden.",
+                info_manual: "Registreer handmatig klinische uren in uw lokale beveiligde database.",
+                info_cycle: "Filtert het dashboard om alleen registraties binnen uw academische of rapportagejaar te tonen.",
+                tab_alert: "Vergeet uw uren niet te loggen!",
+                modal_reflection_title: "Klinische Reflectie", label_notes: "Privé Sessienotities", btn_save_ref: "Reflectie Opslaan"
+            },
+            cy: {
+                brand: "Adeiladwyd Gan Liam", tagline: "Cofnod clinigol diogel ac olrhain cydbwysedd.",
+                title_part1: "Cofnod", title_part2: "Clinigol.",
+                tab_month: "Mis Cyfredol", tab_cycle: "Cylch Gweithredol", tab_all: "Trwy'r Amser",
+                header_sync: "Cysoni", header_entry: "Cofnod Newydd", header_params: "Paramedrau",
+                btn_sync: "Cysoni Calendr", btn_add: "Ychwanegu Cofnod", btn_export: "Allforio CSV", btn_print: "Argraffu PDF", btn_sheets: "Cadw i Sheets", btn_coffee: "Prynu Coffi", btn_privacy: "Preifatrwydd", btn_share: "Rhannu",
+                label_type: "Math", label_date: "Dyddiad", label_hours: "Oriau", label_lang: "Iaith", label_balance: "Cymhareb Cydbwysedd", label_keywords: "Geiriau Allweddol", 
+                label_trainee: "Modd Hyfforddai UKCP", desc_trainee: "Galluogi rhybuddion 2x/mis a nodau cymhwyso",
+                label_goal: "Gofyniad Therapi (Oriau)", label_global_goal: "Nod Cymhwyso (Oriau Cleient)",
+                label_cycle_range: "Ystod y Cylch Gweithredol", label_cycle_start: "Dyddiad Dechrau", label_cycle_end: "Dyddiad Gorffen", label_sync_start: "Dyddiad Dechrau Cysoni",
+                label_starting: "Balansau Cychwynnol", info_starting: "Ychwanegwch oriau hanesyddol yma. I osgoi cyfri ddwywaith, gwnewch yn siŵr bod Dyddiad Dechrau Cysoni ar ôl yr oriau hyn.",
+                label_custom_names: "Enwau Personol",
+                btn_save_params: "Cadw Paramedrau", msg_saved: "ARBEDWYD ✓",
+                opt_contact: "Cleient", opt_super: "Goruchwyliaeth", opt_therapy: "Therapi Personol", opt_cpd: "Hyfforddiant / DPP",
+                stat_contact: "Cleient", stat_super: "Goruchwyliaeth", stat_therapy: "Therapi", stat_cpd: "DPP",
+                balance_title: "Cydbwysedd", health_label: "Iechyd Gweithredol", progress_title: "Cynnydd", progress_label: "Nod Cymhwyso", active_records: "Cofnodion Gweithredol",
+                privacy_stmt: "Storio lleol. Mae'ch data'n aros yn eich porwr.", awaiting: "AROS AM DDATA...", verified: "Cydbwysedd wedi'i ddilysu.",
+                ratio_1: "Am bob", ratio_2: "awr o gyswllt cleient,", ratio_3: "rwyf angen", ratio_4: "awr o oruchwyliaeth.",
+                deficit: "Diffyg: angen {h} awr o oruchwyliaeth ar gyfer cymhareb {r}.", mandate: "Gofyniad UKCP: 2 sesiwn oruchwyliaeth ar wahân y mis (Cyfredol: {s}).",
+                therapy_deficit: "Diffyg: angen {h} awr o therapi personol.",
+                info_sync: "Yn mewnforio digwyddiadau yn awtomatig o Google Calendar gan ddefnyddio'ch Geiriau Allweddol.",
+                info_manual: "Logiwch oriau clinigol â llaw i'ch cronfa ddata leol ddiogel.",
+                info_cycle: "Yn hidlo'r dangosfwrdd i ddangos cofnodion o'ch blwyddyn academaidd neu adrodd yn unig.",
+                tab_alert: "Peidiwch ag anghofio logio'ch oriau!",
+                modal_reflection_title: "Adlewyrchiad Clinigol", label_notes: "Nodiadau Sesiwn Preifat", btn_save_ref: "Cadw Adlewyrchiad"
             }
         };
 
@@ -706,7 +862,9 @@
                 lang: 'en', cycleStart: todayStr, cycleEnd: nextYearStr, syncStartDate: startOfYearStr, goal: 40, globalGoal: 100, isTrainee: false, ratioSuper: 1, ratioClient: 6, 
                 startingBalances: { client: 0, super: 0, therapy: 0, cpd: 0 },
                 panelOrder: ['panel-cal', 'panel-entry', 'panel-params'],
-                keywords: { client: 'client, session', super: 'supervision', therapy: 'therapy', cpd: 'cpd' }
+                kpiOrder: ['kpi-client', 'kpi-super', 'kpi-therapy', 'kpi-cpd'],
+                keywords: { client: 'client, session', super: 'supervision', therapy: 'therapy', cpd: 'cpd' },
+                labels: { client: '', super: '', therapy: '', cpd: '' }
             },
             lastSync: localStorage.getItem('liam_sync_time') || null,
             displayLimit: 25
@@ -723,6 +881,8 @@
         }
         if (!state.settings.startingBalances) state.settings.startingBalances = { client: 0, super: 0, therapy: 0, cpd: 0 };
         if (!state.settings.panelOrder) state.settings.panelOrder = ['panel-cal', 'panel-entry', 'panel-params'];
+        if (!state.settings.kpiOrder) state.settings.kpiOrder = ['kpi-client', 'kpi-super', 'kpi-therapy', 'kpi-cpd'];
+        if (!state.settings.labels) state.settings.labels = { client: '', super: '', therapy: '', cpd: '' };
 
         let resetLock = false;
         let currentEditId = null; 
@@ -731,8 +891,17 @@
         let currentFilteredTotals = { client: 0, super: 0, therapy: 0, cpd: 0, sessions: 0 };
         let currentRatioVal = 0;
 
-        function translateUI() {
-            const d = i18n[state.settings.lang] || i18n.en;
+        function getTranslations() {
+            const d = { ...(i18n[state.settings.lang] || i18n.en) };
+            const labels = state.settings.labels || {};
+            if (labels.client) { d.stat_contact = labels.client; d.opt_contact = labels.client; }
+            if (labels.super) { d.stat_super = labels.super; d.opt_super = labels.super; }
+            if (labels.therapy) { d.stat_therapy = labels.therapy; d.opt_therapy = labels.therapy; }
+            if (labels.cpd) { d.stat_cpd = labels.cpd; d.opt_cpd = labels.cpd; }
+            return d;
+        }
+
+        function translateUI(d) {
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
                 if (d[key]) el.innerText = d[key];
@@ -740,8 +909,8 @@
         }
 
         function render() {
-            translateUI();
-            const d = i18n[state.settings.lang] || i18n.en;
+            const d = getTranslations();
+            translateUI(d);
             const now = new Date();
             const cycleStart = new Date(state.settings.cycleStart);
             const cycleEnd = new Date(state.settings.cycleEnd);
@@ -836,13 +1005,14 @@
             const list = document.getElementById('log-container');
             list.innerHTML = currentFilteredEntries.length ? currentFilteredEntries.slice(0, state.displayLimit).map(e => {
                 const hasNotes = e.notes && e.notes.trim().length > 0;
+                const typeLabel = e.type === 'client' ? d.opt_contact : (d['opt_'+e.type] || e.type);
                 return `
                 <div class="flex justify-between items-center p-6 bg-white dark:bg-darkPanel border border-black/10 dark:border-white/5 hover:border-monolith/50 transition-all shadow-sm group cursor-pointer" onclick="openReflection('${e.id}')">
                     <div class="flex items-center gap-6">
                         <div class="w-1 h-10 ${e.type === 'super' ? 'bg-monolith' : 'bg-black/10 dark:bg-white/10'}"></div>
                         <div class="space-y-1.5">
                             <p class="text-xs font-black uppercase tracking-widest flex items-center gap-2">
-                                ${d['opt_'+e.type] || e.type}
+                                ${typeLabel}
                                 ${hasNotes ? `<i data-lucide="book-open" class="w-3 h-3 text-monolith"></i>` : ''}
                             </p>
                             <p class="text-[11px] opacity-50 font-bold">${new Date(e.date).toLocaleDateString(state.settings.lang)}</p>
@@ -856,13 +1026,13 @@
             `}).join('') : `<div class="py-24 text-center opacity-20 text-xs font-black tracking-widest">NO RECORDS</div>`;
             
             buildPrintLayout();
-            lucide.createIcons();
+            if (window.lucide) lucide.createIcons();
             updateDraggables();
         }
 
         function buildPrintLayout() {
             const container = document.getElementById('print-container');
-            const d = i18n[state.settings.lang] || i18n.en;
+            const d = getTranslations();
             const viewTitle = state.view === 'month' ? d.tab_month : (state.view === 'cycle' ? d.tab_cycle : d.tab_all);
             
             container.innerHTML = `
@@ -887,14 +1057,17 @@
                         </tr>
                     </thead>
                     <tbody>
-                        ${currentFilteredEntries.map(e => `
+                        ${currentFilteredEntries.map(e => {
+                            const typeLabel = e.type === 'client' ? d.opt_contact : (d['opt_'+e.type] || e.type);
+                            return `
                             <tr>
                                 <td>${new Date(e.date).toLocaleDateString(state.settings.lang)}</td>
-                                <td>${d['opt_'+e.type] || e.type}</td>
+                                <td>${typeLabel}</td>
                                 <td>${e.hours.toFixed(1)}</td>
                                 <td>${e.notes ? e.notes.substring(0, 100) + (e.notes.length > 100 ? '...' : '') : ''}</td>
                             </tr>
-                        `).join('')}
+                            `;
+                        }).join('')}
                     </tbody>
                 </table>
             `;
@@ -972,6 +1145,12 @@
                     super: document.getElementById('k-super').value,
                     therapy: document.getElementById('k-therapy').value,
                     cpd: document.getElementById('k-cpd').value
+                },
+                labels: {
+                    client: document.getElementById('l-client').value,
+                    super: document.getElementById('l-super').value,
+                    therapy: document.getElementById('l-therapy').value,
+                    cpd: document.getElementById('l-cpd').value
                 }
             };
             localStorage.setItem('liam_set', JSON.stringify(state.settings));
@@ -1045,7 +1224,7 @@
                 document.documentElement.classList.add('dark'); 
                 icon.setAttribute('data-lucide', 'sun'); 
             } 
-            lucide.createIcons(); 
+            if (window.lucide) lucide.createIcons(); 
         }
 
         function setView(v) { 
@@ -1083,6 +1262,7 @@
             const panels = ['panel-cal', 'panel-entry', 'panel-params'];
             panels.forEach(id => {
                 const p = document.getElementById(id);
+                if (!p) return;
                 p.addEventListener('dragstart', (e) => {
                     if(!p.classList.contains('collapsed-panel')) {
                         e.preventDefault();
@@ -1189,6 +1369,12 @@
             document.getElementById('k-therapy').value = state.settings.keywords.therapy;
             document.getElementById('k-cpd').value = state.settings.keywords.cpd;
             
+            const defaultLabels = state.settings.labels || {};
+            document.getElementById('l-client').value = defaultLabels.client || '';
+            document.getElementById('l-super').value = defaultLabels.super || '';
+            document.getElementById('l-therapy').value = defaultLabels.therapy || '';
+            document.getElementById('l-cpd').value = defaultLabels.cpd || '';
+            
             render();
             
             const standardFavicon = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgcng9IjI0IiBmaWxsPSIjMWMxYzFjIi8+PGNpcmNsZSBjeD0iNTAiIGN5PSI1MCIgcj0iMjAiIGZpbGw9IiNGRjdBMDAiLz48L3N2Zz4=";
@@ -1235,9 +1421,12 @@
         }
         
         function exportCSV() { 
-            const csv = "Date,Type,Hours,Notes\n" + currentFilteredEntries.map(e => {
+            const d = getTranslations();
+            const headers = `${d.label_date || 'Date'},${d.label_type || 'Type'},${d.label_hours || 'Hours'},${d.label_notes || 'Notes'}\n`;
+            const csv = headers + currentFilteredEntries.map(e => {
                 const cleanNote = e.notes ? e.notes.replace(/"/g, '""').replace(/\n/g, ' ') : '';
-                return `${e.date},${e.type},${e.hours},"${cleanNote}"`;
+                const typeLabel = e.type === 'client' ? d.opt_contact : (d['opt_'+e.type] || e.type);
+                return `${e.date},${typeLabel},${e.hours},"${cleanNote}"`;
             }).join("\n"); 
             const blob = new Blob([csv], { type: 'text/csv' }); 
             const url = window.URL.createObjectURL(blob); 
@@ -1250,8 +1439,7 @@
                 return;
             }
             const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
-            const d = i18n[state.settings.lang] || i18n.en;
+            const d = getTranslations();
 
             // Header Section
             doc.setFontSize(22);
@@ -1273,12 +1461,15 @@
             doc.text(`Balance: ${Math.round(currentRatioVal)}%`, 14, 48);
 
             // Formatted Table Data
-            const tableData = currentFilteredEntries.map(e => [
-                new Date(e.date).toLocaleDateString(state.settings.lang),
-                d['opt_'+e.type] || e.type,
-                e.hours.toFixed(1),
-                e.notes ? e.notes : ''
-            ]);
+            const tableData = currentFilteredEntries.map(e => {
+                const typeLabel = e.type === 'client' ? d.opt_contact : (d['opt_'+e.type] || e.type);
+                return [
+                    new Date(e.date).toLocaleDateString(state.settings.lang),
+                    typeLabel,
+                    e.hours.toFixed(1),
+                    e.notes ? e.notes : ''
+                ];
+            });
 
             doc.autoTable({
                 startY: 55,
@@ -1294,10 +1485,11 @@
         }
 
         async function handleShare() {
+            const d = getTranslations();
             const clientVal = document.getElementById('val-client').innerText;
             const superVal = document.getElementById('val-super').innerText;
             const ratioVal = document.getElementById('val-ratio').innerText;
-            const summary = `Clinical Log Summary:\nClient: ${clientVal} hrs\nSupervision: ${superVal} hrs\nBalance: ${ratioVal}%`;
+            const summary = `Clinical Log Summary:\n${d.stat_contact}: ${clientVal} hrs\n${d.stat_super}: ${superVal} hrs\nBalance: ${ratioVal}%`;
 
             if (navigator.share) {
                 try {
@@ -1466,7 +1658,7 @@
             const btn = document.getElementById('btn-sheets');
             const originalText = btn.innerHTML;
             btn.innerHTML = `<i data-lucide="loader" class="w-3.5 h-3.5 animate-spin"></i> <span data-i18n="btn_sheets">Saving...</span>`;
-            lucide.createIcons();
+            if (window.lucide) lucide.createIcons();
             
             const msg = document.getElementById('msg-sync');
 
@@ -1477,7 +1669,7 @@
                     setTimeout(() => msg.classList.add('hidden'), 5000);
                 }
                 btn.innerHTML = originalText;
-                lucide.createIcons();
+                if (window.lucide) lucide.createIcons();
                 return;
             }
 
@@ -1492,7 +1684,7 @@
                         setTimeout(() => msg.classList.add('hidden'), 8000);
                     }
                     btn.innerHTML = originalText;
-                    lucide.createIcons();
+                    if (window.lucide) lucide.createIcons();
                     return;
                 }
                 
@@ -1503,15 +1695,18 @@
                     });
                     const spreadsheetId = sheetResp.result.spreadsheetId;
                     
-                    const d = i18n[state.settings.lang] || i18n.en;
+                    const d = getTranslations();
                     const values = [
                         [d.label_date || 'Date', d.label_type || 'Type', d.label_hours || 'Hours', d.label_notes || 'Notes'],
-                        ...currentFilteredEntries.map(e => [
-                            new Date(e.date).toLocaleDateString(state.settings.lang), 
-                            d['opt_'+e.type] || e.type, 
-                            e.hours, 
-                            e.notes || ''
-                        ])
+                        ...currentFilteredEntries.map(e => {
+                            const typeLabel = e.type === 'client' ? d.opt_contact : (d['opt_'+e.type] || e.type);
+                            return [
+                                new Date(e.date).toLocaleDateString(state.settings.lang), 
+                                typeLabel, 
+                                e.hours, 
+                                e.notes || ''
+                            ];
+                        })
                     ];
                     
                     await window.gapi.client.sheets.spreadsheets.values.update({
@@ -1538,7 +1733,7 @@
                     }
                 } finally {
                     btn.innerHTML = originalText;
-                    lucide.createIcons();
+                    if (window.lucide) lucide.createIcons();
                 }
             };
             
