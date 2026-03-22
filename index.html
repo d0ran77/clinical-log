@@ -35,6 +35,11 @@
     
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- NEW: PDF EXPORT LIBRARIES -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -184,8 +189,6 @@
 
     <!-- MAIN APP UI -->
     <div id="app-container">
-        <!-- Depth of field background glow -->
-        <div class="fixed top-0 right-0 w-[800px] h-[800px] bg-monolith/5 rounded-full blur-[120px] pointer-events-none -z-10 hidden dark:block"></div>
 
         <div class="absolute top-6 right-6 md:top-12 md:right-12 z-50 no-print">
             <button onclick="toggleTheme()" class="p-3 opacity-40 hover:opacity-100 hover:text-monolith transition-all rounded-full dark:hover:bg-white/5 hover:bg-black/5">
@@ -486,8 +489,8 @@
                                     <i data-lucide="download" class="w-3.5 h-3.5"></i> <span data-i18n="btn_export">Export CSV</span>
                                 </button>
                                 
-                                <button onclick="window.print()" class="text-[10px] font-black opacity-40 hover:opacity-100 hover:text-monolith transition-all flex items-center gap-2">
-                                    <i data-lucide="printer" class="w-3.5 h-3.5"></i> <span data-i18n="btn_print">Print PDF</span>
+                                <button onclick="exportPDF()" class="text-[10px] font-black opacity-40 hover:opacity-100 hover:text-monolith transition-all flex items-center gap-2">
+                                    <i data-lucide="printer" class="w-3.5 h-3.5"></i> <span data-i18n="btn_print">Download PDF</span>
                                 </button>
                             </div>
                         </div>
@@ -1241,6 +1244,55 @@
             const a = document.createElement('a'); a.href = url; a.download = 'clinical_log.csv'; a.click(); 
         }
 
+        function exportPDF() {
+            if (!window.jspdf) {
+                alert("PDF library is still loading. Please try again in a moment.");
+                return;
+            }
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            const d = i18n[state.settings.lang] || i18n.en;
+
+            // Header Section
+            doc.setFontSize(22);
+            doc.setFont("helvetica", "bold");
+            doc.text("Clinical Log", 14, 22);
+
+            doc.setFontSize(10);
+            doc.setFont("helvetica", "normal");
+            doc.setTextColor(100);
+            const viewTitle = state.view === 'month' ? d.tab_month : (state.view === 'cycle' ? d.tab_cycle : d.tab_all);
+            doc.text(`Generated: ${new Date().toLocaleDateString(state.settings.lang)} | View: ${viewTitle}`, 14, 30);
+
+            // Summary Stats Section
+            doc.setTextColor(0);
+            doc.text(`${d.stat_contact}: ${currentFilteredTotals.client.toFixed(1)} hrs`, 14, 40);
+            doc.text(`${d.stat_super}: ${currentFilteredTotals.super.toFixed(1)} hrs`, 60, 40);
+            doc.text(`${d.stat_therapy}: ${currentFilteredTotals.therapy.toFixed(1)} hrs`, 110, 40);
+            doc.text(`${d.stat_cpd}: ${currentFilteredTotals.cpd.toFixed(1)} hrs`, 150, 40);
+            doc.text(`Balance: ${Math.round(currentRatioVal)}%`, 14, 48);
+
+            // Formatted Table Data
+            const tableData = currentFilteredEntries.map(e => [
+                new Date(e.date).toLocaleDateString(state.settings.lang),
+                d['opt_'+e.type] || e.type,
+                e.hours.toFixed(1),
+                e.notes ? e.notes : ''
+            ]);
+
+            doc.autoTable({
+                startY: 55,
+                head: [[d.label_date || 'Date', d.label_type || 'Type', d.label_hours || 'Hours', d.label_notes || 'Notes']],
+                body: tableData,
+                theme: 'grid',
+                headStyles: { fillColor: [255, 122, 0], textColor: [255, 255, 255], fontStyle: 'bold' },
+                styles: { fontSize: 9, cellPadding: 4 },
+                columnStyles: { 3: { cellWidth: 'auto' } }
+            });
+
+            doc.save(`Clinical_Log_${new Date().toISOString().split('T')[0]}.pdf`);
+        }
+
         async function handleShare() {
             const clientVal = document.getElementById('val-client').innerText;
             const superVal = document.getElementById('val-super').innerText;
@@ -1351,7 +1403,7 @@
                     'timeMax': now.toISOString(),
                     'showDeleted': false,
                     'singleEvents': true,
-                    'maxResults': 500,
+                    'maxResults': 2500,
                     'orderBy': 'startTime'
                 });
 
@@ -1399,7 +1451,7 @@
                 state.lastSync = new Date().toISOString();
                 localStorage.setItem('liam_sync_time', state.lastSync);
                 render();
-                msg.innerText = `Imported ${uniqueNew.length} new records.`;
+                msg.innerText = `Imported ${uniqueNew.length} new records (Scanned ${events.length} total events).`;
             } catch (err) { 
                 msg.innerText = 'Sync failed. Check credentials.'; 
                 console.error("Calendar Sync Error", err);
@@ -1416,8 +1468,14 @@
             btn.innerHTML = `<i data-lucide="loader" class="w-3.5 h-3.5 animate-spin"></i> <span data-i18n="btn_sheets">Saving...</span>`;
             lucide.createIcons();
             
-            if (!tokenClient) {
-                alert("Google API not initialized. Please check your credentials.");
+            const msg = document.getElementById('msg-sync');
+
+            if (!tokenClient || !window.gapi || !window.gapi.client || !window.gapi.client.sheets) {
+                if (msg) {
+                    msg.innerHTML = "Google API not fully loaded. Check your network or API keys.";
+                    msg.classList.remove('hidden');
+                    setTimeout(() => msg.classList.add('hidden'), 5000);
+                }
                 btn.innerHTML = originalText;
                 lucide.createIcons();
                 return;
@@ -1425,7 +1483,14 @@
 
             tokenClient.callback = async (resp) => {
                 if (resp.error) {
-                    alert("Authentication failed.");
+                    let errorDetails = resp.error;
+                    if (resp.error === 'popup_closed') errorDetails = "Sign-in popup closed.";
+                    
+                    if (msg) {
+                        msg.innerHTML = `Auth Error: ${errorDetails} (Mobile users: try disabling 'Prevent Cross-Site Tracking' in browser settings)`;
+                        msg.classList.remove('hidden');
+                        setTimeout(() => msg.classList.add('hidden'), 8000);
+                    }
                     btn.innerHTML = originalText;
                     lucide.createIcons();
                     return;
@@ -1456,16 +1521,21 @@
                         resource: { values: values }
                     });
                     
-                    const msg = document.getElementById('msg-sync'); 
                     if (msg) {
-                        msg.innerHTML = `Saved! <a href="https://docs.google.com/spreadsheets/d/${spreadsheetId}" target="_blank" class="underline hover:text-white">Open Google Sheet</a>`;
+                        msg.innerHTML = `Saved! <a href="https://docs.google.com/spreadsheets/d/${spreadsheetId}" target="_blank" class="underline hover:text-white font-black">Open Google Sheet</a>`;
                         msg.classList.remove('hidden');
                         setTimeout(() => { msg.classList.add('hidden'); msg.innerHTML = ''; }, 10000);
                     }
                     
                 } catch (err) {
                     console.error("Sheets Error:", err);
-                    alert("Failed to save to Google Sheets.");
+                    if (msg) {
+                        let errMsg = "Failed to save to Google Sheets.";
+                        if (err.result && err.result.error) errMsg += ` ${err.result.error.message}`;
+                        msg.innerHTML = errMsg;
+                        msg.classList.remove('hidden');
+                        setTimeout(() => msg.classList.add('hidden'), 8000);
+                    }
                 } finally {
                     btn.innerHTML = originalText;
                     lucide.createIcons();
