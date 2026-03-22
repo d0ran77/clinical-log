@@ -1420,14 +1420,42 @@
             reader.readAsText(e.target.files[0]); 
         }
         
+        function getExportData() {
+            const d = getTranslations();
+            const sb = state.settings.startingBalances;
+            let rows = [];
+            
+            // Add starting balances if they exist so sheet totals match dashboard
+            if (sb.client > 0 || sb.super > 0 || sb.therapy > 0 || sb.cpd > 0) {
+                if (sb.client > 0) rows.push(["-", d.stat_contact + " (Starting)", sb.client, "Rollover Balance"]);
+                if (sb.super > 0) rows.push(["-", d.stat_super + " (Starting)", sb.super, "Rollover Balance"]);
+                if (sb.therapy > 0) rows.push(["-", d.stat_therapy + " (Starting)", sb.therapy, "Rollover Balance"]);
+                if (sb.cpd > 0) rows.push(["-", d.stat_cpd + " (Starting)", sb.cpd, "Rollover Balance"]);
+            }
+            
+            currentFilteredEntries.forEach(e => {
+                const typeLabel = e.type === 'client' ? d.opt_contact : (d['opt_'+e.type] || e.type);
+                rows.push([
+                    new Date(e.date).toLocaleDateString(state.settings.lang),
+                    typeLabel,
+                    e.hours,
+                    e.notes || ''
+                ]);
+            });
+            
+            return rows;
+        }
+
         function exportCSV() { 
             const d = getTranslations();
             const headers = `${d.label_date || 'Date'},${d.label_type || 'Type'},${d.label_hours || 'Hours'},${d.label_notes || 'Notes'}\n`;
-            const csv = headers + currentFilteredEntries.map(e => {
-                const cleanNote = e.notes ? e.notes.replace(/"/g, '""').replace(/\n/g, ' ') : '';
-                const typeLabel = e.type === 'client' ? d.opt_contact : (d['opt_'+e.type] || e.type);
-                return `${e.date},${typeLabel},${e.hours},"${cleanNote}"`;
+            const exportRows = getExportData();
+            
+            const csv = headers + exportRows.map(row => {
+                const cleanNote = row[3] ? String(row[3]).replace(/"/g, '""').replace(/\n/g, ' ') : '';
+                return `${row[0]},${row[1]},${row[2]},"${cleanNote}"`;
             }).join("\n"); 
+            
             const blob = new Blob([csv], { type: 'text/csv' }); 
             const url = window.URL.createObjectURL(blob); 
             const a = document.createElement('a'); a.href = url; a.download = 'clinical_log.csv'; a.click(); 
@@ -1438,50 +1466,66 @@
                 alert("PDF library is still loading. Please try again in a moment.");
                 return;
             }
-            const { jsPDF } = window.jspdf;
-            const d = getTranslations();
+            
+            try {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF();
+                
+                if (typeof doc.autoTable !== 'function') {
+                    alert("PDF Table library failed to load. Please refresh the page.");
+                    return;
+                }
 
-            // Header Section
-            doc.setFontSize(22);
-            doc.setFont("helvetica", "bold");
-            doc.text("Clinical Log", 14, 22);
+                const d = getTranslations();
 
-            doc.setFontSize(10);
-            doc.setFont("helvetica", "normal");
-            doc.setTextColor(100);
-            const viewTitle = state.view === 'month' ? d.tab_month : (state.view === 'cycle' ? d.tab_cycle : d.tab_all);
-            doc.text(`Generated: ${new Date().toLocaleDateString(state.settings.lang)} | View: ${viewTitle}`, 14, 30);
+                // Header Section
+                doc.setFontSize(22);
+                doc.setFont("helvetica", "bold");
+                doc.text("Clinical Log", 14, 22);
 
-            // Summary Stats Section
-            doc.setTextColor(0);
-            doc.text(`${d.stat_contact}: ${currentFilteredTotals.client.toFixed(1)} hrs`, 14, 40);
-            doc.text(`${d.stat_super}: ${currentFilteredTotals.super.toFixed(1)} hrs`, 60, 40);
-            doc.text(`${d.stat_therapy}: ${currentFilteredTotals.therapy.toFixed(1)} hrs`, 110, 40);
-            doc.text(`${d.stat_cpd}: ${currentFilteredTotals.cpd.toFixed(1)} hrs`, 150, 40);
-            doc.text(`Balance: ${Math.round(currentRatioVal)}%`, 14, 48);
+                doc.setFontSize(10);
+                doc.setFont("helvetica", "normal");
+                doc.setTextColor(100);
+                const viewTitle = state.view === 'month' ? d.tab_month : (state.view === 'cycle' ? d.tab_cycle : d.tab_all);
+                doc.text(`Generated: ${new Date().toLocaleDateString(state.settings.lang)} | View: ${viewTitle}`, 14, 30);
 
-            // Formatted Table Data
-            const tableData = currentFilteredEntries.map(e => {
-                const typeLabel = e.type === 'client' ? d.opt_contact : (d['opt_'+e.type] || e.type);
-                return [
-                    new Date(e.date).toLocaleDateString(state.settings.lang),
-                    typeLabel,
-                    e.hours.toFixed(1),
-                    e.notes ? e.notes : ''
-                ];
-            });
+                // Summary Stats Section
+                doc.setTextColor(0);
+                doc.text(`${d.stat_contact}: ${currentFilteredTotals.client.toFixed(1)} hrs`, 14, 40);
+                doc.text(`${d.stat_super}: ${currentFilteredTotals.super.toFixed(1)} hrs`, 60, 40);
+                doc.text(`${d.stat_therapy}: ${currentFilteredTotals.therapy.toFixed(1)} hrs`, 110, 40);
+                doc.text(`${d.stat_cpd}: ${currentFilteredTotals.cpd.toFixed(1)} hrs`, 150, 40);
+                doc.text(`Balance: ${Math.round(currentRatioVal)}%`, 14, 48);
 
-            doc.autoTable({
-                startY: 55,
-                head: [[d.label_date || 'Date', d.label_type || 'Type', d.label_hours || 'Hours', d.label_notes || 'Notes']],
-                body: tableData,
-                theme: 'grid',
-                headStyles: { fillColor: [255, 122, 0], textColor: [255, 255, 255], fontStyle: 'bold' },
-                styles: { fontSize: 9, cellPadding: 4 },
-                columnStyles: { 3: { cellWidth: 'auto' } }
-            });
+                // Formatted Table Data
+                const exportRows = getExportData();
+                const tableData = exportRows.map(row => [
+                    row[0],
+                    row[1],
+                    Number(row[2]).toFixed(1),
+                    row[3]
+                ]);
 
-            doc.save(`Clinical_Log_${new Date().toISOString().split('T')[0]}.pdf`);
+                doc.autoTable({
+                    startY: 55,
+                    head: [[d.label_date || 'Date', d.label_type || 'Type', d.label_hours || 'Hours', d.label_notes || 'Notes']],
+                    body: tableData,
+                    theme: 'grid',
+                    headStyles: { fillColor: [255, 122, 0], textColor: [255, 255, 255], fontStyle: 'bold' },
+                    styles: { fontSize: 9, cellPadding: 4 },
+                    columnStyles: { 3: { cellWidth: 'auto' } }
+                });
+
+                doc.save(`Clinical_Log_${new Date().toISOString().split('T')[0]}.pdf`);
+            } catch (err) {
+                console.error("PDF Export Error:", err);
+                const msg = document.getElementById('msg-sync');
+                if (msg) {
+                    msg.innerHTML = "PDF Export failed. Check console.";
+                    msg.classList.remove('hidden');
+                    setTimeout(() => msg.classList.add('hidden'), 5000);
+                }
+            }
         }
 
         async function handleShare() {
@@ -1698,15 +1742,7 @@
                     const d = getTranslations();
                     const values = [
                         [d.label_date || 'Date', d.label_type || 'Type', d.label_hours || 'Hours', d.label_notes || 'Notes'],
-                        ...currentFilteredEntries.map(e => {
-                            const typeLabel = e.type === 'client' ? d.opt_contact : (d['opt_'+e.type] || e.type);
-                            return [
-                                new Date(e.date).toLocaleDateString(state.settings.lang), 
-                                typeLabel, 
-                                e.hours, 
-                                e.notes || ''
-                            ];
-                        })
+                        ...getExportData()
                     ];
                     
                     await window.gapi.client.sheets.spreadsheets.values.update({
