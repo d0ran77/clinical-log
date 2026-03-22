@@ -5,6 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Clinical Log | Professional Therapy Hour Tracker</title>
     
+    <!-- PWA / MOBILE APP META TAGS -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#121212" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#e8e7e7" media="(prefers-color-scheme: light)">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Clinical Log">
+
     <!-- FAVICON -->
     <link id="favicon" rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgcng9IjI0IiBmaWxsPSIjMWMxYzFjIi8+PGNpcmNsZSBjeD0iNTAiIGN5PSI1MCIgcj0iMjAiIGZpbGw9IiNGRjdBMDAiLz48L3N2Zz4=">
     <link id="apple-touch-icon" rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgcng9IjI0IiBmaWxsPSIjMWMxYzFjIi8+PGNpcmNsZSBjeD0iNTAiIGN5PSI1MCIgcj0iMjAiIGZpbGw9IiNGRjdBMDAiLz48L3N2Zz4=">
@@ -693,7 +701,7 @@
                 btn_save_params: "Guardar Parámetros", msg_saved: "GUARDADO ✓",
                 opt_contact: "Client", opt_super: "Supervisión", opt_therapy: "Terapia Personal", opt_cpd: "CPD / Formación",
                 stat_contact: "Client", stat_super: "Supervisión", stat_therapy: "Terapia", stat_cpd: "CPD",
-                balance_title: "Balance", health_label: "Estado Operativo", progress_title: "Progreso", progress_label: "Meta de Calificación", active_records: "Registros",
+                balance_title: "Balance", health_label: "Estado Operativo", progress_title: "Progresso", progress_label: "Meta de Calificación", active_records: "Registros",
                 privacy_stmt: "Datos locales.", awaiting: "ESPERANDO...", verified: "Balance verificado.",
                 ratio_1: "Por cada", ratio_2: "hrs de contacto con cliente,", ratio_3: "requiero", ratio_4: "hrs de supervisión.",
                 deficit: "Déficit: {h} hrs para ratio {r}.", mandate: "Mandato UKCP: 2 sesiones de supervisión separadas por mes (Actual: {s}).",
@@ -1774,6 +1782,20 @@
             };
             
             tokenClient.requestAccessToken({ prompt: '' });
+        }
+    </script>
+    
+    <!-- PWA SERVICE WORKER REGISTRATION -->
+    <script>
+        // Only register the Service Worker if running on a real web server (http/https)
+        if ('serviceWorker' in navigator && (window.location.protocol === 'https:' || window.location.protocol === 'http:')) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js').catch(err => {
+                    console.log('Service Worker registration failed: ', err);
+                });
+            });
+        } else if ('serviceWorker' in navigator) {
+            console.log('Service Worker skipped: Preview environments do not support background installation.');
         }
     </script>
 </body>
